@@ -1,17 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 
 import React, { Component } from 'react';
 import {
   StyleSheet, 
   Image, 
-  View
 } from 'react-native';
 
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { Container, Header, Title, Content, Footer, Button, Left, Right, Body, Icon, Text } from 'native-base';
+
+import Noticia from './components/Noticia';
 
 export default class App extends Component {
 
@@ -34,14 +30,19 @@ export default class App extends Component {
             <Title style={styles.textTitle}>NOTICIAS</Title>
           </Body>
           <Right>
-            <Button transparent onPress={()=>alert('OFF...')} >
+            <Button transparent onPress={()=>alert('SEARCH...')}  >
+              <Icon name='search' style={styles.iconSearch} />
+            </Button>
+            <Button transparent onPress={()=>alert('OFF...')}  >  
               <Icon name='power' style={styles.iconPowerOff} />
             </Button>
           </Right>
         </Header>
 
         <Content>
-
+          <Noticia fecha='2017/11/10' idNoticia='1' titulo='Actualizadas Precipitaciones 2017-Noviembre'/>
+          <Noticia fecha='2016/07/22' idNoticia='2' titulo='Precipitaciones 2017-Octubre'/>
+          <Noticia fecha='2015/09/23' idNoticia='3' titulo='Actualizadas Precipitaciones 2017-Septiembre'/>
         </Content>
 
         <Footer style={styles.footerContainer}>
@@ -65,12 +66,16 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color:'white',
   },
+  iconSearch:{
+    fontSize: 28,
+    color:'white',
+  },
   footerContainer:{
     height:35,
     alignItems:'center',
   },
   textTitle:{
-    fontSize:26,
+    fontSize:28,
     color:'rgba(255,255,255,1)',
   },
   textFooter:{
