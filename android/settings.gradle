@@ -1,0 +1,3 @@
+rootProject.name = 'Otero'
+
+include ':app'
