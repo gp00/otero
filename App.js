@@ -6,15 +6,21 @@ import {
 } from 'react-native';
 
 import { Container, Header, Title, Content, Footer, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import axios from 'axios';
 
 import Noticia from './components/Noticia';
+
+const noticiasAPI ='http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/LoadNoticiasAndroid.ashx'
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {NumNoticias: 0};
+    this.state = {
+      NumNoticias: 0,
+      Noticias:[]
+    };
   }
 
   render() {
@@ -51,6 +57,23 @@ export default class App extends Component {
 
       </Container>
     );
+  }
+
+  componentDidMount() {  
+
+    var self = this;
+    self.setState({Noticias:[]});     
+
+    axios.get(noticiasAPI)
+    .then( data=> {
+      Noticias = data.data;
+      NumNoticias= Noticias.length;
+      self.setState({Noticias,NumNoticias});     
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
   }
 }
 
