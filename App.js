@@ -3,12 +3,14 @@ import React, { Component } from 'react';
 import {
   StyleSheet, 
   Image, 
+  View
 } from 'react-native';
 
 import { Container, Header, Title, Content, Footer, Button, Left, Right, Body, Icon, Text } from 'native-base';
 import axios from 'axios';
 
-import Noticia from './components/Noticia';
+import ListaNoticias from './components/ListaNoticias';
+import Sensor from './components/Sensor';
 
 const noticiasAPI ='http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/LoadNoticiasAndroid.ashx'
 
@@ -18,9 +20,24 @@ export default class App extends Component {
     super(props);
 
     this.state = {
+      Net:false,
       NumNoticias: 0,
       Noticias:[]
     };
+
+    this.getNoticias = this.getNoticias.bind(this);
+  }
+
+  async getNoticias(){
+
+    this.setState({
+      Noticias:[],
+      NumNoticias:0,
+      Net:true
+    });
+
+    var noticias= await axios.get(noticiasAPI);
+    return noticias.data;
   }
 
   render() {
@@ -29,14 +46,14 @@ export default class App extends Component {
       <Container>      
  
        <Header>
-          <Left>
+          <Left> 
             <Image style={styles.logoImage} source={require('./resources/OterodelasDueñas.png')} />
           </Left>
           <Body style={styles.logoTitle}>
             <Title style={styles.textTitle}>NOTICIAS</Title>
           </Body>
           <Right>
-            <Button transparent onPress={()=>alert('SEARCH...')}  >
+            <Button transparent onPress={()=>this.getNoticias().then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false}))} >
               <Icon name='search' style={styles.iconSearch} />
             </Button>
             <Button transparent onPress={()=>alert('OFF...')}  >  
@@ -45,36 +62,23 @@ export default class App extends Component {
           </Right>
         </Header>
 
-        <Content>
-          <Noticia fecha='2017/11/10' idNoticia='1' titulo='Actualizadas Precipitaciones 2017-Noviembre'/>
-          <Noticia fecha='2016/07/22' idNoticia='2' titulo='Precipitaciones 2017-Octubre'/>
-          <Noticia fecha='2015/09/23' idNoticia='3' titulo='Actualizadas Precipitaciones 2017-Septiembre'/>
+        <Content>         
+          <ListaNoticias noticias={this.state.Noticias}/>        
         </Content>
 
         <Footer style={styles.footerContainer}>
           <Text style={styles.textFooter}>Nº de Noticias: {this.state.NumNoticias}</Text>
+          <Sensor style={{width:75}} ledSize='12' fontSize='15' caption='Net'  fontColor={'white'} captionAlign ='center' on value={this.state.Net} />          
         </Footer>
 
       </Container>
     );
   }
 
-  componentDidMount() {  
-
-    var self = this;
-    self.setState({Noticias:[]});     
-
-    axios.get(noticiasAPI)
-    .then( data=> {
-      Noticias = data.data;
-      NumNoticias= Noticias.length;
-      self.setState({Noticias,NumNoticias});     
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
+  componentDidMount() { 
+    //this.getNoticias().then(data=> this.setState({Noticias:data,NumNoticias:data.length,Net:false}));
   }
+
 }
 
 const styles = StyleSheet.create({
@@ -96,6 +100,7 @@ const styles = StyleSheet.create({
   footerContainer:{
     height:35,
     alignItems:'center',
+    justifyContent:'space-around'
   },
   textTitle:{
     fontSize:28,
@@ -103,7 +108,7 @@ const styles = StyleSheet.create({
   },
   textFooter:{
     fontSize:18,
-    color:'white'
+    color:'white', 
   }
 
 });
