@@ -7,12 +7,10 @@ import {
 } from 'react-native';
 
 import { Container, Header, Title, Content, Footer, Button, Left, Right, Body, Icon, Text } from 'native-base';
-import axios from 'axios';
+import Api from './lib/Api';
 
 import ListaNoticias from './components/ListaNoticias';
 import Sensor from './components/Sensor';
-
-const noticiasAPI ='http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/LoadNoticiasAndroid.ashx'
 
 export default class App extends Component {
 
@@ -25,23 +23,10 @@ export default class App extends Component {
       Noticias:[]
     };
 
-    this.getNoticias = this.getNoticias.bind(this);
-  }
-
-  async getNoticias(){
-
-    this.setState({
-      Noticias:[],
-      NumNoticias:0,
-      Net:true
-    });
-
-    var noticias= await axios.get(noticiasAPI);
-    return noticias.data;
-  }
+  }  
 
   render() {
-    
+
     return (
       <Container>      
  
@@ -53,8 +38,11 @@ export default class App extends Component {
             <Title style={styles.textTitle}>NOTICIAS</Title>
           </Body>
           <Right>
-            <Button transparent onPress={()=>this.getNoticias().then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false}))} >
+            <Button transparent onPress={()=>alert('SEARCH...')} >
               <Icon name='search' style={styles.iconSearch} />
+            </Button>
+            <Button transparent onPress={()=>Api.getNoticias(this).then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false}))} >
+              <Icon name='refresh' style={styles.iconRefresh} />
             </Button>
             <Button transparent onPress={()=>alert('OFF...')}  >  
               <Icon name='power' style={styles.iconPowerOff} />
@@ -63,7 +51,7 @@ export default class App extends Component {
         </Header>
 
         <Content>         
-          <ListaNoticias noticias={this.state.Noticias}/>        
+          <ListaNoticias noticias={this.state.Noticias}/> 
         </Content>
 
         <Footer style={styles.footerContainer}>
@@ -75,8 +63,8 @@ export default class App extends Component {
     );
   }
 
-  componentDidMount() { 
-    //this.getNoticias().then(data=> this.setState({Noticias:data,NumNoticias:data.length,Net:false}));
+  componentDidMount() {     
+    Api.getNoticias(this).then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false}));
   }
 
 }
@@ -87,10 +75,14 @@ const styles = StyleSheet.create({
     height: 40
   },
   logoTitle: {
-    alignItems: 'flex-end'
+    alignItems: 'flex-start'
   },
   iconPowerOff: {
     fontSize: 26,
+    color:'white',
+  },
+  iconRefresh:{
+    fontSize: 28,
     color:'white',
   },
   iconSearch:{
@@ -102,9 +94,9 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'space-around'
   },
-  textTitle:{
-    fontSize:28,
-    color:'rgba(255,255,255,1)',
+  textTitle:{ 
+    fontSize:26,
+    color:'rgba(255,255,255,0.8)',
   },
   textFooter:{
     fontSize:18,

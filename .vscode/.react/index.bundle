@@ -51642,13 +51642,17 @@ var _reactNative = require(12            ); // 12 = react-native
 
 var _nativeBase = require(487          ); // 487 = native-base
 
-var _axios = require(694    ); // 694 = axios
+var _Api = require(694        ); // 694 = ./lib/Api
 
-var _axios2 = _interopRequireDefault(_axios);
+var _Api2 = _interopRequireDefault(_Api);
 
-var _ListaNoticias = require(722                         ); // 722 = ./components/ListaNoticias
+var _ListaNoticias = require(721                         ); // 721 = ./components/ListaNoticias
 
 var _ListaNoticias2 = _interopRequireDefault(_ListaNoticias);
+
+var _Sensor = require(723                  ); // 723 = ./components/Sensor
+
+var _Sensor2 = _interopRequireDefault(_Sensor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51677,8 +51681,6 @@ function _wrapComponent(id) {
   };
 }
 
-var noticiasAPI = 'http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/LoadNoticiasAndroid.ashx';
-
 var App = _wrapComponent('App')(function (_Component) {
   _inherits(App, _Component);
 
@@ -51688,46 +51690,25 @@ var App = _wrapComponent('App')(function (_Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.state = {
+      Net: false,
       NumNoticias: 0,
       Noticias: []
     };
 
-    _this.getNoticias = _this.getNoticias.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
-    key: 'getNoticias',
-    value: function getNoticias() {
-      var noticias;
-      return regeneratorRuntime.async(function getNoticias$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return regeneratorRuntime.awrap(_axios2.default.get(noticiasAPI));
-
-            case 2:
-              noticias = _context.sent;
-              return _context.abrupt('return', noticias.data);
-
-            case 4:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, null, this);
-    }
-  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
 
       return _react3.default.createElement(
         _nativeBase.Container,
         {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 37
+            lineNumber: 31
           }
         },
         _react3.default.createElement(
@@ -51735,7 +51716,7 @@ var App = _wrapComponent('App')(function (_Component) {
           {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 39
+              lineNumber: 33
             }
           },
           _react3.default.createElement(
@@ -51743,12 +51724,12 @@ var App = _wrapComponent('App')(function (_Component) {
             {
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 40
+                lineNumber: 34
               }
             },
-            _react3.default.createElement(_reactNative.Image, { style: styles.logoImage, source: require(721                               ), __source: { // 721 = ./resources/OterodelasDueñas.png
+            _react3.default.createElement(_reactNative.Image, { style: styles.logoImage, source: require(724                               ), __source: { // 724 = ./resources/OterodelasDueñas.png
                 fileName: _jsxFileName,
-                lineNumber: 41
+                lineNumber: 35
               }
             })
           ),
@@ -51756,14 +51737,14 @@ var App = _wrapComponent('App')(function (_Component) {
             _nativeBase.Body,
             { style: styles.logoTitle, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 43
+                lineNumber: 37
               }
             },
             _react3.default.createElement(
               _nativeBase.Title,
               { style: styles.textTitle, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 44
+                  lineNumber: 38
                 }
               },
               'NOTICIAS'
@@ -51774,21 +51755,23 @@ var App = _wrapComponent('App')(function (_Component) {
             {
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 46
+                lineNumber: 40
               }
             },
             _react3.default.createElement(
               _nativeBase.Button,
               { transparent: true, onPress: function onPress() {
-                  return alert('SEARCH...');
+                  return _Api2.default.getNoticias(_this2).then(function (data) {
+                    return _this2.setState({ Noticias: data, NumNoticias: data.length, Net: false });
+                  });
                 }, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 47
+                  lineNumber: 41
                 }
               },
               _react3.default.createElement(_nativeBase.Icon, { name: 'search', style: styles.iconSearch, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 48
+                  lineNumber: 42
                 }
               })
             ),
@@ -51798,12 +51781,12 @@ var App = _wrapComponent('App')(function (_Component) {
                   return alert('OFF...');
                 }, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 50
+                  lineNumber: 44
                 }
               },
               _react3.default.createElement(_nativeBase.Icon, { name: 'power', style: styles.iconPowerOff, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 51
+                  lineNumber: 45
                 }
               })
             )
@@ -51814,12 +51797,12 @@ var App = _wrapComponent('App')(function (_Component) {
           {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 56
+              lineNumber: 50
             }
           },
           _react3.default.createElement(_ListaNoticias2.default, { noticias: this.state.Noticias, __source: {
               fileName: _jsxFileName,
-              lineNumber: 57
+              lineNumber: 51
             }
           })
         ),
@@ -51827,29 +51810,34 @@ var App = _wrapComponent('App')(function (_Component) {
           _nativeBase.Footer,
           { style: styles.footerContainer, __source: {
               fileName: _jsxFileName,
-              lineNumber: 60
+              lineNumber: 54
             }
           },
           _react3.default.createElement(
             _nativeBase.Text,
             { style: styles.textFooter, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 61
+                lineNumber: 55
               }
             },
             'N\xBA de Noticias: ',
             this.state.NumNoticias
-          )
+          ),
+          _react3.default.createElement(_Sensor2.default, { style: { width: 75 }, ledSize: '12', fontSize: '15', caption: 'Net', fontColor: 'white', captionAlign: 'center', on: true, value: this.state.Net, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 56
+            }
+          })
         )
       );
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this2 = this;
+      var _this3 = this;
 
-      this.getNoticias().then(function (data) {
-        return _this2.setState({ Noticias: data, NumNoticias: data.length });
+      _Api2.default.getNoticias(this).then(function (data) {
+        return _this3.setState({ Noticias: data, NumNoticias: data.length, Net: false });
       });
     }
   }]);
@@ -51878,7 +51866,8 @@ var styles = _reactNative.StyleSheet.create({
   },
   footerContainer: {
     height: 35,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-around'
   },
   textTitle: {
     fontSize: 28,
@@ -88068,14 +88057,72 @@ Subtitle.propTypes = _extends({}, _reactNative.Text.propTypes, {
 
 var StyledSubtitle = (0, _nativeBaseShoutemTheme.connectStyle)("NativeBase.Subtitle", {}, _mapPropsToStyleNames2.default)(Subtitle);exports.Subtitle = StyledSubtitle;
 }, 693, null, "native-base/dist/src/basic/Subtitle.js");
-__d(/* axios/index.js */function(global, require, module, exports) {module.exports = require(695          ); // 695 = ./lib/axios
-}, 694, null, "axios/index.js");
+__d(/* Otero/lib/Api.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _axios = require(695    ); // 695 = axios
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Api = function () {
+    function Api() {
+        _classCallCheck(this, Api);
+    }
+
+    _createClass(Api, null, [{
+        key: 'getNoticias',
+        value: function getNoticias(self) {
+            var noticias;
+            return regeneratorRuntime.async(function getNoticias$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.prev = 0;
+
+                            self.setState({ Net: true });
+                            _context.next = 4;
+                            return regeneratorRuntime.awrap(_axios2.default.get(this.getNoticiasUri));
+
+                        case 4:
+                            noticias = _context.sent;
+                            return _context.abrupt('return', noticias.data);
+
+                        case 8:
+                            _context.prev = 8;
+                            _context.t0 = _context['catch'](0);
+
+                            alert('error: ' + _context.t0);
+
+                        case 11:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, null, this, [[0, 8]]);
+        }
+    }]);
+
+    return Api;
+}();
+
+Api.getNoticiasUri = 'http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/LoadNoticiasAndroid.ashx';
+exports.default = Api;
+}, 694, null, "Otero/lib/Api.js");
+__d(/* axios/index.js */function(global, require, module, exports) {module.exports = require(696          ); // 696 = ./lib/axios
+}, 695, null, "axios/index.js");
 __d(/* axios/lib/axios.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696      ); // 696 = ./utils
-var bind = require(697             ); // 697 = ./helpers/bind
-var Axios = require(699           ); // 699 = ./core/Axios
-var defaults = require(700         ); // 700 = ./defaults
+var utils = require(697      ); // 697 = ./utils
+var bind = require(698             ); // 698 = ./helpers/bind
+var Axios = require(700           ); // 700 = ./core/Axios
+var defaults = require(701         ); // 701 = ./defaults
 
 function createInstance(defaultConfig) {
   var context = new Axios(defaultConfig);
@@ -88096,23 +88143,23 @@ axios.create = function create(instanceConfig) {
   return createInstance(utils.merge(defaults, instanceConfig));
 };
 
-axios.Cancel = require(717              ); // 717 = ./cancel/Cancel
-axios.CancelToken = require(718                   ); // 718 = ./cancel/CancelToken
-axios.isCancel = require(714                ); // 714 = ./cancel/isCancel
+axios.Cancel = require(718              ); // 718 = ./cancel/Cancel
+axios.CancelToken = require(719                   ); // 719 = ./cancel/CancelToken
+axios.isCancel = require(715                ); // 715 = ./cancel/isCancel
 
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = require(719               ); // 719 = ./helpers/spread
+axios.spread = require(720               ); // 720 = ./helpers/spread
 
 module.exports = axios;
 
 module.exports.default = axios;
-}, 695, null, "axios/lib/axios.js");
+}, 696, null, "axios/lib/axios.js");
 __d(/* axios/lib/utils.js */function(global, require, module, exports) {'use strict';
 
-var bind = require(697             ); // 697 = ./helpers/bind
-var isBuffer = require(698        ); // 698 = is-buffer
+var bind = require(698             ); // 698 = ./helpers/bind
+var isBuffer = require(699        ); // 699 = is-buffer
 
 var toString = Object.prototype.toString;
 
@@ -88260,7 +88307,7 @@ module.exports = {
   extend: extend,
   trim: trim
 };
-}, 696, null, "axios/lib/utils.js");
+}, 697, null, "axios/lib/utils.js");
 __d(/* axios/lib/helpers/bind.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -88272,7 +88319,7 @@ module.exports = function bind(fn, thisArg) {
     return fn.apply(thisArg, args);
   };
 };
-}, 697, null, "axios/lib/helpers/bind.js");
+}, 698, null, "axios/lib/helpers/bind.js");
 __d(/* is-buffer/index.js */function(global, require, module, exports) {/*!
  * Determine if an object is a Buffer
  *
@@ -88291,13 +88338,13 @@ function isBuffer(obj) {
 function isSlowBuffer(obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0));
 }
-}, 698, null, "is-buffer/index.js");
+}, 699, null, "is-buffer/index.js");
 __d(/* axios/lib/core/Axios.js */function(global, require, module, exports) {'use strict';
 
-var defaults = require(700            ); // 700 = ./../defaults
-var utils = require(696         ); // 696 = ./../utils
-var InterceptorManager = require(711                   ); // 711 = ./InterceptorManager
-var dispatchRequest = require(712                ); // 712 = ./dispatchRequest
+var defaults = require(701            ); // 701 = ./../defaults
+var utils = require(697         ); // 697 = ./../utils
+var InterceptorManager = require(712                   ); // 712 = ./InterceptorManager
+var dispatchRequest = require(713                ); // 713 = ./dispatchRequest
 
 function Axios(instanceConfig) {
   this.defaults = instanceConfig;
@@ -88355,11 +88402,11 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = Axios;
-}, 699, null, "axios/lib/core/Axios.js");
+}, 700, null, "axios/lib/core/Axios.js");
 __d(/* axios/lib/defaults.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696      ); // 696 = ./utils
-var normalizeHeaderName = require(701                            ); // 701 = ./helpers/normalizeHeaderName
+var utils = require(697      ); // 697 = ./utils
+var normalizeHeaderName = require(702                            ); // 702 = ./helpers/normalizeHeaderName
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -88374,9 +88421,9 @@ function setContentTypeIfUnset(headers, value) {
 function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
-    adapter = require(702             ); // 702 = ./adapters/xhr
+    adapter = require(703             ); // 703 = ./adapters/xhr
   } else if (typeof process !== 'undefined') {
-    adapter = require(702              ); // 702 = ./adapters/http
+    adapter = require(703              ); // 703 = ./adapters/http
   }
   return adapter;
 }
@@ -88439,10 +88486,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = defaults;
-}, 700, null, "axios/lib/defaults.js");
+}, 701, null, "axios/lib/defaults.js");
 __d(/* axios/lib/helpers/normalizeHeaderName.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696       ); // 696 = ../utils
+var utils = require(697       ); // 697 = ../utils
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -88452,16 +88499,16 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
     }
   });
 };
-}, 701, null, "axios/lib/helpers/normalizeHeaderName.js");
+}, 702, null, "axios/lib/helpers/normalizeHeaderName.js");
 __d(/* axios/lib/adapters/xhr.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696         ); // 696 = ./../utils
-var settle = require(703               ); // 703 = ./../core/settle
-var buildURL = require(706                    ); // 706 = ./../helpers/buildURL
-var parseHeaders = require(707                        ); // 707 = ./../helpers/parseHeaders
-var isURLSameOrigin = require(708                           ); // 708 = ./../helpers/isURLSameOrigin
-var createError = require(704                  ); // 704 = ../core/createError
-var btoa = typeof window !== 'undefined' && window.btoa && window.btoa.bind(window) || require(709                ); // 709 = ./../helpers/btoa
+var utils = require(697         ); // 697 = ./../utils
+var settle = require(704               ); // 704 = ./../core/settle
+var buildURL = require(707                    ); // 707 = ./../helpers/buildURL
+var parseHeaders = require(708                        ); // 708 = ./../helpers/parseHeaders
+var isURLSameOrigin = require(709                           ); // 709 = ./../helpers/isURLSameOrigin
+var createError = require(705                  ); // 705 = ../core/createError
+var btoa = typeof window !== 'undefined' && window.btoa && window.btoa.bind(window) || require(710                ); // 710 = ./../helpers/btoa
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -88533,7 +88580,7 @@ module.exports = function xhrAdapter(config) {
     };
 
     if (utils.isStandardBrowserEnv()) {
-      var cookies = require(710                   ); // 710 = ./../helpers/cookies
+      var cookies = require(711                   ); // 711 = ./../helpers/cookies
 
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ? cookies.read(config.xsrfCookieName) : undefined;
 
@@ -88594,10 +88641,10 @@ module.exports = function xhrAdapter(config) {
     request.send(requestData);
   });
 };
-}, 702, null, "axios/lib/adapters/xhr.js");
+}, 703, null, "axios/lib/adapters/xhr.js");
 __d(/* axios/lib/core/settle.js */function(global, require, module, exports) {'use strict';
 
-var createError = require(704            ); // 704 = ./createError
+var createError = require(705            ); // 705 = ./createError
 
 module.exports = function settle(resolve, reject, response) {
   var validateStatus = response.config.validateStatus;
@@ -88608,16 +88655,16 @@ module.exports = function settle(resolve, reject, response) {
     reject(createError('Request failed with status code ' + response.status, response.config, null, response.request, response));
   }
 };
-}, 703, null, "axios/lib/core/settle.js");
+}, 704, null, "axios/lib/core/settle.js");
 __d(/* axios/lib/core/createError.js */function(global, require, module, exports) {'use strict';
 
-var enhanceError = require(705             ); // 705 = ./enhanceError
+var enhanceError = require(706             ); // 706 = ./enhanceError
 
 module.exports = function createError(message, config, code, request, response) {
   var error = new Error(message);
   return enhanceError(error, config, code, request, response);
 };
-}, 704, null, "axios/lib/core/createError.js");
+}, 705, null, "axios/lib/core/createError.js");
 __d(/* axios/lib/core/enhanceError.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function enhanceError(error, config, code, request, response) {
@@ -88629,10 +88676,10 @@ module.exports = function enhanceError(error, config, code, request, response) {
   error.response = response;
   return error;
 };
-}, 705, null, "axios/lib/core/enhanceError.js");
+}, 706, null, "axios/lib/core/enhanceError.js");
 __d(/* axios/lib/helpers/buildURL.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696         ); // 696 = ./../utils
+var utils = require(697         ); // 697 = ./../utils
 
 function encode(val) {
   return encodeURIComponent(val).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
@@ -88683,10 +88730,10 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
   return url;
 };
-}, 706, null, "axios/lib/helpers/buildURL.js");
+}, 707, null, "axios/lib/helpers/buildURL.js");
 __d(/* axios/lib/helpers/parseHeaders.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696         ); // 696 = ./../utils
+var utils = require(697         ); // 697 = ./../utils
 
 var ignoreDuplicateOf = ['age', 'authorization', 'content-length', 'content-type', 'etag', 'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since', 'last-modified', 'location', 'max-forwards', 'proxy-authorization', 'referer', 'retry-after', 'user-agent'];
 
@@ -88719,10 +88766,10 @@ module.exports = function parseHeaders(headers) {
 
   return parsed;
 };
-}, 707, null, "axios/lib/helpers/parseHeaders.js");
+}, 708, null, "axios/lib/helpers/parseHeaders.js");
 __d(/* axios/lib/helpers/isURLSameOrigin.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696         ); // 696 = ./../utils
+var utils = require(697         ); // 697 = ./../utils
 
 module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
   var msie = /(msie|trident)/i.test(navigator.userAgent);
@@ -88762,7 +88809,7 @@ module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
     return true;
   };
 }();
-}, 708, null, "axios/lib/helpers/isURLSameOrigin.js");
+}, 709, null, "axios/lib/helpers/isURLSameOrigin.js");
 __d(/* axios/lib/helpers/btoa.js */function(global, require, module, exports) {'use strict';
 
 var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
@@ -88788,10 +88835,10 @@ function btoa(input) {
 }
 
 module.exports = btoa;
-}, 709, null, "axios/lib/helpers/btoa.js");
+}, 710, null, "axios/lib/helpers/btoa.js");
 __d(/* axios/lib/helpers/cookies.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696         ); // 696 = ./../utils
+var utils = require(697         ); // 697 = ./../utils
 
 module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
   return {
@@ -88836,10 +88883,10 @@ module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
     remove: function remove() {}
   };
 }();
-}, 710, null, "axios/lib/helpers/cookies.js");
+}, 711, null, "axios/lib/helpers/cookies.js");
 __d(/* axios/lib/core/InterceptorManager.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696         ); // 696 = ./../utils
+var utils = require(697         ); // 697 = ./../utils
 
 function InterceptorManager() {
   this.handlers = [];
@@ -88868,15 +88915,15 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 };
 
 module.exports = InterceptorManager;
-}, 711, null, "axios/lib/core/InterceptorManager.js");
+}, 712, null, "axios/lib/core/InterceptorManager.js");
 __d(/* axios/lib/core/dispatchRequest.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696         ); // 696 = ./../utils
-var transformData = require(713              ); // 713 = ./transformData
-var isCancel = require(714                 ); // 714 = ../cancel/isCancel
-var defaults = require(700          ); // 700 = ../defaults
-var isAbsoluteURL = require(715                         ); // 715 = ./../helpers/isAbsoluteURL
-var combineURLs = require(716                       ); // 716 = ./../helpers/combineURLs
+var utils = require(697         ); // 697 = ./../utils
+var transformData = require(714              ); // 714 = ./transformData
+var isCancel = require(715                 ); // 715 = ../cancel/isCancel
+var defaults = require(701          ); // 701 = ../defaults
+var isAbsoluteURL = require(716                         ); // 716 = ./../helpers/isAbsoluteURL
+var combineURLs = require(717                       ); // 717 = ./../helpers/combineURLs
 
 function throwIfCancellationRequested(config) {
   if (config.cancelToken) {
@@ -88921,10 +88968,10 @@ module.exports = function dispatchRequest(config) {
     return Promise.reject(reason);
   });
 };
-}, 712, null, "axios/lib/core/dispatchRequest.js");
+}, 713, null, "axios/lib/core/dispatchRequest.js");
 __d(/* axios/lib/core/transformData.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(696         ); // 696 = ./../utils
+var utils = require(697         ); // 697 = ./../utils
 
 module.exports = function transformData(data, headers, fns) {
   utils.forEach(fns, function transform(fn) {
@@ -88933,26 +88980,26 @@ module.exports = function transformData(data, headers, fns) {
 
   return data;
 };
-}, 713, null, "axios/lib/core/transformData.js");
+}, 714, null, "axios/lib/core/transformData.js");
 __d(/* axios/lib/cancel/isCancel.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
-}, 714, null, "axios/lib/cancel/isCancel.js");
+}, 715, null, "axios/lib/cancel/isCancel.js");
 __d(/* axios/lib/helpers/isAbsoluteURL.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function isAbsoluteURL(url) {
   return (/^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
   );
 };
-}, 715, null, "axios/lib/helpers/isAbsoluteURL.js");
+}, 716, null, "axios/lib/helpers/isAbsoluteURL.js");
 __d(/* axios/lib/helpers/combineURLs.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function combineURLs(baseURL, relativeURL) {
   return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL;
 };
-}, 716, null, "axios/lib/helpers/combineURLs.js");
+}, 717, null, "axios/lib/helpers/combineURLs.js");
 __d(/* axios/lib/cancel/Cancel.js */function(global, require, module, exports) {'use strict';
 
 function Cancel(message) {
@@ -88966,10 +89013,10 @@ Cancel.prototype.toString = function toString() {
 Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
-}, 717, null, "axios/lib/cancel/Cancel.js");
+}, 718, null, "axios/lib/cancel/Cancel.js");
 __d(/* axios/lib/cancel/CancelToken.js */function(global, require, module, exports) {'use strict';
 
-var Cancel = require(717       ); // 717 = ./Cancel
+var Cancel = require(718       ); // 718 = ./Cancel
 
 function CancelToken(executor) {
   if (typeof executor !== 'function') {
@@ -89010,7 +89057,7 @@ CancelToken.source = function source() {
 };
 
 module.exports = CancelToken;
-}, 718, null, "axios/lib/cancel/CancelToken.js");
+}, 719, null, "axios/lib/cancel/CancelToken.js");
 __d(/* axios/lib/helpers/spread.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function spread(callback) {
@@ -89018,7 +89065,7 @@ module.exports = function spread(callback) {
     return callback.apply(null, arr);
   };
 };
-}, 719, null, "axios/lib/helpers/spread.js");
+}, 720, null, "axios/lib/helpers/spread.js");
 __d(/* Otero/components/ListaNoticias.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -89039,7 +89086,7 @@ var _reactNative = require(12            ); // 12 = react-native
 
 var _nativeBase = require(487          ); // 487 = native-base
 
-var _Noticia = require(720        ); // 720 = ./Noticia
+var _Noticia = require(722        ); // 722 = ./Noticia
 
 var _Noticia2 = _interopRequireDefault(_Noticia);
 
@@ -89116,7 +89163,7 @@ var styles = _reactNative.StyleSheet.create({
     backgroundColor: 'white'
   }
 });
-}, 722, null, "Otero/components/ListaNoticias.js");
+}, 721, null, "Otero/components/ListaNoticias.js");
 __d(/* Otero/components/Noticia.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -89308,9 +89355,187 @@ var styles = _reactNative.StyleSheet.create({
     color: 'white'
   }
 });
-}, 720, null, "Otero/components/Noticia.js");
+}, 722, null, "Otero/components/Noticia.js");
+__d(/* Otero/components/Sensor.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react2 = require(35     ); // 35 = react
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require(174                                                 ); // 174 = ./../node_modules/react-transform-hmr/lib/index.js
+
+var _index2 = _interopRequireDefault(_index);
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jsxFileName = 'c:\\a\\RN\\Otero\\components\\Sensor.js';
+
+var _reactNative = require(12            ); // 12 = react-native
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+    Sensor: {
+        displayName: 'Sensor'
+    }
+};
+
+var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+    filename: 'c:/a/RN/Otero/components/Sensor.js',
+    components: _components,
+    locals: [module],
+    imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+    return function (Component) {
+        return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+    };
+}
+
+var Led = function Led(_ref) {
+    var tamaño = _ref.tamaño,
+        colorfondo = _ref.colorfondo;
+    return _react3.default.createElement(_reactNative.View, { style: { borderColor: 'rgba(52, 52, 52, 0.5)', borderWidth: 1, width: tamaño, height: tamaño, backgroundColor: colorfondo, borderRadius: tamaño / 2 }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 18
+        }
+    });
+};
+
+var colorLed_On = '#29F313';
+var colorLed_Off = '#FC0A0A';
+var colorLed_Value = '#1FFC07';
+
+var nocaptionAlign = 'left';
+var nofontColor = 'black';
+var nobackGroundColor = 'transparent';
+var minfontSize = 18;
+var minledSize = 18;
+
+var Sensor = _wrapComponent('Sensor')(function (_Component) {
+    _inherits(Sensor, _Component);
+
+    function Sensor(props) {
+        _classCallCheck(this, Sensor);
+
+        return _possibleConstructorReturn(this, (Sensor.__proto__ || Object.getPrototypeOf(Sensor)).call(this, props));
+    }
+
+    _createClass(Sensor, [{
+        key: 'render',
+        value: function render() {
+
+            var captionAlign = this.props.captionAlign == null ? nocaptionAlign : this.props.captionAlign;
+            var fontColor = this.props.fontColor == null ? nofontColor : this.props.fontColor;
+            var backGroundColor = this.props.backGroundColor == null ? nobackGroundColor : this.props.backGroundColor;
+            var fontSize = this.props.fontSize == null ? minfontSize : parseInt(this.props.fontSize);
+            var ledSize = this.props.ledSize == null ? minledSize : parseInt(this.props.ledSize);
+
+            return _react3.default.createElement(
+                _reactNative.View,
+                _extends({}, this.props.style, { style: [styles.containerSensor, { backgroundColor: backGroundColor }], __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 46
+                    }
+                }),
+                _react3.default.createElement(
+                    _reactNative.View,
+                    { style: styles.containerCaption, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 47
+                        }
+                    },
+                    _react3.default.createElement(
+                        _reactNative.Text,
+                        { style: { fontSize: fontSize, color: fontColor, textAlign: captionAlign }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 48
+                            }
+                        },
+                        this.props.caption
+                    )
+                ),
+                _react3.default.createElement(
+                    _reactNative.View,
+                    { style: styles.containerLuz, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 50
+                        }
+                    },
+                    _react3.default.createElement(
+                        _reactNative.View,
+                        { style: styles.containerLed, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 51
+                            }
+                        },
+                        this.props.on ? _react3.default.createElement(Led, { tamaño: ledSize, colorfondo: colorLed_On, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 53
+                            }
+                        }) : _react3.default.createElement(Led, { tamaño: ledSize, colorfondo: colorLed_Off, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 54
+                            }
+                        })
+                    ),
+                    _react3.default.createElement(
+                        _reactNative.View,
+                        { style: styles.containerLed, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 57
+                            }
+                        },
+                        this.props.value && this.props.on && _react3.default.createElement(Led, { tamaño: ledSize, colorfondo: colorLed_Value, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 58
+                            }
+                        })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Sensor;
+}(_react2.Component));
+
+exports.default = Sensor;
+
+
+var styles = _reactNative.StyleSheet.create({
+    containerSensor: {
+        flexDirection: 'row',
+        padding: 1
+    },
+    containerCaption: {
+        flex: 1.5,
+        margin: 2
+    },
+    containerLuz: {
+        flex: 1,
+        flexDirection: 'row'
+    },
+    containerLed: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+});
+}, 723, null, "Otero/components/Sensor.js");
 __d(/* Otero/resources/OterodelasDueñas.png */function(global, require, module, exports) {module.exports=require(160                                         ).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/resources","width":310,"height":310,"scales":[1],"hash":"58d872b5f46e94cc6b5c41ef06bde38f","name":"OterodelasDueñas","type":"png"}); // 160 = react-native/Libraries/Image/AssetRegistry
-}, 721, null, "Otero/resources/OterodelasDueñas.png");
+}, 724, null, "Otero/resources/OterodelasDueñas.png");
 ;require(50);
 ;require(0);
 //# sourceMappingURL=index.map
