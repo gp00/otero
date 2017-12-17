@@ -37,7 +37,7 @@ export default class Noticia extends Component {
               <Icon name='more' style={styles.iconMore} />
             </Button>
         </View>
-      </View>
+      </View>    
     );
   }
 }
