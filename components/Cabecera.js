@@ -16,7 +16,7 @@ export default class Cabecera extends Component {
       };  
     } 
     
-    headerSearch = <Header searchBar rounded><Item><Button transparent onPress={this.props.onPress_BackSearch}><Icon name="arrow-round-back"/></Button><Input placeholder="Buscar Noticias"/><Button transparent onPress={()=>this.props.onPress_Find(11111)}><Icon name="search" /></Button></Item></Header>
+    headerSearch = <Header searchBar rounded><Item><Button transparent onPress={this.props.onPress_BackSearch}><Icon name="arrow-round-back"/></Button><Input onChangeText={(text)=>this.props.onChangeText(text)} placeholder="Buscar Noticias"/><Button transparent onPress={this.props.onPress_Find}><Icon name="search" /></Button></Item></Header>
 
     headerTitle = 
         <Header>

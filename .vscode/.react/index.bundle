@@ -51650,11 +51650,11 @@ var _ListaNoticias = require(721                         ); // 721 = ./component
 
 var _ListaNoticias2 = _interopRequireDefault(_ListaNoticias);
 
-var _Cabecera = require(725                    ); // 725 = ./components/Cabecera
+var _Cabecera = require(723                    ); // 723 = ./components/Cabecera
 
 var _Cabecera2 = _interopRequireDefault(_Cabecera);
 
-var _Sensor = require(723                  ); // 723 = ./components/Sensor
+var _Sensor = require(725                  ); // 725 = ./components/Sensor
 
 var _Sensor2 = _interopRequireDefault(_Sensor);
 
@@ -51696,13 +51696,60 @@ var App = _wrapComponent('App')(function (_Component) {
     _this.state = {
       Net: false,
       NumNoticias: 0,
-      Noticias: []
+      Noticias: [],
+      Search: false,
+      TextSearch: ''
     };
 
+    _this._onPress_Search = _this._onPress_Search.bind(_this);
+    _this._onPress_BackSearch = _this._onPress_BackSearch.bind(_this);
+    _this._onPress_Refresh = _this._onPress_Refresh.bind(_this);
+    _this._onPress_Find = _this._onPress_Find.bind(_this);
+    _this._onPress_PowerOff = _this._onPress_PowerOff.bind(_this);
+    _this._onChangeText = _this._onChangeText.bind(_this);
     return _this;
   }
 
   _createClass(App, [{
+    key: '_onPress_BackSearch',
+    value: function _onPress_BackSearch() {
+      this.setState({ Search: false });
+    }
+  }, {
+    key: '_onChangeText',
+    value: function _onChangeText(pText) {
+      this.setState({ TextSearch: pText });
+    }
+  }, {
+    key: '_onPress_Search',
+    value: function _onPress_Search() {
+      this.setState({ Search: true });
+    }
+  }, {
+    key: '_onPress_Refresh',
+    value: function _onPress_Refresh() {
+      var _this2 = this;
+
+      _Api2.default.getNoticias(this).then(function (data) {
+        return _this2.setState({ Noticias: data, NumNoticias: data.length, Net: false });
+      });
+    }
+  }, {
+    key: '_onPress_Find',
+    value: function _onPress_Find() {
+      this.setState({ Search: false });
+      var search = this.state.TextSearch;
+      var noticias = this.state.Noticias.filter(function (noticia) {
+        return noticia.Titulo.indexOf(search);
+      });
+      console.log(noticias);
+    }
+  }, {
+    key: '_onPress_PowerOff',
+    value: function _onPress_PowerOff() {
+      alert('Exit...');
+    }
+  }, {
     key: 'render',
     value: function render() {
 
@@ -51711,12 +51758,18 @@ var App = _wrapComponent('App')(function (_Component) {
         {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 33
+            lineNumber: 63
           }
         },
-        _react3.default.createElement(_Cabecera2.default, { search: true, __source: {
+        _react3.default.createElement(_Cabecera2.default, { search: this.state.Search,
+          onChangeText: this._onChangeText,
+          onPress_Search: this._onPress_Search,
+          onPress_BackSearch: this._onPress_BackSearch,
+          onPress_Refresh: this._onPress_Refresh,
+          onPress_Find: this._onPress_Find,
+          onPress_PowerOff: this._onPress_PowerOff, __source: {
             fileName: _jsxFileName,
-            lineNumber: 35
+            lineNumber: 65
           }
         }),
         _react3.default.createElement(
@@ -51724,12 +51777,12 @@ var App = _wrapComponent('App')(function (_Component) {
           {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 37
+              lineNumber: 73
             }
           },
           _react3.default.createElement(_ListaNoticias2.default, { noticias: this.state.Noticias, __source: {
               fileName: _jsxFileName,
-              lineNumber: 38
+              lineNumber: 74
             }
           })
         ),
@@ -51737,14 +51790,14 @@ var App = _wrapComponent('App')(function (_Component) {
           _nativeBase.Footer,
           { style: styles.footerContainer, __source: {
               fileName: _jsxFileName,
-              lineNumber: 41
+              lineNumber: 77
             }
           },
           _react3.default.createElement(
             _nativeBase.Text,
             { style: styles.textFooter, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 42
+                lineNumber: 78
               }
             },
             'N\xBA de Noticias: ',
@@ -51752,7 +51805,7 @@ var App = _wrapComponent('App')(function (_Component) {
           ),
           _react3.default.createElement(_Sensor2.default, { style: { width: 75 }, ledSize: '12', fontSize: '15', caption: 'Net', fontColor: 'white', captionAlign: 'center', on: true, value: this.state.Net, __source: {
               fileName: _jsxFileName,
-              lineNumber: 43
+              lineNumber: 79
             }
           })
         )
@@ -51761,10 +51814,10 @@ var App = _wrapComponent('App')(function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this2 = this;
+      var _this3 = this;
 
       _Api2.default.getNoticias(this).then(function (data) {
-        return _this2.setState({ Noticias: data, NumNoticias: data.length, Net: false });
+        return _this3.setState({ Noticias: data, NumNoticias: data.length, Net: false });
       });
     }
   }]);
@@ -51776,39 +51829,15 @@ exports.default = App;
 
 
 var styles = _reactNative.StyleSheet.create({
-  logoImage: {
-    width: 40,
-    height: 40
-  },
-  logoTitle: {
-    alignItems: 'flex-start'
-  },
-  iconPowerOff: {
-    fontSize: 26,
-    color: 'white'
-  },
-  iconRefresh: {
-    fontSize: 28,
-    color: 'white'
-  },
-  iconSearch: {
-    fontSize: 28,
-    color: 'white'
-  },
   footerContainer: {
     height: 35,
     alignItems: 'center',
     justifyContent: 'space-around'
   },
-  textTitle: {
-    fontSize: 26,
-    color: 'rgba(255,255,255,0.8)'
-  },
   textFooter: {
     fontSize: 18,
     color: 'white'
   }
-
 });
 }, 486, null, "Otero/App.js");
 __d(/* native-base/dist/src/index.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", { value: true });exports.mapPropsToStyleNames = exports.SwipeRow = exports.Root = exports.Segment = exports.DefaultTabBar = exports.TabContainer = exports.TabHeading = exports.ActionSheet = exports.ScrollableTab = exports.Toast = exports.View = exports.TabContent = exports.Text = exports.Grid = exports.Row = exports.Col = exports.Textarea = exports.Label = exports.Subtitle = exports.Item = exports.DeckSwiper = exports.Separator = exports.ListItem = exports.List = exports.Picker = exports.FooterTab = exports.Tabs = exports.Tab = exports.Footer = exports.Content = exports.Container = exports.Switch = exports.Spinner = exports.H3 = exports.H2 = exports.H1 = exports.CardItem = exports.Card = exports.Thumbnail = exports.Radio = exports.CheckBox = exports.Badge = exports.Body = exports.Right = exports.Left = exports.Fab = exports.Title = exports.Input = exports.InputGroup = exports.Form = exports.Header = exports.Icon = exports.IconNB = exports.Button = exports.Drawer = exports.connectStyle = exports.StyleProvider = exports.variables = exports.getTheme = undefined;var _nativeBaseShoutemTheme = require(488                        ); // 488 = native-base-shoutem-theme
@@ -89301,10 +89330,9 @@ var _index = require(174                                                 ); // 1
 
 var _index2 = _interopRequireDefault(_index);
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _jsxFileName = 'c:\\a\\RN\\Otero\\components\\Cabecera.js';
 
-var _jsxFileName = 'c:\\a\\RN\\Otero\\components\\Cabecera.js',
-    _this = this;
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _reactNative = require(12            ); // 12 = react-native
 
@@ -89337,164 +89365,163 @@ function _wrapComponent(id) {
   };
 }
 
-var HeaderSearch = _react3.default.createElement(
-  _nativeBase.Item,
-  {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 9
-    }
-  },
-  _react3.default.createElement(_nativeBase.Icon, { name: 'search', __source: {
-      fileName: _jsxFileName,
-      lineNumber: 9
-    }
-  }),
-  _react3.default.createElement(_nativeBase.Input, { placeholder: 'Search', __source: {
-      fileName: _jsxFileName,
-      lineNumber: 9
-    }
-  })
-);
-
-var HeaderTitle = function HeaderTitle() {
-  _react3.default.createElement(
-    _reactNative.View,
-    {
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 12
-      }
-    },
-    _react3.default.createElement(
-      _nativeBase.Left,
-      {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 13
-        }
-      },
-      _react3.default.createElement(Image, { style: styles.logoImage, source: require(724                                ), __source: { // 724 = ../resources/OterodelasDueñas.png
-          fileName: _jsxFileName,
-          lineNumber: 14
-        }
-      })
-    ),
-    _react3.default.createElement(
-      _nativeBase.Body,
-      { style: styles.logoTitle, __source: {
-          fileName: _jsxFileName,
-          lineNumber: 16
-        }
-      },
-      _react3.default.createElement(
-        _nativeBase.Title,
-        { style: styles.textTitle, __source: {
-            fileName: _jsxFileName,
-            lineNumber: 17
-          }
-        },
-        'NOTICIAS'
-      )
-    ),
-    _react3.default.createElement(
-      _nativeBase.Right,
-      {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 19
-        }
-      },
-      _react3.default.createElement(
-        _nativeBase.Button,
-        { transparent: true, onPress: _this.props.onPress_Search, __source: {
-            fileName: _jsxFileName,
-            lineNumber: 20
-          }
-        },
-        _react3.default.createElement(_nativeBase.Icon, { name: 'search', style: styles.iconSearch, __source: {
-            fileName: _jsxFileName,
-            lineNumber: 21
-          }
-        })
-      ),
-      _react3.default.createElement(
-        _nativeBase.Button,
-        { transparent: true, onPress: _this.props.onPress_Refresh, __source: {
-            fileName: _jsxFileName,
-            lineNumber: 23
-          }
-        },
-        _react3.default.createElement(_nativeBase.Icon, { name: 'refresh', style: styles.iconRefresh, __source: {
-            fileName: _jsxFileName,
-            lineNumber: 24
-          }
-        })
-      ),
-      _react3.default.createElement(
-        _nativeBase.Button,
-        { transparent: true, onPress: _this.props.onPress_PowerOff, __source: {
-            fileName: _jsxFileName,
-            lineNumber: 26
-          }
-        },
-        _react3.default.createElement(_nativeBase.Icon, { name: 'power', style: styles.iconPowerOff, __source: {
-            fileName: _jsxFileName,
-            lineNumber: 27
-          }
-        })
-      )
-    )
-  );
-};
-
 var Cabecera = _wrapComponent('Cabecera')(function (_Component) {
   _inherits(Cabecera, _Component);
 
   function Cabecera(props) {
     _classCallCheck(this, Cabecera);
 
-    var _this2 = _possibleConstructorReturn(this, (Cabecera.__proto__ || Object.getPrototypeOf(Cabecera)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Cabecera.__proto__ || Object.getPrototypeOf(Cabecera)).call(this, props));
 
-    _this2.state = {};
+    _this.headerSearch = _react3.default.createElement(
+      _nativeBase.Header,
+      { searchBar: true, rounded: true, __source: {
+          fileName: _jsxFileName,
+          lineNumber: 19
+        }
+      },
+      _react3.default.createElement(
+        _nativeBase.Item,
+        {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 19
+          }
+        },
+        _react3.default.createElement(
+          _nativeBase.Button,
+          { transparent: true, onPress: _this.props.onPress_BackSearch, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 19
+            }
+          },
+          _react3.default.createElement(_nativeBase.Icon, { name: 'arrow-round-back', __source: {
+              fileName: _jsxFileName,
+              lineNumber: 19
+            }
+          })
+        ),
+        _react3.default.createElement(_nativeBase.Input, { onChangeText: function onChangeText(text) {
+            return _this.props.onChangeText(text);
+          }, placeholder: 'Buscar Noticias', __source: {
+            fileName: _jsxFileName,
+            lineNumber: 19
+          }
+        }),
+        _react3.default.createElement(
+          _nativeBase.Button,
+          { transparent: true, onPress: _this.props.onPress_Find, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 19
+            }
+          },
+          _react3.default.createElement(_nativeBase.Icon, { name: 'search', __source: {
+              fileName: _jsxFileName,
+              lineNumber: 19
+            }
+          })
+        )
+      )
+    );
+    _this.headerTitle = _react3.default.createElement(
+      _nativeBase.Header,
+      {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 22
+        }
+      },
+      _react3.default.createElement(
+        _nativeBase.Left,
+        {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 23
+          }
+        },
+        _react3.default.createElement(_reactNative.Image, { style: styles.logoImage, source: require(724                                ), __source: { // 724 = ../resources/OterodelasDueñas.png
+            fileName: _jsxFileName,
+            lineNumber: 24
+          }
+        })
+      ),
+      _react3.default.createElement(
+        _nativeBase.Body,
+        { style: styles.logoTitle, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 26
+          }
+        },
+        _react3.default.createElement(
+          _nativeBase.Title,
+          { style: styles.textTitle, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 27
+            }
+          },
+          'NOTICIAS'
+        )
+      ),
+      _react3.default.createElement(
+        _nativeBase.Right,
+        {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 29
+          }
+        },
+        _react3.default.createElement(
+          _nativeBase.Button,
+          { transparent: true, onPress: _this.props.onPress_Search, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 30
+            }
+          },
+          _react3.default.createElement(_nativeBase.Icon, { name: 'search', style: styles.iconSearch, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 31
+            }
+          })
+        ),
+        _react3.default.createElement(
+          _nativeBase.Button,
+          { transparent: true, onPress: _this.props.onPress_Refresh, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 33
+            }
+          },
+          _react3.default.createElement(_nativeBase.Icon, { name: 'refresh', style: styles.iconRefresh, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 34
+            }
+          })
+        ),
+        _react3.default.createElement(
+          _nativeBase.Button,
+          { transparent: true, onPress: _this.props.onPress_PowerOff, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 36
+            }
+          },
+          _react3.default.createElement(_nativeBase.Icon, { name: 'power', style: styles.iconPowerOff, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 37
+            }
+          })
+        )
+      )
+    );
 
-    return _this2;
+
+    _this.state = {};
+    return _this;
   }
 
   _createClass(Cabecera, [{
     key: 'render',
     value: function render() {
-
-      var header = this.props.search ? HeaderSearch : HeaderTitle;
-
-      return _react3.default.createElement(
-        _nativeBase.Header,
-        {
-          __source: {
-            fileName: _jsxFileName,
-            lineNumber: 50
-          }
-        },
-        _react3.default.createElement(
-          _nativeBase.Item,
-          {
-            __source: {
-              fileName: _jsxFileName,
-              lineNumber: 50
-            }
-          },
-          _react3.default.createElement(_nativeBase.Icon, { name: 'search', __source: {
-              fileName: _jsxFileName,
-              lineNumber: 50
-            }
-          }),
-          _react3.default.createElement(_nativeBase.Input, { placeholder: 'Search', __source: {
-              fileName: _jsxFileName,
-              lineNumber: 50
-            }
-          })
-        )
-      );
+      var header = this.props.search ? this.headerSearch : this.headerTitle;
+      return header;
     }
   }]);
 
@@ -89539,7 +89566,7 @@ var styles = _reactNative.StyleSheet.create({
   }
 
 });
-}, 725, null, "Otero/components/Cabecera.js");
+}, 723, null, "Otero/components/Cabecera.js");
 __d(/* Otero/resources/OterodelasDueñas.png */function(global, require, module, exports) {module.exports=require(160                                         ).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/resources","width":310,"height":310,"scales":[1],"hash":"58d872b5f46e94cc6b5c41ef06bde38f","name":"OterodelasDueñas","type":"png"}); // 160 = react-native/Libraries/Image/AssetRegistry
 }, 724, null, "Otero/resources/OterodelasDueñas.png");
 __d(/* Otero/components/Sensor.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
@@ -89719,7 +89746,7 @@ var styles = _reactNative.StyleSheet.create({
         alignItems: 'center'
     }
 });
-}, 723, null, "Otero/components/Sensor.js");
+}, 725, null, "Otero/components/Sensor.js");
 ;require(50);
 ;require(0);
 //# sourceMappingURL=index.map

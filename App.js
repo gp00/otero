@@ -22,7 +22,8 @@ export default class App extends Component {
       Net:false,
       NumNoticias: 0,
       Noticias:[],
-      Search:false
+      Search:false,
+      TextSearch:'',
     };
 
     this._onPress_Search=this._onPress_Search.bind(this);
@@ -30,20 +31,28 @@ export default class App extends Component {
     this._onPress_Refresh=this._onPress_Refresh.bind(this);
     this._onPress_Find=this._onPress_Find.bind(this);
     this._onPress_PowerOff=this._onPress_PowerOff.bind(this);
+    this._onChangeText=this._onChangeText.bind(this);
   }  
 
   _onPress_BackSearch(){
     this.setState({Search:false});
   }
+  _onChangeText(pText){
+    this.setState({TextSearch:pText});
+  }
   _onPress_Search(){
-    this.setState({Search:true});
+    this.setState({TextSearch:'',Search:true});
   }
   _onPress_Refresh(){
     Api.getNoticias(this).then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false}));
   }
-  _onPress_Find(pFilter){
+  _onPress_Find(){    
     this.setState({Search:false});
-    alert(pFilter);
+    var search = this.state.TextSearch;
+    if(search!=''){
+      var noticias = this.state.Noticias.filter(noticia=> noticia.Titulo.indexOf(search)!=-1);   
+      this.setState({Noticias:noticias,NumNoticias:noticias.length});
+    }    
   }
   _onPress_PowerOff(){
     alert('Exit...');
@@ -55,11 +64,12 @@ export default class App extends Component {
       <Container>  
 
         <Cabecera search={this.state.Search} 
+          onChangeText ={this._onChangeText}
           onPress_Search={this._onPress_Search}
           onPress_BackSearch={this._onPress_BackSearch}
           onPress_Refresh={this._onPress_Refresh} 
           onPress_Find={this._onPress_Find}
-          onPress_PowerOff={this._onPress_PowerOff}/>
+          onPress_PowerOff={this._onPress_PowerOff} />
 
         <Content>         
           <ListaNoticias noticias={this.state.Noticias}/> 
