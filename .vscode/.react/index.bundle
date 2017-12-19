@@ -51698,7 +51698,8 @@ var App = _wrapComponent('App')(function (_Component) {
       NumNoticias: 0,
       Noticias: [],
       Search: false,
-      TextSearch: ''
+      TextSearch: '',
+      activeFab: false
     };
 
     _this._onPress_Search = _this._onPress_Search.bind(_this);
@@ -51723,7 +51724,7 @@ var App = _wrapComponent('App')(function (_Component) {
   }, {
     key: '_onPress_Search',
     value: function _onPress_Search() {
-      this.setState({ Search: true });
+      this.setState({ TextSearch: '', Search: true });
     }
   }, {
     key: '_onPress_Refresh',
@@ -51739,10 +51740,12 @@ var App = _wrapComponent('App')(function (_Component) {
     value: function _onPress_Find() {
       this.setState({ Search: false });
       var search = this.state.TextSearch;
-      var noticias = this.state.Noticias.filter(function (noticia) {
-        return noticia.Titulo.indexOf(search);
-      });
-      console.log(noticias);
+      if (search != '') {
+        var noticias = this.state.Noticias.filter(function (noticia) {
+          return noticia.Titulo.indexOf(search) != -1;
+        });
+        this.setState({ Noticias: noticias, NumNoticias: noticias.length });
+      }
     }
   }, {
     key: '_onPress_PowerOff',
@@ -51752,13 +51755,14 @@ var App = _wrapComponent('App')(function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
 
       return _react3.default.createElement(
         _nativeBase.Container,
         {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 63
+            lineNumber: 65
           }
         },
         _react3.default.createElement(_Cabecera2.default, { search: this.state.Search,
@@ -51769,7 +51773,7 @@ var App = _wrapComponent('App')(function (_Component) {
           onPress_Find: this._onPress_Find,
           onPress_PowerOff: this._onPress_PowerOff, __source: {
             fileName: _jsxFileName,
-            lineNumber: 65
+            lineNumber: 67
           }
         }),
         _react3.default.createElement(
@@ -51777,27 +51781,87 @@ var App = _wrapComponent('App')(function (_Component) {
           {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 73
+              lineNumber: 75
             }
           },
           _react3.default.createElement(_ListaNoticias2.default, { noticias: this.state.Noticias, __source: {
               fileName: _jsxFileName,
-              lineNumber: 74
+              lineNumber: 76
             }
-          })
+          }),
+          _react3.default.createElement(
+            _nativeBase.Fab,
+            {
+              active: this.state.activeFab,
+              direction: 'up',
+              containerStyle: {},
+              style: { backgroundColor: '#5067FF' },
+              position: 'bottomRight',
+              onPress: function onPress() {
+                return _this3.setState({ active: !_this3.state.activeFab });
+              }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 77
+              }
+            },
+            _react3.default.createElement(_nativeBase.Icon, { name: 'share', __source: {
+                fileName: _jsxFileName,
+                lineNumber: 84
+              }
+            }),
+            _react3.default.createElement(
+              _nativeBase.Button,
+              { style: { backgroundColor: '#34A34F' }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 85
+                }
+              },
+              _react3.default.createElement(_nativeBase.Icon, { name: 'logo-whatsapp', __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 86
+                }
+              })
+            ),
+            _react3.default.createElement(
+              _nativeBase.Button,
+              { style: { backgroundColor: '#3B5998' }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 88
+                }
+              },
+              _react3.default.createElement(_nativeBase.Icon, { name: 'logo-facebook', __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 89
+                }
+              })
+            ),
+            _react3.default.createElement(
+              _nativeBase.Button,
+              { disabled: true, style: { backgroundColor: '#DD5144' }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 91
+                }
+              },
+              _react3.default.createElement(_nativeBase.Icon, { name: 'mail', __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 92
+                }
+              })
+            )
+          )
         ),
         _react3.default.createElement(
           _nativeBase.Footer,
           { style: styles.footerContainer, __source: {
               fileName: _jsxFileName,
-              lineNumber: 77
+              lineNumber: 97
             }
           },
           _react3.default.createElement(
             _nativeBase.Text,
             { style: styles.textFooter, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 78
+                lineNumber: 98
               }
             },
             'N\xBA de Noticias: ',
@@ -51805,7 +51869,7 @@ var App = _wrapComponent('App')(function (_Component) {
           ),
           _react3.default.createElement(_Sensor2.default, { style: { width: 75 }, ledSize: '12', fontSize: '15', caption: 'Net', fontColor: 'white', captionAlign: 'center', on: true, value: this.state.Net, __source: {
               fileName: _jsxFileName,
-              lineNumber: 79
+              lineNumber: 99
             }
           })
         )
@@ -51814,10 +51878,10 @@ var App = _wrapComponent('App')(function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this3 = this;
+      var _this4 = this;
 
       _Api2.default.getNoticias(this).then(function (data) {
-        return _this3.setState({ Noticias: data, NumNoticias: data.length, Net: false });
+        return _this4.setState({ Noticias: data, NumNoticias: data.length, Net: false });
       });
     }
   }]);

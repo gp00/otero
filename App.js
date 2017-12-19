@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native';
 
-import { Container,  Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item } from 'native-base';
+import { Container,  Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab } from 'native-base';
 
 import Api from './lib/Api';
 
@@ -32,6 +32,7 @@ export default class App extends Component {
     this._onPress_Find=this._onPress_Find.bind(this);
     this._onPress_PowerOff=this._onPress_PowerOff.bind(this);
     this._onChangeText=this._onChangeText.bind(this);
+    this._onPress_Titulo=this._onPress_Titulo.bind(this);
   }  
 
   _onPress_BackSearch(){
@@ -54,6 +55,9 @@ export default class App extends Component {
       this.setState({Noticias:noticias,NumNoticias:noticias.length});
     }    
   }
+  _onPress_Titulo(pIdNoticia){
+    alert(pIdNoticia);
+  }
   _onPress_PowerOff(){
     alert('Exit...');
   }
@@ -72,8 +76,18 @@ export default class App extends Component {
           onPress_PowerOff={this._onPress_PowerOff} />
 
         <Content>         
-          <ListaNoticias noticias={this.state.Noticias}/> 
+          <ListaNoticias noticias={this.state.Noticias} onPress_Titulo={this._onPress_Titulo}/>         
         </Content>
+       
+        <Fab
+          active={true}
+          direction="up"
+          containerStyle={{}}
+          style={styles.fab}
+          position="bottomRight"
+          onPress={() => alert('Add...')}>
+          <Icon style={{ fontSize:35 }} name="add" />        
+        </Fab>        
 
         <Footer style={styles.footerContainer}>
           <Text style={styles.textFooter}>Nº de Noticias: {this.state.NumNoticias}</Text>
@@ -99,5 +113,13 @@ const styles = StyleSheet.create({
   textFooter:{
     fontSize:18,
     color:'white', 
+  },
+  fab:{
+    backgroundColor: 'rgba(14,89,164,0.92)',
+    height:70,
+    width:70,
+    borderRadius:35,
+    bottom:30,
+    right:5
   }
 });

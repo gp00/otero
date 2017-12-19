@@ -30,13 +30,8 @@ export default class Noticia extends Component {
           <Text style={styles.año}>{año}</Text>
         </View>
         <View style={styles.containerTitulo}>
-          <Text style={styles.titulo}>{this.props.titulo}</Text>
-        </View>
-        <View style={styles.containerDetail}>
-          <Button transparent onPress={()=>alert(this.props.idNoticia)}  >
-              <Icon name='more' style={styles.iconMore} />
-            </Button>
-        </View>
+          <Button transparent onPress={()=>this.props.onPress_Titulo(this.props.idNoticia)}><Text style={styles.titulo}>{this.props.titulo}</Text></Button>
+        </View>        
       </View>    
     );
   }
@@ -61,14 +56,7 @@ const styles = StyleSheet.create({
   containerTitulo:{
     flex:7,
     paddingLeft:5,
-  },
-  containerDetail:{
-    flex:1
-  },
-  iconMore:{
-    fontSize: 28,
-    color:'white',
-  },
+  }, 
   diames:{
     fontSize:12,
     textAlign:'center',
