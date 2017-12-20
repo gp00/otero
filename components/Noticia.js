@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import {Button,Icon} from 'native-base';
+import Swipeable from 'react-native-swipeable';
 
 const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun","Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
@@ -18,21 +19,38 @@ export default class Noticia extends Component {
 
   }
 
+  swipeable = null;
+
+  rightButtons = [
+    <View style={{ height:52, justifyContent:'center',  alignItems:'center',}}>
+      <Button danger style={{height:50}} onPress={()=>{this.handleUserBeganScrollingParentView();}}>
+        <Icon name='trash' style={{fontSize: 30,color:'white'}} />
+      </Button>
+    </View>
+  ];
+ 
+  handleUserBeganScrollingParentView() {   
+    this.swipeable.recenter();
+  }
+
   render() {
 
     var diames = new Date(this.props.fecha).getDate() +'-' + monthNames[new Date(this.props.fecha).getMonth()];
     var año =  new Date(this.props.fecha).getFullYear();
     
     return (
-      <View style={styles.containerNoticia}>      
-        <View style={styles.containerFecha}>
-          <Text style={styles.diames}>{diames}</Text>
-          <Text style={styles.año}>{año}</Text>
-        </View>
-        <View style={styles.containerTitulo}>
-          <Button transparent onPress={()=>this.props.onPress_Titulo(this.props.idNoticia)}><Text style={styles.titulo}>{this.props.titulo}</Text></Button>
-        </View>        
-      </View>    
+
+      <Swipeable rightButtons={this.rightButtons} rightButtonWidth={50} onRef={ref => this.swipeable = ref}>
+        <View style={styles.containerNoticia}>      
+          <View style={styles.containerFecha}>
+            <Text style={styles.diames}>{diames}</Text>
+            <Text style={styles.año}>{año}</Text>
+          </View>
+          <View style={styles.containerTitulo}>
+            <Button transparent onPress={()=>this.props.onPress_Titulo(this.props.idNoticia)}><Text style={styles.titulo}>{this.props.titulo}</Text></Button>
+          </View>        
+        </View>  
+      </Swipeable>  
     );
   }
 }
@@ -46,8 +64,8 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     marginTop:1,
-    marginLeft:2,
-    marginRight:2 
+    marginLeft:1,
+    marginRight:1
   },
   containerFecha:{
     flex:1,
