@@ -22,24 +22,19 @@ export default class Noticia extends Component {
   swipeable = null;
 
   rightButtons = [
-    <View style={{ height:52, justifyContent:'center',  alignItems:'center',}}>
-      <Button danger style={{height:50}} onPress={()=>{this.handleUserBeganScrollingParentView();}}>
-        <Icon name='trash' style={{fontSize: 30,color:'white'}} />
+    <View style={styles.rightButtonsDelete}>
+      <Button danger style={styles.rightButtonsDeleteButtom} onPress={()=>{this.swipeable.recenter()}}>
+        <Icon name='trash' style={styles.rightButtonsDeleteIcon} />
       </Button>
     </View>
   ];
  
-  handleUserBeganScrollingParentView() {   
-    this.swipeable.recenter();
-  }
-
   render() {
 
     var diames = new Date(this.props.fecha).getDate() +'-' + monthNames[new Date(this.props.fecha).getMonth()];
     var año =  new Date(this.props.fecha).getFullYear();
     
     return (
-
       <Swipeable rightButtons={this.rightButtons} rightButtonWidth={50} onRef={ref => this.swipeable = ref}>
         <View style={styles.containerNoticia}>      
           <View style={styles.containerFecha}>
@@ -88,5 +83,16 @@ const styles = StyleSheet.create({
   titulo:{
     fontSize:13,
     color:'white'
+  },
+  rightButtonsDelete:{
+     height:52,
+     justifyContent:'center',
+     alignItems:'center',
+  },
+  rightButtonsDeleteButtom:{
+    height:50
+  },
+  rightButtonsDeleteIcon: {
+    fontSize: 30,color:'white'
   }
 });
