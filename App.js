@@ -2,8 +2,7 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  View,
-  Dimensions,
+  View,  
 } from 'react-native';
 
 import { Container,  Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab } from 'native-base';
@@ -14,8 +13,7 @@ import Api from './lib/Api';
 import ListaNoticias from './components/ListaNoticias';
 import Cabecera from './components/Cabecera';
 import Sensor from './components/Sensor';
-
-var screen = Dimensions.get('window');
+import AltaNoticiaModal from './components/AltaNoticiaModal'
 
 export default class App extends Component {
 
@@ -39,6 +37,7 @@ export default class App extends Component {
     this._onChangeText=this._onChangeText.bind(this);
     this._onPress_Titulo=this._onPress_Titulo.bind(this);
     this._onPressAddNoticia= this._onPressAddNoticia.bind(this);
+    this._onCloseModal= this._onCloseModal.bind(this);
   }  
 
   _onPress_BackSearch(){
@@ -68,8 +67,11 @@ export default class App extends Component {
     alert('Exit...');
   }
   _onPressAddNoticia(){
-    this.setState({modalAltaNoticiaOpen: true})
+    this.setState({modalAltaNoticiaOpen: true});
   }
+  _onCloseModal(){
+    this.setState({modalAltaNoticiaOpen: false});
+  }  
 
   render() {  
     
@@ -85,21 +87,8 @@ export default class App extends Component {
                   onPress_PowerOff={this._onPress_PowerOff} />      
 
         <Content>   
-          { this.state.modalAltaNoticiaOpen?           
-            <View style={styles.modalContainer}>            
-              <Modal  isOpen={this.state.modalAltaNoticiaOpen}
-                      onOpened={()=>{}}
-                      onClosed={()=>{this.setState({modalAltaNoticiaOpen: false})}}
-                      style={[styles.modal]}>
-
-                  <Button style={styles.btnCloseModal} transparent onPress={() => this.setState({modalAltaNoticiaOpen: false})}><Icon style={styles.iconcloseModal} name='close'></Icon></Button>
-                  <Text >Ventana Modal</Text>
-                  <Button block primary style={styles.btnSaveNoticia}>
-                    <Text>Grabar Noticia</Text>
-                  </Button>
-
-              </Modal>   
-            </View>:
+          {this.state.modalAltaNoticiaOpen?
+            <AltaNoticiaModal open={this.state.modalAltaNoticiaOpen} onClosed={this._onCloseModal}/>:
             <ListaNoticias noticias={this.state.Noticias} onPress_Titulo={this._onPress_Titulo}/>
           }
         </Content>              
@@ -148,30 +137,5 @@ const styles = StyleSheet.create({
     borderRadius:35,
     bottom:30,
     right:5
-  },
-  modalContainer:{
-    height:screen.height*0.805,
-    margin:5,
-  },
-  modal: {    
-    padding:20,
-    justifyContent:'center',
-    backgroundColor: 'rgba(103,182,243,0.92)',    
-  },
-  btnCloseModal: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-  },
-  iconcloseModal:{
-    fontSize:35,
-    color:'black'
-  },
-  btnSaveNoticia: {
-    position: "absolute",
-    bottom: 10,
-    right:0,
-    left:0,
-    margin:5,
-    },
+  }, 
 });
