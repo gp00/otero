@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import {
   StyleSheet, 
-  Image, 
+  Image,  
   View
 } from 'react-native';
 
 import { Header, Title, Content,  Button, Left, Right, Body, Icon, Text, Input, Item } from 'native-base';
+
+import HeaderSearch from "./HeaderSearch"
+import HeaderTitle from "./HeaderTitle"
 
 export default class Cabecera extends Component {
 
@@ -15,33 +18,9 @@ export default class Cabecera extends Component {
       this.state = {       
       };  
     } 
-    
-    headerSearch = <Header searchBar rounded><Item><Button transparent onPress={this.props.onPress_BackSearch}><Icon name="arrow-round-back"/></Button><Input onChangeText={(text)=>this.props.onChangeText(text)} placeholder="Buscar Noticias"/><Button transparent onPress={this.props.onPress_Find}><Icon name="search" /></Button></Item></Header>
-
-    headerTitle = 
-        <Header>
-            <Left>
-                <Image style={styles.logoImage} source={require('../resources/OterodelasDueñas.png')} />
-            </Left>
-            <Body style={styles.logoTitle}>
-                <Title style={styles.textTitle}>NOTICIAS</Title>
-            </Body>
-            <Right>
-                <Button transparent onPress={this.props.onPress_Search}>
-                    <Icon name='search' style={styles.iconSearch} />
-                </Button>
-                <Button transparent onPress={this.props.onPress_Refresh}>
-                    <Icon name='refresh' style={styles.iconRefresh} />
-                </Button>
-                <Button transparent onPress={this.props.onPress_PowerOff} >
-                    <Icon name='power' style={styles.iconPowerOff} />
-                </Button>
-            </Right>
-        </Header>
-
   
     render() {
-      var header= this.props.search?this.headerSearch:this.headerTitle;  
+      var header= this.props.search?<HeaderSearch {...this.props}/>:<HeaderTitle {...this.props}/>;  
       return (header);
     }    
   }

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,  
+  Dimensions
 } from 'react-native';
 
 import { Container,  Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab } from 'native-base';
@@ -41,18 +42,18 @@ export default class App extends Component {
   }  
 
   _onPress_BackSearch(){
-    this.setState({Search:false});
+    this.setState({Search:false});    
   }
   _onChangeText(pText){
     this.setState({TextSearch:pText});
   }
   _onPress_Search(){
-    this.setState({TextSearch:'',Search:true});
+    this.setState({TextSearch:'',Search:true}); 
   }
   _onPress_Refresh(){
     Api.getNoticias(this).then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false,modalAltaNoticiaOpen: false}));
   }
-  _onPress_Find(){    
+  _onPress_Find(){        
     this.setState({Search:false});
     var search = this.state.TextSearch;
     if(search!=''){
@@ -71,12 +72,12 @@ export default class App extends Component {
   }
   _onCloseModal(){
     this.setState({modalAltaNoticiaOpen: false});
-  }  
-
+  }
+ 
   render() {  
     
     return (
-      <Container> 
+      <Container  onLayout={this._onLayout}> 
 
         <Cabecera search={this.state.Search} 
                   onChangeText ={this._onChangeText}
@@ -84,7 +85,7 @@ export default class App extends Component {
                   onPress_BackSearch={this._onPress_BackSearch}
                   onPress_Refresh={this._onPress_Refresh} 
                   onPress_Find={this._onPress_Find}
-                  onPress_PowerOff={this._onPress_PowerOff} />      
+                  onPress_PowerOff={this._onPress_PowerOff}/>      
 
         <Content>   
           {this.state.modalAltaNoticiaOpen?
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     color:'white', 
   },
   fab:{
-    backgroundColor: 'rgb(14,89,164)',
+    backgroundColor: 'rgba(14,89,164,0.92)',
     height:70,
     width:70,
     borderRadius:35,

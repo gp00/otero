@@ -30,10 +30,10 @@ export default class AltaNoticiaModal extends Component {
 
   _onChangeFecha(fecha){
     this.setState({fecha});
+    this.titulo._root.focus();
   }
 
-  render() {  
-    
+  render() {      
     return (          
             <View style={styles.modalContainer}>            
               <Modal  isOpen={this.props.open}
@@ -50,34 +50,35 @@ export default class AltaNoticiaModal extends Component {
 
                   <View style={styles.inputsContainer}>
  
-                    <Form>
-                      
+                    <Form>                      
                       <Item style={{borderBottomWidth:0}}>
-                      <DateP fecha={this.state.fecha} onChangeFecha={this._onChangeFecha}/>                
+                        <DateP fecha={this.state.fecha} onChangeFecha={this._onChangeFecha}/>                
                       </Item>
 
                       <Item floatingLabel>
                         <Label>Titulo</Label>
                         <Input onChangeText={(titulo) => this.setState({ titulo })}
-                              onEndEditing={()=>{}}                            
-                              value={this.state.titulo}
-                              maxLength={50} />
+                               onEndEditing={()=>{ this.noticia._root.focus();}}                            
+                               value={this.state.titulo}
+                               maxLength={50}
+                               getRef={(input)=>{this.titulo = input}} />
                       </Item>
 
                       <Item floatingLabel>
                         <Label>Noticia</Label>
                         <Input onChangeText={(noticia) => this.setState({ noticia })}
-                              onEndEditing={()=>{}} 
-                              multiline={true} 
-                              value={this.state.noticia}
-                              maxLength={250} />
+                               onEndEditing={()=>{}} 
+                               multiline={true} 
+                               value={this.state.noticia}
+                               maxLength={250}
+                               getRef={(input)=>{this.noticia=input}} />
                       </Item>
                     </Form>
                    
                   </View>
 
                   <View style={styles.btnsContainer}>
-                    <Button block primary style={styles.btnNoticia}>
+                    <Button block primary style={styles.btnNoticia} onPress={this.props.onSaveNoticia}>
                       <Text>Grabar Noticia</Text>
                     </Button>
                     <Button block primary style={styles.btnNoticia} onPress={this.props.onClosed}>
@@ -88,6 +89,10 @@ export default class AltaNoticiaModal extends Component {
               </Modal>   
             </View>
     );
+  }
+
+  componentDidMount() {
+   
   }
 
 

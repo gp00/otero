@@ -19,8 +19,6 @@ export default class Noticia extends Component {
 
   }
 
-  swipeable = null;
-
   rightButtons = [
     <View style={styles.rightButtonsDelete}>
       <Button danger style={styles.rightButtonsDeleteButtom} onPress={()=>{this.swipeable.recenter()}}>
