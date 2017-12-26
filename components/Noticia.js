@@ -17,11 +17,17 @@ export default class Noticia extends Component {
   constructor(props) {
     super(props);    
 
+    this._onPressDelete=this._onPressDelete.bind(this);
+  }
+
+  _onPressDelete(){
+    this.swipeable.recenter();
+    this.props.onPressDeleteNoticia(this.props.idNoticia);
   }
 
   rightButtons = [
     <View style={styles.rightButtonsDelete}>
-      <Button danger style={styles.rightButtonsDeleteButtom} onPress={()=>{this.swipeable.recenter()}}>
+      <Button danger style={styles.rightButtonsDeleteButtom} onPress={()=>this._onPressDelete(this)}>
         <Icon name='trash' style={styles.rightButtonsDeleteIcon} />
       </Button>
     </View>
@@ -33,7 +39,7 @@ export default class Noticia extends Component {
     var año =  new Date(this.props.fecha).getFullYear();
     
     return (
-      <Swipeable rightButtons={this.rightButtons} rightButtonWidth={50} onRef={ref => this.swipeable = ref}>
+      <Swipeable rightButtons={this.rightButtons} rightButtonWidth={50} ref={ref => this.swipeable = ref}>
         <View style={styles.containerNoticia}>      
           <View style={styles.containerFecha}>
             <Text style={styles.diames}>{diames}</Text>
@@ -42,8 +48,8 @@ export default class Noticia extends Component {
           <View style={styles.containerTitulo}>
             <Button transparent onPress={()=>this.props.onPress_Titulo(this.props.idNoticia)}><Text style={styles.titulo}>{this.props.titulo}</Text></Button>
           </View>        
-        </View>  
-      </Swipeable>  
+        </View>         
+      </Swipeable>       
     );
   }
 }

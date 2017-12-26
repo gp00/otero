@@ -78,7 +78,7 @@ export default class AltaNoticiaModal extends Component {
                   </View>
 
                   <View style={styles.btnsContainer}>
-                    <Button block primary style={styles.btnNoticia} onPress={this.props.onSaveNoticia}>
+                    <Button block primary style={styles.btnNoticia} onPress={()=>this.props.onPressSaveNoticia(this.state)}>
                       <Text>Grabar Noticia</Text>
                     </Button>
                     <Button block primary style={styles.btnNoticia} onPress={this.props.onClosed}>

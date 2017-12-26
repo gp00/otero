@@ -51646,23 +51646,27 @@ var _reactNativeModalbox = require(694                    ); // 694 = react-nati
 
 var _reactNativeModalbox2 = _interopRequireDefault(_reactNativeModalbox);
 
-var _Api = require(695        ); // 695 = ./lib/Api
+var _reactNativeDialogbox = require(695                     ); // 695 = react-native-dialogbox
+
+var _reactNativeDialogbox2 = _interopRequireDefault(_reactNativeDialogbox);
+
+var _Api = require(701        ); // 701 = ./lib/Api
 
 var _Api2 = _interopRequireDefault(_Api);
 
-var _ListaNoticias = require(722                         ); // 722 = ./components/ListaNoticias
+var _ListaNoticias = require(728                         ); // 728 = ./components/ListaNoticias
 
 var _ListaNoticias2 = _interopRequireDefault(_ListaNoticias);
 
-var _Cabecera = require(725                    ); // 725 = ./components/Cabecera
+var _Cabecera = require(731                    ); // 731 = ./components/Cabecera
 
 var _Cabecera2 = _interopRequireDefault(_Cabecera);
 
-var _Sensor = require(727                  ); // 727 = ./components/Sensor
+var _Sensor = require(735                  ); // 735 = ./components/Sensor
 
 var _Sensor2 = _interopRequireDefault(_Sensor);
 
-var _AltaNoticiaModal = require(728                            ); // 728 = ./components/AltaNoticiaModal
+var _AltaNoticiaModal = require(736                            ); // 736 = ./components/AltaNoticiaModal
 
 var _AltaNoticiaModal2 = _interopRequireDefault(_AltaNoticiaModal);
 
@@ -51717,7 +51721,9 @@ var App = _wrapComponent('App')(function (_Component) {
     _this._onPress_PowerOff = _this._onPress_PowerOff.bind(_this);
     _this._onChangeText = _this._onChangeText.bind(_this);
     _this._onPress_Titulo = _this._onPress_Titulo.bind(_this);
-    _this._onPressAddNoticia = _this._onPressAddNoticia.bind(_this);
+    _this._onPressAddBoton = _this._onPressAddBoton.bind(_this);
+    _this._onPressDeleteNoticia = _this._onPressDeleteNoticia.bind(_this);
+    _this._onPressSaveNoticia = _this._onPressSaveNoticia.bind(_this);
     _this._onCloseModal = _this._onCloseModal.bind(_this);
     return _this;
   }
@@ -51769,9 +51775,35 @@ var App = _wrapComponent('App')(function (_Component) {
       alert('Exit...');
     }
   }, {
-    key: '_onPressAddNoticia',
-    value: function _onPressAddNoticia() {
+    key: '_onPressAddBoton',
+    value: function _onPressAddBoton() {
       this.setState({ modalAltaNoticiaOpen: true });
+    }
+  }, {
+    key: '_onPressSaveNoticia',
+    value: function _onPressSaveNoticia(pNoticia) {
+      var _this3 = this;
+
+      _Api2.default.postNoticia(this, pNoticia).then(function (data) {
+        return _this3.setState({ Noticias: data, NumNoticias: data.length, Net: false, modalAltaNoticiaOpen: false });
+      });
+    }
+  }, {
+    key: '_onPressDeleteNoticia',
+    value: function _onPressDeleteNoticia(pIdNoticia) {
+      var _this4 = this;
+
+      this.dialogbox.confirm({
+        title: 'Borrar',
+        content: 'Borrar Noticia?',
+        ok: {
+          text: 'Si',
+          callback: function callback() {
+            _this4.dialogbox.alert('Borrada: ' + pIdNoticia);
+          }
+        },
+        cancel: { text: 'No' }
+      });
     }
   }, {
     key: '_onCloseModal',
@@ -51781,12 +51813,13 @@ var App = _wrapComponent('App')(function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this5 = this;
 
       return _react3.default.createElement(
         _nativeBase.Container,
         { onLayout: this._onLayout, __source: {
             fileName: _jsxFileName,
-            lineNumber: 80
+            lineNumber: 101
           }
         },
         _react3.default.createElement(_Cabecera2.default, { search: this.state.Search,
@@ -51797,7 +51830,7 @@ var App = _wrapComponent('App')(function (_Component) {
           onPress_Find: this._onPress_Find,
           onPress_PowerOff: this._onPress_PowerOff, __source: {
             fileName: _jsxFileName,
-            lineNumber: 82
+            lineNumber: 103
           }
         }),
         _react3.default.createElement(
@@ -51805,16 +51838,16 @@ var App = _wrapComponent('App')(function (_Component) {
           {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 90
+              lineNumber: 111
             }
           },
-          this.state.modalAltaNoticiaOpen ? _react3.default.createElement(_AltaNoticiaModal2.default, { open: this.state.modalAltaNoticiaOpen, onClosed: this._onCloseModal, __source: {
+          this.state.modalAltaNoticiaOpen ? _react3.default.createElement(_AltaNoticiaModal2.default, { open: this.state.modalAltaNoticiaOpen, onClosed: this._onCloseModal, onPressSaveNoticia: this._onPressSaveNoticia, __source: {
               fileName: _jsxFileName,
-              lineNumber: 92
+              lineNumber: 113
             }
-          }) : _react3.default.createElement(_ListaNoticias2.default, { noticias: this.state.Noticias, onPress_Titulo: this._onPress_Titulo, __source: {
+          }) : _react3.default.createElement(_ListaNoticias2.default, { noticias: this.state.Noticias, onPress_Titulo: this._onPress_Titulo, onPressDeleteNoticia: this._onPressDeleteNoticia, __source: {
               fileName: _jsxFileName,
-              lineNumber: 93
+              lineNumber: 114
             }
           })
         ),
@@ -51826,14 +51859,14 @@ var App = _wrapComponent('App')(function (_Component) {
             containerStyle: {},
             style: styles.fab,
             position: 'bottomRight',
-            onPress: this._onPressAddNoticia, __source: {
+            onPress: this._onPressAddBoton, __source: {
               fileName: _jsxFileName,
-              lineNumber: 98
+              lineNumber: 119
             }
           },
           _react3.default.createElement(_nativeBase.Icon, { style: { fontSize: 35 }, name: 'add', __source: {
               fileName: _jsxFileName,
-              lineNumber: 105
+              lineNumber: 126
             }
           })
         ),
@@ -51841,14 +51874,14 @@ var App = _wrapComponent('App')(function (_Component) {
           _nativeBase.Footer,
           { style: styles.footerContainer, __source: {
               fileName: _jsxFileName,
-              lineNumber: 109
+              lineNumber: 130
             }
           },
           _react3.default.createElement(
             _nativeBase.Text,
             { style: styles.textFooter, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 110
+                lineNumber: 131
               }
             },
             'N\xBA de Noticias: ',
@@ -51856,19 +51889,26 @@ var App = _wrapComponent('App')(function (_Component) {
           ),
           _react3.default.createElement(_Sensor2.default, { style: { width: 75 }, ledSize: '12', fontSize: '15', caption: 'Net', fontColor: 'white', captionAlign: 'center', on: true, value: this.state.Net, __source: {
               fileName: _jsxFileName,
-              lineNumber: 111
+              lineNumber: 132
             }
           })
-        )
+        ),
+        _react3.default.createElement(_reactNativeDialogbox2.default, { ref: function ref(dialogbox) {
+            _this5.dialogbox = dialogbox;
+          }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 135
+          }
+        })
       );
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this3 = this;
+      var _this6 = this;
 
       _Api2.default.getNoticias(this).then(function (data) {
-        return _this3.setState({ Noticias: data, NumNoticias: data.length, Net: false });
+        return _this6.setState({ Noticias: data, NumNoticias: data.length, Net: false });
       });
     }
   }]);
@@ -88545,13 +88585,938 @@ var ModalBox = createReactClass({
 
 module.exports = ModalBox;
 }, 694, null, "react-native-modalbox/index.js");
+__d(/* react-native-dialogbox/lib/index.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react2 = require(35     ); // 35 = react
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require(174                                       ); // 174 = ./../../react-transform-hmr/lib/index.js
+
+var _index2 = _interopRequireDefault(_index);
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class,
+    _temp,
+    _jsxFileName = 'c:\\a\\RN\\Otero\\node_modules\\react-native-dialogbox\\lib\\index.js';
+
+var _propTypes = require(126         ); // 126 = prop-types
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactNative = require(12            ); // 12 = react-native
+
+var _PopContent = require(696           ); // 696 = ./PopContent
+
+var _PopContent2 = _interopRequireDefault(_PopContent);
+
+var _DisplayPopup = require(700             ); // 700 = ./DisplayPopup
+
+var _DisplayPopup2 = _interopRequireDefault(_DisplayPopup);
+
+var _styleShape = require(697            ); // 697 = ./style-shape
+
+var _styleShape2 = _interopRequireDefault(_styleShape);
+
+var _makeStylesheet = require(698                ); // 698 = ./make-stylesheet
+
+var _makeStylesheet2 = _interopRequireDefault(_makeStylesheet);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+	DialogBox: {
+		displayName: 'DialogBox'
+	}
+};
+
+var _reactTransformHmrLibIndexJs2 = (0, _index2.default)({
+	filename: 'c:/a/RN/Otero/node_modules/react-native-dialogbox/lib/index.js',
+	components: _components,
+	locals: [module],
+	imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+	return function (Component) {
+		return _reactTransformHmrLibIndexJs2(Component, id);
+	};
+}
+
+var DialogBox = _wrapComponent('DialogBox')((_temp = _class = function (_Component) {
+	_inherits(DialogBox, _Component);
+
+	function DialogBox(props, context) {
+		_classCallCheck(this, DialogBox);
+
+		var _this = _possibleConstructorReturn(this, (DialogBox.__proto__ || Object.getPrototypeOf(DialogBox)).call(this, props, context));
+
+		_this._onOverlayDismiss = function () {
+			var _this$props = _this.props,
+			    isOverlayClickClose = _this$props.isOverlayClickClose,
+			    onDismiss = _this$props.onDismiss;
+
+			if (isOverlayClickClose) {
+				_this.close();
+				if (onDismiss && typeof onDismiss === 'function') {
+					onDismiss();
+				}
+			}
+		};
+
+		_this._pop = function (args) {
+			if (_this._resolve) {
+				_this._resolve({ index: -1, button: undefined });
+			}
+			var transformed = _extends({}, args, {
+				btns: Array.prototype.map.call(args.btns, function (item, index) {
+					return _extends({}, item, {
+						callback: function callback() {
+							var resolve = _this._resolve;
+							_this._resolve = null;
+
+							var callback = item.callback,
+							    button = _objectWithoutProperties(item, ['callback']);
+
+							if (callback) {
+								callback();
+							}
+							resolve({ index: index, button: button });
+						}
+					});
+				})
+			});
+			return new Promise(function (resolve, reject) {
+				_this._resolve = resolve;
+				_this.setState({
+					content: _react3.default.createElement(_PopContent2.default, _extends({}, transformed, { style: _this.props.style, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 64
+						}
+					})),
+					isVisible: true
+				});
+			});
+		};
+
+		_this.alert = function () {
+			for (var _len = arguments.length, text = Array(_len), _key = 0; _key < _len; _key++) {
+				text[_key] = arguments[_key];
+			}
+
+			text = text.map(function (text) {
+				return text;
+			});
+			return _this._pop({
+				content: text || '',
+				buttonFlow: 'column',
+				btns: [{
+					text: 'OK',
+					callback: function callback() {
+						_this.close();
+					}
+				}]
+			});
+		};
+
+		_this.tip = function (args) {
+			var title = args.title,
+			    content = args.content,
+			    btn = args.btn;
+
+			return _this._pop({
+				title: title || 'Tip',
+				buttonFlow: 'row',
+				content: content,
+				btns: [{
+					text: btn && btn.text || 'OK',
+					style: btn && btn.style,
+					callback: function callback() {
+						_this.close();
+						btn && typeof btn.callback === 'function' && btn.callback();
+					}
+				}]
+			});
+		};
+
+		_this.confirm = function (args) {
+			var title = args.title,
+			    content = args.content,
+			    ok = args.ok,
+			    cancel = args.cancel;
+
+			return _this._pop({
+				title: title,
+				buttonFlow: 'row',
+				content: content,
+				btns: [{
+					text: cancel && cancel.text || 'Cancel',
+					style: cancel && cancel.style,
+					callback: function callback() {
+						_this.close();
+						cancel && typeof cancel.callback === 'function' && cancel.callback();
+					}
+				}, {
+					text: ok && ok.text || 'OK',
+					style: ok && ok.style,
+					callback: function callback() {
+						_this.close();
+						ok && typeof ok.callback === 'function' && ok.callback();
+					}
+				}]
+			});
+		};
+
+		_this.pop = function (args) {
+			return _this._pop(args);
+		};
+
+		_this.close = function () {
+			if (_this._resolve) {
+				_this._resolve({ index: -1, button: undefined });
+				_this._resolve = null;
+			}
+			_this.setState({
+				isVisible: false
+			});
+		};
+
+		_this._renderOverlay = function (styles) {
+			var isOverlay = _this.props.isOverlay;
+
+
+			if (isOverlay) {
+				return _react3.default.createElement(
+					_reactNative.TouchableWithoutFeedback,
+					{ onPress: _this._onOverlayDismiss, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 147
+						}
+					},
+					_react3.default.createElement(_reactNative.View, { style: styles.overlay, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 148
+						}
+					})
+				);
+			}
+			return null;
+		};
+
+		_this._renderContent = function (styles) {
+			return _react3.default.createElement(
+				_reactNative.View,
+				{ style: styles.tipBoxView, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 157
+					}
+				},
+				_this.state.content
+			);
+		};
+
+		_this.state = {
+			isVisible: false,
+			content: null
+		};
+		return _this;
+	}
+
+	_createClass(DialogBox, [{
+		key: 'render',
+		value: function render() {
+			var isVisible = this.state.isVisible;
+			var style = this.props.style;
+
+			var styles = (0, _makeStylesheet2.default)(style, _reactNative.Dimensions, _reactNative.Platform, _reactNative.PixelRatio)();
+
+			if (isVisible) {
+				return _react3.default.createElement(
+					_reactNative.View,
+					{ style: styles.popupContainer, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 170
+						}
+					},
+					this._renderOverlay(styles),
+					this._renderContent(styles)
+				);
+			}
+			return _react3.default.createElement(_reactNative.View, { style: styles.hidden, __source: {
+					fileName: _jsxFileName,
+					lineNumber: 176
+				}
+			});
+		}
+	}]);
+
+	return DialogBox;
+}(_react2.Component), _class.DisplayPopup = _DisplayPopup2.default, _class.PropTypes = {
+	isOverlay: _propTypes2.default.bool,
+	isOverlayClickClose: _propTypes2.default.bool,
+	onDismiss: _propTypes2.default.func,
+	style: _propTypes2.default.shape(_styleShape2.default)
+}, _class.defaultProps = {
+	isOverlay: true,
+	isOverlayClickClose: true
+}, _temp));
+
+exports.default = DialogBox;
+;
+}, 695, null, "react-native-dialogbox/lib/index.js");
+__d(/* react-native-dialogbox/lib/PopContent.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react2 = require(35     ); // 35 = react
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require(174                                       ); // 174 = ./../../react-transform-hmr/lib/index.js
+
+var _index2 = _interopRequireDefault(_index);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class,
+    _temp,
+    _jsxFileName = 'c:\\a\\RN\\Otero\\node_modules\\react-native-dialogbox\\lib\\PopContent.js';
+
+var _propTypes = require(126         ); // 126 = prop-types
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactNative = require(12            ); // 12 = react-native
+
+var _styleShape = require(697            ); // 697 = ./style-shape
+
+var _styleShape2 = _interopRequireDefault(_styleShape);
+
+var _makeStylesheet = require(698                ); // 698 = ./make-stylesheet
+
+var _makeStylesheet2 = _interopRequireDefault(_makeStylesheet);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+	PopContent: {
+		displayName: 'PopContent'
+	}
+};
+
+var _reactTransformHmrLibIndexJs2 = (0, _index2.default)({
+	filename: 'c:/a/RN/Otero/node_modules/react-native-dialogbox/lib/PopContent.js',
+	components: _components,
+	locals: [module],
+	imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+	return function (Component) {
+		return _reactTransformHmrLibIndexJs2(Component, id);
+	};
+}
+
+var PopContent = _wrapComponent('PopContent')((_temp = _class = function (_Component) {
+	_inherits(PopContent, _Component);
+
+	function PopContent() {
+		_classCallCheck(this, PopContent);
+
+		return _possibleConstructorReturn(this, (PopContent.__proto__ || Object.getPrototypeOf(PopContent)).apply(this, arguments));
+	}
+
+	_createClass(PopContent, [{
+		key: 'render',
+		value: function render() {
+			var _props = this.props,
+			    title = _props.title,
+			    content = _props.content,
+			    btns = _props.btns,
+			    style = _props.style;
+
+			var styleSheet = (0, _makeStylesheet2.default)(style, _reactNative.Dimensions, _reactNative.Platform, _reactNative.PixelRatio)();
+			var buttonFlowAuto = this.props.buttonFlow.toLowerCase() === 'auto';
+			var buttonFlowColumn = buttonFlowAuto ? btns.length !== 1 ? true : false : this.props.buttonFlow.toLowerCase() === 'column';
+			var btnNumber = btns.length;
+			var btnContent = [];
+			Array.prototype.forEach.call(btns, function (btn, index) {
+				btnContent.push(_react3.default.createElement(
+					_reactNative.TouchableOpacity,
+					{ style: buttonFlowColumn ? styleSheet.btnTextBoxMulti : styleSheet.btnTextBox, onPress: btn.callback, key: 'btnTextBox' + index, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 43
+						}
+					},
+					_react3.default.createElement(
+						_reactNative.Text,
+						{ style: [buttonFlowColumn ? styleSheet.btnTextTextBoxMulti : styleSheet.btnText, btn.style], __source: {
+								fileName: _jsxFileName,
+								lineNumber: 44
+							}
+						},
+						btn.text
+					)
+				));
+				index !== btnNumber - 1 && btnContent.push(_react3.default.createElement(_reactNative.View, { style: buttonFlowColumn ? styleSheet.btnLineHorizontal : styleSheet.btnLineVertical, key: 'btnLine' + index, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 47
+					}
+				}));
+			});
+
+			return _react3.default.createElement(
+				_reactNative.View,
+				{ style: styleSheet.tipBox, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 51
+					}
+				},
+				title && _react3.default.createElement(
+					_reactNative.View,
+					{ style: styleSheet.tipTitleBox, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 52
+						}
+					},
+					_react3.default.createElement(
+						_reactNative.Text,
+						{ style: styleSheet.tipTitle, __source: {
+								fileName: _jsxFileName,
+								lineNumber: 52
+							}
+						},
+						title
+					)
+				),
+				_react3.default.createElement(
+					_reactNative.View,
+					{ style: styleSheet.tipContentBox, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 53
+						}
+					},
+					function () {
+						var tipContent = [];
+						if (content instanceof Array) {
+							content.forEach(function (item, index, arr) {
+								if (index > 9) {
+									return;
+								}
+								item && (tipContent[index] = _react3.default.createElement(
+									_reactNative.Text,
+									{ style: styleSheet.tipContent, key: 'tipContent' + index, __source: {
+											fileName: _jsxFileName,
+											lineNumber: 61
+										}
+									},
+									item
+								));
+							});
+						} else {
+							content && (tipContent[0] = _react3.default.createElement(
+								_reactNative.Text,
+								{ style: styleSheet.tipContent, key: 'tipContent', __source: {
+										fileName: _jsxFileName,
+										lineNumber: 64
+									}
+								},
+								content
+							));
+						}
+						return tipContent;
+					}()
+				),
+				_react3.default.createElement(_reactNative.View, { style: styleSheet.line, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 69
+					}
+				}),
+				_react3.default.createElement(
+					_reactNative.View,
+					{ style: buttonFlowColumn ? styleSheet.btnBoxMulti : styleSheet.btnBox, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 70
+						}
+					},
+					btnContent
+				)
+			);
+		}
+	}]);
+
+	return PopContent;
+}(_react2.Component), _class.propTypes = {
+	title: _propTypes2.default.string,
+	content: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number, _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number]))]),
+	btns: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+		text: _propTypes2.default.string.isRequired,
+		style: _propTypes2.default.object,
+		callback: _propTypes2.default.func
+	})),
+	style: _propTypes2.default.shape(_styleShape2.default),
+	buttonFlow: _propTypes2.default.oneOf(['auto', 'column', 'row'])
+}, _class.defaultProps = {
+	buttonFlow: 'auto',
+	style: {},
+	content: ''
+}, _temp));
+
+exports.default = PopContent;
+;
+}, 696, null, "react-native-dialogbox/lib/PopContent.js");
+__d(/* react-native-dialogbox/lib/style-shape.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = require(35     ); // 35 = react
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require(126         ); // 126 = prop-types
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+	popupContainer: _propTypes2.default.object,
+	overlay: _propTypes2.default.object,
+	tipBoxView: _propTypes2.default.object,
+	tipBox: _propTypes2.default.object,
+	tipTitleBox: _propTypes2.default.object,
+	tipTitle: _propTypes2.default.object,
+	tipContentBox: _propTypes2.default.object,
+	tipContent: _propTypes2.default.object,
+	line: _propTypes2.default.object,
+	btnBox: _propTypes2.default.object,
+	btnBoxMulti: _propTypes2.default.object,
+	btnTextBox: _propTypes2.default.object,
+	btnTextBoxMulti: _propTypes2.default.object,
+	btnLineVertical: _propTypes2.default.object,
+	btnLineHorizontal: _propTypes2.default.object,
+	btnText: _propTypes2.default.object,
+	btnTextTextBoxMulti: _propTypes2.default.object,
+	hidden: _propTypes2.default.object
+};
+}, 697, null, "react-native-dialogbox/lib/style-shape.js");
+__d(/* react-native-dialogbox/lib/make-stylesheet.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = require(35     ); // 35 = react
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactNative = require(12            ); // 12 = react-native
+
+var _styles = require(699       ); // 699 = ./styles
+
+var _styles2 = _interopRequireDefault(_styles);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+exports.default = function (style, dimensions, platform, pixelRatio) {
+	var defaultStyle = (0, _styles2.default)(dimensions, platform, pixelRatio);
+	var override = style || {};
+	var newStyle = defaultStyle;
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	for (var _iterator = Object.keys(override), _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[typeof Symbol === 'function' ? Symbol.iterator : '@@iterator']();;) {
+		var _ref;
+
+		if (_isArray) {
+			if (_i >= _iterator.length) break;
+			_ref = _iterator[_i++];
+		} else {
+			_i = _iterator.next();
+			if (_i.done) break;
+			_ref = _i.value;
+		}
+
+		var name = _ref;
+
+		if (hasOwnProperty.call(defaultStyle, name) && hasOwnProperty.call(override, name)) {
+			newStyle = _extends({}, newStyle, _defineProperty({}, name, override[name]));
+		}
+	}
+	var styleSheet = _reactNative.StyleSheet.create(newStyle);
+	return function (name) {
+		if (name && typeof name === 'string' && name.trim().length > 0) {
+			return styleSheet[name];
+		}
+		return styleSheet;
+	};
+};
+}, 698, null, "react-native-dialogbox/lib/make-stylesheet.js");
+__d(/* react-native-dialogbox/lib/styles.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = function (dimensions, platform, pixelRatio) {
+	var screen = _extends({
+		pixel: 1 / pixelRatio.get()
+	}, dimensions.get('window'), {
+		isIOS: platform.OS === 'ios'
+	});
+
+	return {
+		popupContainer: {
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			justifyContent: 'center',
+			alignItems: 'center',
+			width: screen.width,
+			height: screen.height,
+			overflow: 'hidden',
+			backgroundColor: 'rgba(00, 00, 00, 0)'
+		},
+		overlay: {
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			width: screen.width,
+			height: screen.height,
+			backgroundColor: '#000',
+			opacity: .5
+		},
+		tipBoxView: {
+			backgroundColor: '#fff',
+			justifyContent: 'center',
+			alignItems: 'center',
+			width: screen.width - 50,
+			borderRadius: 12,
+			overflow: 'hidden'
+		},
+		tipBox: {
+			paddingTop: 15,
+			flexDirection: 'column',
+			justifyContent: 'center',
+			alignItems: 'center'
+		},
+		tipTitleBox: {
+			height: 30,
+			width: screen.width - 50,
+			justifyContent: 'center',
+			alignItems: 'center'
+		},
+		tipTitle: {
+			fontSize: screen.isIOS ? 20 : 19,
+			fontWeight: '500',
+			textAlign: 'center',
+			color: 'black'
+		},
+		tipContentBox: {
+			flexDirection: 'column',
+			marginBottom: 15,
+			marginTop: 10,
+			justifyContent: 'center',
+			alignItems: 'center'
+		},
+		tipContent: {
+			fontSize: 16,
+			margin: 5,
+			marginTop: screen.isIOS ? 3 : 5,
+			marginBottom: screen.isIOS ? 7 : 5,
+			textAlign: 'center',
+			color: 'black'
+		},
+		line: {
+			height: screen.pixel,
+			width: screen.width - 50,
+			backgroundColor: '#ddd'
+		},
+		btnBox: {
+			width: screen.width - 50,
+			flexDirection: 'row',
+			justifyContent: 'center',
+			alignItems: 'center',
+			height: 50
+		},
+		btnBoxMulti: {
+			width: screen.width - 50,
+			flexDirection: 'column',
+			justifyContent: 'center',
+			alignItems: 'center',
+			height: 'auto'
+		},
+		btnTextBox: {
+			flexGrow: 1,
+			height: 50,
+			justifyContent: 'center',
+			alignItems: 'center'
+		},
+		btnTextBoxMulti: {
+			flexGrow: 1,
+			flexDirection: 'row',
+			height: 50,
+			justifyContent: 'center',
+			alignItems: 'center'
+		},
+		btnLineVertical: {
+			height: 50,
+			width: screen.pixel,
+			backgroundColor: '#ddd'
+		},
+		btnLineHorizontal: {
+			height: screen.pixel,
+			width: '100%',
+			backgroundColor: '#ddd'
+		},
+		btnText: {
+			textAlign: 'center',
+			fontSize: 16,
+			color: '#149be0'
+		},
+		btnTextTextBoxMulti: {
+			flex: 1,
+			textAlign: 'center',
+			fontSize: 16,
+			color: '#149be0'
+		},
+		hidden: {
+			position: 'absolute',
+			height: 0,
+			width: 0,
+			top: 0,
+			left: 0
+		}
+	};
+};
+}, 699, null, "react-native-dialogbox/lib/styles.js");
+__d(/* react-native-dialogbox/lib/DisplayPopup.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react2 = require(35     ); // 35 = react
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require(174                                       ); // 174 = ./../../react-transform-hmr/lib/index.js
+
+var _index2 = _interopRequireDefault(_index);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class,
+    _temp,
+    _jsxFileName = 'c:\\a\\RN\\Otero\\node_modules\\react-native-dialogbox\\lib\\DisplayPopup.js';
+
+var _propTypes = require(126         ); // 126 = prop-types
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactNative = require(12            ); // 12 = react-native
+
+var _PopContent = require(696           ); // 696 = ./PopContent
+
+var _PopContent2 = _interopRequireDefault(_PopContent);
+
+var _styleShape = require(697            ); // 697 = ./style-shape
+
+var _styleShape2 = _interopRequireDefault(_styleShape);
+
+var _makeStylesheet = require(698                ); // 698 = ./make-stylesheet
+
+var _makeStylesheet2 = _interopRequireDefault(_makeStylesheet);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+	DisplayPopup: {
+		displayName: 'DisplayPopup'
+	}
+};
+
+var _reactTransformHmrLibIndexJs2 = (0, _index2.default)({
+	filename: 'c:/a/RN/Otero/node_modules/react-native-dialogbox/lib/DisplayPopup.js',
+	components: _components,
+	locals: [module],
+	imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+	return function (Component) {
+		return _reactTransformHmrLibIndexJs2(Component, id);
+	};
+}
+
+var DisplayPopup = _wrapComponent('DisplayPopup')((_temp = _class = function (_Component) {
+	_inherits(DisplayPopup, _Component);
+
+	function DisplayPopup(props, context) {
+		_classCallCheck(this, DisplayPopup);
+
+		var _this = _possibleConstructorReturn(this, (DisplayPopup.__proto__ || Object.getPrototypeOf(DisplayPopup)).call(this, props, context));
+
+		_this.close = function () {
+			_this.setState({
+				isVisible: false
+			});
+		};
+
+		_this._onOverlayPress = function () {
+			var _this$props = _this.props,
+			    isOverlayClickClose = _this$props.isOverlayClickClose,
+			    onDismiss = _this$props.onDismiss;
+
+			if (isOverlayClickClose) {
+				_this.close();
+				if (onDismiss && typeof onDismiss === 'function') {
+					onDismiss();
+				}
+			}
+		};
+
+		_this._renderOverlay = function (styles) {
+			var isOverlay = _this.props.isOverlay;
+
+			if (isOverlay) {
+				return _react3.default.createElement(
+					_reactNative.TouchableWithoutFeedback,
+					{ onPress: _this._onOverlayPress, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 72
+						}
+					},
+					_react3.default.createElement(_reactNative.View, { style: styles.overlay, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 73
+						}
+					})
+				);
+			}
+		};
+
+		_this.state = {
+			isVisible: true
+		};
+
+		return _this;
+	}
+
+	_createClass(DisplayPopup, [{
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var isVisible = this.state.isVisible;
+			var _props = this.props,
+			    title = _props.title,
+			    content = _props.content,
+			    btns = _props.btns,
+			    style = _props.style,
+			    buttonFlow = _props.buttonFlow;
+
+			var styles = (0, _makeStylesheet2.default)(style, _reactNative.Dimensions, _reactNative.Platform, _reactNative.PixelRatio)();
+			var buttons = btns.map(function (item) {
+				return {
+					text: item.text,
+					style: item.style || {},
+					callback: function callback() {
+						typeof item.callback === 'function' && item.callback();
+						_this2.close();
+					}
+				};
+			});
+			if (isVisible) {
+				return _react3.default.createElement(
+					_reactNative.View,
+					{ style: styles.popupContainer, __source: {
+							fileName: _jsxFileName,
+							lineNumber: 95
+						}
+					},
+					this._renderOverlay(style),
+					_react3.default.createElement(
+						_reactNative.View,
+						{ style: styles.tipBoxView, __source: {
+								fileName: _jsxFileName,
+								lineNumber: 97
+							}
+						},
+						_react3.default.createElement(_PopContent2.default, { title: title, content: content, btns: buttons, style: this.props.style, buttonFlow: buttonFlow, __source: {
+								fileName: _jsxFileName,
+								lineNumber: 98
+							}
+						})
+					)
+				);
+			}
+			return _react3.default.createElement(_reactNative.View, { style: styles.hidden, __source: {
+					fileName: _jsxFileName,
+					lineNumber: 103
+				}
+			});
+		}
+	}]);
+
+	return DisplayPopup;
+}(_react2.Component), _class.PropTypes = {
+	isOverlay: _propTypes2.default.bool,
+	isOverlayClickClose: _propTypes2.default.bool,
+	onDismiss: _propTypes2.default.func,
+	style: _propTypes2.default.shape(_styleShape2.default),
+	content: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number, _propTypes2.default.arrayOf(_propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.number]))]),
+	title: _propTypes2.default.string,
+	btns: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+		text: _propTypes2.default.string.isRequired,
+		style: _propTypes2.default.object,
+		callback: _propTypes2.default.func
+	})),
+	buttonFlow: _propTypes2.default.oneOf(['auto', 'column', 'row'])
+}, _class.defaultProps = {
+	isOverlay: true,
+	isOverlayClickClose: true,
+	buttonFlow: 'auto',
+	btns: [{
+		text: 'ok',
+		callback: function callback() {}
+	}],
+	style: {}
+}, _temp));
+
+exports.default = DisplayPopup;
+;
+}, 700, null, "react-native-dialogbox/lib/DisplayPopup.js");
 __d(/* Otero/lib/Api.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = require(696    ); // 696 = axios
+var _axios = require(702    ); // 702 = axios
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -88597,22 +89562,68 @@ var Api = function () {
                 }
             }, null, this, [[0, 8]]);
         }
+    }, {
+        key: 'postNoticia',
+        value: function postNoticia(self, Noticia) {
+            var data, noticia, noticias;
+            return regeneratorRuntime.async(function postNoticia$(_context2) {
+                while (1) {
+                    switch (_context2.prev = _context2.next) {
+                        case 0:
+                            _context2.prev = 0;
+
+
+                            self.setState({ Net: true, NumNoticias: 0, Noticias: [] });
+
+                            data = new FormData();
+
+
+                            data.append('Fecha', Noticia.fecha);
+                            data.append('Titulo', Noticia.titulo);
+                            data.append('Contenido', Noticia.noticia);
+
+                            _context2.next = 8;
+                            return regeneratorRuntime.awrap(_axios2.default.post(this.postNoticiasUri, data));
+
+                        case 8:
+                            noticia = _context2.sent;
+                            _context2.next = 11;
+                            return regeneratorRuntime.awrap(_axios2.default.get(this.getNoticiasUri));
+
+                        case 11:
+                            noticias = _context2.sent;
+                            return _context2.abrupt('return', noticias.data);
+
+                        case 15:
+                            _context2.prev = 15;
+                            _context2.t0 = _context2['catch'](0);
+
+                            alert('error: ' + _context2.t0);
+
+                        case 18:
+                        case 'end':
+                            return _context2.stop();
+                    }
+                }
+            }, null, this, [[0, 15]]);
+        }
     }]);
 
     return Api;
 }();
 
 Api.getNoticiasUri = 'http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/LoadNoticiasAndroid.ashx';
+Api.postNoticiasUri = 'http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/AltaNoticia.ashx';
 exports.default = Api;
-}, 695, null, "Otero/lib/Api.js");
-__d(/* axios/index.js */function(global, require, module, exports) {module.exports = require(697          ); // 697 = ./lib/axios
-}, 696, null, "axios/index.js");
+}, 701, null, "Otero/lib/Api.js");
+__d(/* axios/index.js */function(global, require, module, exports) {module.exports = require(703          ); // 703 = ./lib/axios
+}, 702, null, "axios/index.js");
 __d(/* axios/lib/axios.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698      ); // 698 = ./utils
-var bind = require(699             ); // 699 = ./helpers/bind
-var Axios = require(701           ); // 701 = ./core/Axios
-var defaults = require(702         ); // 702 = ./defaults
+var utils = require(704      ); // 704 = ./utils
+var bind = require(705             ); // 705 = ./helpers/bind
+var Axios = require(707           ); // 707 = ./core/Axios
+var defaults = require(708         ); // 708 = ./defaults
 
 function createInstance(defaultConfig) {
   var context = new Axios(defaultConfig);
@@ -88633,23 +89644,23 @@ axios.create = function create(instanceConfig) {
   return createInstance(utils.merge(defaults, instanceConfig));
 };
 
-axios.Cancel = require(719              ); // 719 = ./cancel/Cancel
-axios.CancelToken = require(720                   ); // 720 = ./cancel/CancelToken
-axios.isCancel = require(716                ); // 716 = ./cancel/isCancel
+axios.Cancel = require(725              ); // 725 = ./cancel/Cancel
+axios.CancelToken = require(726                   ); // 726 = ./cancel/CancelToken
+axios.isCancel = require(722                ); // 722 = ./cancel/isCancel
 
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = require(721               ); // 721 = ./helpers/spread
+axios.spread = require(727               ); // 727 = ./helpers/spread
 
 module.exports = axios;
 
 module.exports.default = axios;
-}, 697, null, "axios/lib/axios.js");
+}, 703, null, "axios/lib/axios.js");
 __d(/* axios/lib/utils.js */function(global, require, module, exports) {'use strict';
 
-var bind = require(699             ); // 699 = ./helpers/bind
-var isBuffer = require(700        ); // 700 = is-buffer
+var bind = require(705             ); // 705 = ./helpers/bind
+var isBuffer = require(706        ); // 706 = is-buffer
 
 var toString = Object.prototype.toString;
 
@@ -88797,7 +89808,7 @@ module.exports = {
   extend: extend,
   trim: trim
 };
-}, 698, null, "axios/lib/utils.js");
+}, 704, null, "axios/lib/utils.js");
 __d(/* axios/lib/helpers/bind.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -88809,7 +89820,7 @@ module.exports = function bind(fn, thisArg) {
     return fn.apply(thisArg, args);
   };
 };
-}, 699, null, "axios/lib/helpers/bind.js");
+}, 705, null, "axios/lib/helpers/bind.js");
 __d(/* is-buffer/index.js */function(global, require, module, exports) {/*!
  * Determine if an object is a Buffer
  *
@@ -88828,13 +89839,13 @@ function isBuffer(obj) {
 function isSlowBuffer(obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0));
 }
-}, 700, null, "is-buffer/index.js");
+}, 706, null, "is-buffer/index.js");
 __d(/* axios/lib/core/Axios.js */function(global, require, module, exports) {'use strict';
 
-var defaults = require(702            ); // 702 = ./../defaults
-var utils = require(698         ); // 698 = ./../utils
-var InterceptorManager = require(713                   ); // 713 = ./InterceptorManager
-var dispatchRequest = require(714                ); // 714 = ./dispatchRequest
+var defaults = require(708            ); // 708 = ./../defaults
+var utils = require(704         ); // 704 = ./../utils
+var InterceptorManager = require(719                   ); // 719 = ./InterceptorManager
+var dispatchRequest = require(720                ); // 720 = ./dispatchRequest
 
 function Axios(instanceConfig) {
   this.defaults = instanceConfig;
@@ -88892,11 +89903,11 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = Axios;
-}, 701, null, "axios/lib/core/Axios.js");
+}, 707, null, "axios/lib/core/Axios.js");
 __d(/* axios/lib/defaults.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698      ); // 698 = ./utils
-var normalizeHeaderName = require(703                            ); // 703 = ./helpers/normalizeHeaderName
+var utils = require(704      ); // 704 = ./utils
+var normalizeHeaderName = require(709                            ); // 709 = ./helpers/normalizeHeaderName
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -88911,9 +89922,9 @@ function setContentTypeIfUnset(headers, value) {
 function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
-    adapter = require(704             ); // 704 = ./adapters/xhr
+    adapter = require(710             ); // 710 = ./adapters/xhr
   } else if (typeof process !== 'undefined') {
-    adapter = require(704              ); // 704 = ./adapters/http
+    adapter = require(710              ); // 710 = ./adapters/http
   }
   return adapter;
 }
@@ -88976,10 +89987,10 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 });
 
 module.exports = defaults;
-}, 702, null, "axios/lib/defaults.js");
+}, 708, null, "axios/lib/defaults.js");
 __d(/* axios/lib/helpers/normalizeHeaderName.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698       ); // 698 = ../utils
+var utils = require(704       ); // 704 = ../utils
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -88989,16 +90000,16 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
     }
   });
 };
-}, 703, null, "axios/lib/helpers/normalizeHeaderName.js");
+}, 709, null, "axios/lib/helpers/normalizeHeaderName.js");
 __d(/* axios/lib/adapters/xhr.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698         ); // 698 = ./../utils
-var settle = require(705               ); // 705 = ./../core/settle
-var buildURL = require(708                    ); // 708 = ./../helpers/buildURL
-var parseHeaders = require(709                        ); // 709 = ./../helpers/parseHeaders
-var isURLSameOrigin = require(710                           ); // 710 = ./../helpers/isURLSameOrigin
-var createError = require(706                  ); // 706 = ../core/createError
-var btoa = typeof window !== 'undefined' && window.btoa && window.btoa.bind(window) || require(711                ); // 711 = ./../helpers/btoa
+var utils = require(704         ); // 704 = ./../utils
+var settle = require(711               ); // 711 = ./../core/settle
+var buildURL = require(714                    ); // 714 = ./../helpers/buildURL
+var parseHeaders = require(715                        ); // 715 = ./../helpers/parseHeaders
+var isURLSameOrigin = require(716                           ); // 716 = ./../helpers/isURLSameOrigin
+var createError = require(712                  ); // 712 = ../core/createError
+var btoa = typeof window !== 'undefined' && window.btoa && window.btoa.bind(window) || require(717                ); // 717 = ./../helpers/btoa
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -89070,7 +90081,7 @@ module.exports = function xhrAdapter(config) {
     };
 
     if (utils.isStandardBrowserEnv()) {
-      var cookies = require(712                   ); // 712 = ./../helpers/cookies
+      var cookies = require(718                   ); // 718 = ./../helpers/cookies
 
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ? cookies.read(config.xsrfCookieName) : undefined;
 
@@ -89131,10 +90142,10 @@ module.exports = function xhrAdapter(config) {
     request.send(requestData);
   });
 };
-}, 704, null, "axios/lib/adapters/xhr.js");
+}, 710, null, "axios/lib/adapters/xhr.js");
 __d(/* axios/lib/core/settle.js */function(global, require, module, exports) {'use strict';
 
-var createError = require(706            ); // 706 = ./createError
+var createError = require(712            ); // 712 = ./createError
 
 module.exports = function settle(resolve, reject, response) {
   var validateStatus = response.config.validateStatus;
@@ -89145,16 +90156,16 @@ module.exports = function settle(resolve, reject, response) {
     reject(createError('Request failed with status code ' + response.status, response.config, null, response.request, response));
   }
 };
-}, 705, null, "axios/lib/core/settle.js");
+}, 711, null, "axios/lib/core/settle.js");
 __d(/* axios/lib/core/createError.js */function(global, require, module, exports) {'use strict';
 
-var enhanceError = require(707             ); // 707 = ./enhanceError
+var enhanceError = require(713             ); // 713 = ./enhanceError
 
 module.exports = function createError(message, config, code, request, response) {
   var error = new Error(message);
   return enhanceError(error, config, code, request, response);
 };
-}, 706, null, "axios/lib/core/createError.js");
+}, 712, null, "axios/lib/core/createError.js");
 __d(/* axios/lib/core/enhanceError.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function enhanceError(error, config, code, request, response) {
@@ -89166,10 +90177,10 @@ module.exports = function enhanceError(error, config, code, request, response) {
   error.response = response;
   return error;
 };
-}, 707, null, "axios/lib/core/enhanceError.js");
+}, 713, null, "axios/lib/core/enhanceError.js");
 __d(/* axios/lib/helpers/buildURL.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698         ); // 698 = ./../utils
+var utils = require(704         ); // 704 = ./../utils
 
 function encode(val) {
   return encodeURIComponent(val).replace(/%40/gi, '@').replace(/%3A/gi, ':').replace(/%24/g, '$').replace(/%2C/gi, ',').replace(/%20/g, '+').replace(/%5B/gi, '[').replace(/%5D/gi, ']');
@@ -89220,10 +90231,10 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
   return url;
 };
-}, 708, null, "axios/lib/helpers/buildURL.js");
+}, 714, null, "axios/lib/helpers/buildURL.js");
 __d(/* axios/lib/helpers/parseHeaders.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698         ); // 698 = ./../utils
+var utils = require(704         ); // 704 = ./../utils
 
 var ignoreDuplicateOf = ['age', 'authorization', 'content-length', 'content-type', 'etag', 'expires', 'from', 'host', 'if-modified-since', 'if-unmodified-since', 'last-modified', 'location', 'max-forwards', 'proxy-authorization', 'referer', 'retry-after', 'user-agent'];
 
@@ -89256,10 +90267,10 @@ module.exports = function parseHeaders(headers) {
 
   return parsed;
 };
-}, 709, null, "axios/lib/helpers/parseHeaders.js");
+}, 715, null, "axios/lib/helpers/parseHeaders.js");
 __d(/* axios/lib/helpers/isURLSameOrigin.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698         ); // 698 = ./../utils
+var utils = require(704         ); // 704 = ./../utils
 
 module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
   var msie = /(msie|trident)/i.test(navigator.userAgent);
@@ -89299,7 +90310,7 @@ module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
     return true;
   };
 }();
-}, 710, null, "axios/lib/helpers/isURLSameOrigin.js");
+}, 716, null, "axios/lib/helpers/isURLSameOrigin.js");
 __d(/* axios/lib/helpers/btoa.js */function(global, require, module, exports) {'use strict';
 
 var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
@@ -89325,10 +90336,10 @@ function btoa(input) {
 }
 
 module.exports = btoa;
-}, 711, null, "axios/lib/helpers/btoa.js");
+}, 717, null, "axios/lib/helpers/btoa.js");
 __d(/* axios/lib/helpers/cookies.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698         ); // 698 = ./../utils
+var utils = require(704         ); // 704 = ./../utils
 
 module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
   return {
@@ -89373,10 +90384,10 @@ module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
     remove: function remove() {}
   };
 }();
-}, 712, null, "axios/lib/helpers/cookies.js");
+}, 718, null, "axios/lib/helpers/cookies.js");
 __d(/* axios/lib/core/InterceptorManager.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698         ); // 698 = ./../utils
+var utils = require(704         ); // 704 = ./../utils
 
 function InterceptorManager() {
   this.handlers = [];
@@ -89405,15 +90416,15 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 };
 
 module.exports = InterceptorManager;
-}, 713, null, "axios/lib/core/InterceptorManager.js");
+}, 719, null, "axios/lib/core/InterceptorManager.js");
 __d(/* axios/lib/core/dispatchRequest.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698         ); // 698 = ./../utils
-var transformData = require(715              ); // 715 = ./transformData
-var isCancel = require(716                 ); // 716 = ../cancel/isCancel
-var defaults = require(702          ); // 702 = ../defaults
-var isAbsoluteURL = require(717                         ); // 717 = ./../helpers/isAbsoluteURL
-var combineURLs = require(718                       ); // 718 = ./../helpers/combineURLs
+var utils = require(704         ); // 704 = ./../utils
+var transformData = require(721              ); // 721 = ./transformData
+var isCancel = require(722                 ); // 722 = ../cancel/isCancel
+var defaults = require(708          ); // 708 = ../defaults
+var isAbsoluteURL = require(723                         ); // 723 = ./../helpers/isAbsoluteURL
+var combineURLs = require(724                       ); // 724 = ./../helpers/combineURLs
 
 function throwIfCancellationRequested(config) {
   if (config.cancelToken) {
@@ -89458,10 +90469,10 @@ module.exports = function dispatchRequest(config) {
     return Promise.reject(reason);
   });
 };
-}, 714, null, "axios/lib/core/dispatchRequest.js");
+}, 720, null, "axios/lib/core/dispatchRequest.js");
 __d(/* axios/lib/core/transformData.js */function(global, require, module, exports) {'use strict';
 
-var utils = require(698         ); // 698 = ./../utils
+var utils = require(704         ); // 704 = ./../utils
 
 module.exports = function transformData(data, headers, fns) {
   utils.forEach(fns, function transform(fn) {
@@ -89470,26 +90481,26 @@ module.exports = function transformData(data, headers, fns) {
 
   return data;
 };
-}, 715, null, "axios/lib/core/transformData.js");
+}, 721, null, "axios/lib/core/transformData.js");
 __d(/* axios/lib/cancel/isCancel.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
-}, 716, null, "axios/lib/cancel/isCancel.js");
+}, 722, null, "axios/lib/cancel/isCancel.js");
 __d(/* axios/lib/helpers/isAbsoluteURL.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function isAbsoluteURL(url) {
   return (/^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
   );
 };
-}, 717, null, "axios/lib/helpers/isAbsoluteURL.js");
+}, 723, null, "axios/lib/helpers/isAbsoluteURL.js");
 __d(/* axios/lib/helpers/combineURLs.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function combineURLs(baseURL, relativeURL) {
   return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL;
 };
-}, 718, null, "axios/lib/helpers/combineURLs.js");
+}, 724, null, "axios/lib/helpers/combineURLs.js");
 __d(/* axios/lib/cancel/Cancel.js */function(global, require, module, exports) {'use strict';
 
 function Cancel(message) {
@@ -89503,10 +90514,10 @@ Cancel.prototype.toString = function toString() {
 Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
-}, 719, null, "axios/lib/cancel/Cancel.js");
+}, 725, null, "axios/lib/cancel/Cancel.js");
 __d(/* axios/lib/cancel/CancelToken.js */function(global, require, module, exports) {'use strict';
 
-var Cancel = require(719       ); // 719 = ./Cancel
+var Cancel = require(725       ); // 725 = ./Cancel
 
 function CancelToken(executor) {
   if (typeof executor !== 'function') {
@@ -89547,7 +90558,7 @@ CancelToken.source = function source() {
 };
 
 module.exports = CancelToken;
-}, 720, null, "axios/lib/cancel/CancelToken.js");
+}, 726, null, "axios/lib/cancel/CancelToken.js");
 __d(/* axios/lib/helpers/spread.js */function(global, require, module, exports) {'use strict';
 
 module.exports = function spread(callback) {
@@ -89555,7 +90566,7 @@ module.exports = function spread(callback) {
     return callback.apply(null, arr);
   };
 };
-}, 721, null, "axios/lib/helpers/spread.js");
+}, 727, null, "axios/lib/helpers/spread.js");
 __d(/* Otero/components/ListaNoticias.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -89576,7 +90587,7 @@ var _reactNative = require(12            ); // 12 = react-native
 
 var _nativeBase = require(487          ); // 487 = native-base
 
-var _Noticia = require(723        ); // 723 = ./Noticia
+var _Noticia = require(729        ); // 729 = ./Noticia
 
 var _Noticia2 = _interopRequireDefault(_Noticia);
 
@@ -89624,7 +90635,7 @@ var ListaNoticias = _wrapComponent('ListaNoticias')(function (_Component) {
       var Noticias = this.props.noticias;
 
       var noticias = Noticias.map(function (noticia, i) {
-        return _react3.default.createElement(_Noticia2.default, { key: i, fecha: noticia.Fecha, idNoticia: noticia.idNoticia, titulo: noticia.Titulo, onPress_Titulo: _this2.props.onPress_Titulo, __source: {
+        return _react3.default.createElement(_Noticia2.default, { key: i, fecha: noticia.Fecha, idNoticia: noticia.idNoticia, titulo: noticia.Titulo, onPress_Titulo: _this2.props.onPress_Titulo, onPressDeleteNoticia: _this2.props.onPressDeleteNoticia, __source: {
             fileName: _jsxFileName,
             lineNumber: 25
           }
@@ -89654,7 +90665,7 @@ var styles = _reactNative.StyleSheet.create({
     backgroundColor: 'white'
   }
 });
-}, 722, null, "Otero/components/ListaNoticias.js");
+}, 728, null, "Otero/components/ListaNoticias.js");
 __d(/* Otero/components/Noticia.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -89675,7 +90686,7 @@ var _reactNative = require(12            ); // 12 = react-native
 
 var _nativeBase = require(487          ); // 487 = native-base
 
-var _reactNativeSwipeable = require(724                     ); // 724 = react-native-swipeable
+var _reactNativeSwipeable = require(730                     ); // 730 = react-native-swipeable
 
 var _reactNativeSwipeable2 = _interopRequireDefault(_reactNativeSwipeable);
 
@@ -89720,29 +90731,38 @@ var Noticia = _wrapComponent('Noticia')(function (_Component) {
       _reactNative.View,
       { style: styles.rightButtonsDelete, __source: {
           fileName: _jsxFileName,
-          lineNumber: 23
+          lineNumber: 29
         }
       },
       _react3.default.createElement(
         _nativeBase.Button,
         { danger: true, style: styles.rightButtonsDeleteButtom, onPress: function onPress() {
-            _this.swipeable.recenter();
+            return _this._onPressDelete(_this);
           }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 24
+            lineNumber: 30
           }
         },
         _react3.default.createElement(_nativeBase.Icon, { name: 'trash', style: styles.rightButtonsDeleteIcon, __source: {
             fileName: _jsxFileName,
-            lineNumber: 25
+            lineNumber: 31
           }
         })
       )
     )];
+
+
+    _this._onPressDelete = _this._onPressDelete.bind(_this);
     return _this;
   }
 
   _createClass(Noticia, [{
+    key: '_onPressDelete',
+    value: function _onPressDelete() {
+      this.swipeable.recenter();
+      this.props.onPressDeleteNoticia(this.props.idNoticia);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -89752,32 +90772,32 @@ var Noticia = _wrapComponent('Noticia')(function (_Component) {
 
       return _react3.default.createElement(
         _reactNativeSwipeable2.default,
-        { rightButtons: this.rightButtons, rightButtonWidth: 50, onRef: function onRef(ref) {
-            return _this2.swipeable = ref;
+        { rightButtons: this.rightButtons, rightButtonWidth: 50, ref: function ref(_ref) {
+            return _this2.swipeable = _ref;
           }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 36
+            lineNumber: 42
           }
         },
         _react3.default.createElement(
           _reactNative.View,
           { style: styles.containerNoticia, __source: {
               fileName: _jsxFileName,
-              lineNumber: 37
+              lineNumber: 43
             }
           },
           _react3.default.createElement(
             _reactNative.View,
             { style: styles.containerFecha, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 38
+                lineNumber: 44
               }
             },
             _react3.default.createElement(
               _reactNative.Text,
               { style: styles.diames, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 39
+                  lineNumber: 45
                 }
               },
               diames
@@ -89786,7 +90806,7 @@ var Noticia = _wrapComponent('Noticia')(function (_Component) {
               _reactNative.Text,
               { style: styles.año, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 40
+                  lineNumber: 46
                 }
               },
               año
@@ -89796,7 +90816,7 @@ var Noticia = _wrapComponent('Noticia')(function (_Component) {
             _reactNative.View,
             { style: styles.containerTitulo, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 42
+                lineNumber: 48
               }
             },
             _react3.default.createElement(
@@ -89805,14 +90825,14 @@ var Noticia = _wrapComponent('Noticia')(function (_Component) {
                   return _this2.props.onPress_Titulo(_this2.props.idNoticia);
                 }, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 43
+                  lineNumber: 49
                 }
               },
               _react3.default.createElement(
                 _reactNative.Text,
                 { style: styles.titulo, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 43
+                    lineNumber: 49
                   }
                 },
                 this.props.titulo
@@ -89876,7 +90896,7 @@ var styles = _reactNative.StyleSheet.create({
     fontSize: 30, color: 'white'
   }
 });
-}, 723, null, "Otero/components/Noticia.js");
+}, 729, null, "Otero/components/Noticia.js");
 __d(/* react-native-swipeable/lib/index.js */function(global, require, module, exports) {'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -90555,7 +91575,7 @@ var styles = _reactNative.StyleSheet.create({
     flex: 1
   }
 });
-}, 724, null, "react-native-swipeable/lib/index.js");
+}, 730, null, "react-native-swipeable/lib/index.js");
 __d(/* Otero/components/Cabecera.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -90578,11 +91598,11 @@ var _reactNative = require(12            ); // 12 = react-native
 
 var _nativeBase = require(487          ); // 487 = native-base
 
-var _HeaderSearch = require(734             ); // 734 = ./HeaderSearch
+var _HeaderSearch = require(732             ); // 732 = ./HeaderSearch
 
 var _HeaderSearch2 = _interopRequireDefault(_HeaderSearch);
 
-var _HeaderTitle = require(735            ); // 735 = ./HeaderTitle
+var _HeaderTitle = require(733            ); // 733 = ./HeaderTitle
 
 var _HeaderTitle2 = _interopRequireDefault(_HeaderTitle);
 
@@ -90684,7 +91704,7 @@ var styles = _reactNative.StyleSheet.create({
   }
 
 });
-}, 725, null, "Otero/components/Cabecera.js");
+}, 731, null, "Otero/components/Cabecera.js");
 __d(/* Otero/components/HeaderSearch.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -90816,7 +91836,7 @@ exports.default = HeaderSearch;
 
 
 var styles = _reactNative.StyleSheet.create({});
-}, 734, null, "Otero/components/HeaderSearch.js");
+}, 732, null, "Otero/components/HeaderSearch.js");
 __d(/* Otero/components/HeaderTitle.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -90896,7 +91916,7 @@ var HeaderTitle = _wrapComponent('HeaderTitle')(function (_Component) {
               lineNumber: 23
             }
           },
-          _react3.default.createElement(_reactNative.Image, { style: styles.logoImage, source: require(726                                ), __source: { // 726 = ../resources/OterodelasDueñas.png
+          _react3.default.createElement(_reactNative.Image, { style: styles.logoImage, source: require(734                                ), __source: { // 734 = ../resources/OterodelasDueñas.png
               fileName: _jsxFileName,
               lineNumber: 24
             }
@@ -91011,9 +92031,9 @@ var styles = _reactNative.StyleSheet.create({
     color: 'white'
   }
 });
-}, 735, null, "Otero/components/HeaderTitle.js");
+}, 733, null, "Otero/components/HeaderTitle.js");
 __d(/* Otero/resources/OterodelasDueñas.png */function(global, require, module, exports) {module.exports=require(160                                         ).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/resources","width":310,"height":310,"scales":[1],"hash":"58d872b5f46e94cc6b5c41ef06bde38f","name":"OterodelasDueñas","type":"png"}); // 160 = react-native/Libraries/Image/AssetRegistry
-}, 726, null, "Otero/resources/OterodelasDueñas.png");
+}, 734, null, "Otero/resources/OterodelasDueñas.png");
 __d(/* Otero/components/Sensor.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -91191,7 +92211,7 @@ var styles = _reactNative.StyleSheet.create({
         alignItems: 'center'
     }
 });
-}, 727, null, "Otero/components/Sensor.js");
+}, 735, null, "Otero/components/Sensor.js");
 __d(/* Otero/components/AltaNoticiaModal.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -91216,11 +92236,11 @@ var _reactNativeModalbox = require(694                    ); // 694 = react-nati
 
 var _reactNativeModalbox2 = _interopRequireDefault(_reactNativeModalbox);
 
-var _reactNativeDatepicker = require(729                      ); // 729 = react-native-datepicker
+var _reactNativeDatepicker = require(737                      ); // 737 = react-native-datepicker
 
 var _reactNativeDatepicker2 = _interopRequireDefault(_reactNativeDatepicker);
 
-var _DateP = require(733      ); // 733 = ./DateP
+var _DateP = require(741      ); // 741 = ./DateP
 
 var _DateP2 = _interopRequireDefault(_DateP);
 
@@ -91441,7 +92461,9 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
             },
             _react3.default.createElement(
               _nativeBase.Button,
-              { block: true, primary: true, style: styles.btnNoticia, onPress: this.props.onSaveNoticia, __source: {
+              { block: true, primary: true, style: styles.btnNoticia, onPress: function onPress() {
+                  return _this2.props.onPressSaveNoticia(_this2.state);
+                }, __source: {
                   fileName: _jsxFileName,
                   lineNumber: 81
                 }
@@ -91529,7 +92551,7 @@ var styles = _reactNative.StyleSheet.create({
     marginTop: 3
   }
 });
-}, 728, null, "Otero/components/AltaNoticiaModal.js");
+}, 736, null, "Otero/components/AltaNoticiaModal.js");
 __d(/* react-native-datepicker/index.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -91552,11 +92574,11 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactNative = require(12            ); // 12 = react-native
 
-var _style = require(730      ); // 730 = ./style
+var _style = require(738      ); // 738 = ./style
 
 var _style2 = _interopRequireDefault(_style);
 
-var _moment = require(731     ); // 731 = moment
+var _moment = require(739     ); // 739 = moment
 
 var _moment2 = _interopRequireDefault(_moment);
 
@@ -92172,7 +93194,7 @@ DatePicker.defaultProps = {
   duration: 300,
   confirmBtnText: '确定',
   cancelBtnText: '取消',
-  iconSource: require(732              ), // 732 = ./date_icon.png
+  iconSource: require(740              ), // 740 = ./date_icon.png
   customStyles: {},
 
   showIcon: true,
@@ -92211,7 +93233,7 @@ DatePicker.propTypes = {
 };
 
 exports.default = DatePicker;
-}, 729, null, "react-native-datepicker/index.js");
+}, 737, null, "react-native-datepicker/index.js");
 __d(/* react-native-datepicker/style.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -92292,7 +93314,7 @@ var style = _reactNative.StyleSheet.create({
 });
 
 exports.default = style;
-}, 730, null, "react-native-datepicker/style.js");
+}, 738, null, "react-native-datepicker/style.js");
 __d(/* moment/moment.js */function(global, require, module, exports) {
 
 ;(function (global, factory) {
@@ -96282,9 +97304,9 @@ __d(/* moment/moment.js */function(global, require, module, exports) {
 
     return hooks;
 });
-}, 731, null, "moment/moment.js");
+}, 739, null, "moment/moment.js");
 __d(/* react-native-datepicker/date_icon.png */function(global, require, module, exports) {module.exports=require(160                                         ).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/node_modules/react-native-datepicker","width":64,"height":64,"scales":[1],"hash":"1edd5017f455b09c608e175b1285c06d","name":"date_icon","type":"png"}); // 160 = react-native/Libraries/Image/AssetRegistry
-}, 732, null, "react-native-datepicker/date_icon.png");
+}, 740, null, "react-native-datepicker/date_icon.png");
 __d(/* Otero/components/DateP.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -96309,7 +97331,7 @@ var _reactNativeModalbox = require(694                    ); // 694 = react-nati
 
 var _reactNativeModalbox2 = _interopRequireDefault(_reactNativeModalbox);
 
-var _reactNativeDatepicker = require(729                      ); // 729 = react-native-datepicker
+var _reactNativeDatepicker = require(737                      ); // 737 = react-native-datepicker
 
 var _reactNativeDatepicker2 = _interopRequireDefault(_reactNativeDatepicker);
 
@@ -96392,7 +97414,7 @@ exports.default = DateP;
 
 
 var styles = _reactNative.StyleSheet.create({});
-}, 733, null, "Otero/components/DateP.js");
+}, 741, null, "Otero/components/DateP.js");
 ;require(50);
 ;require(0);
 //# sourceMappingURL=index.map

@@ -8,6 +8,7 @@ import {
 
 import { Container,  Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab } from 'native-base';
 import Modal from 'react-native-modalbox';
+import DialogBox from 'react-native-dialogbox';
 
 import Api from './lib/Api';
 
@@ -37,7 +38,9 @@ export default class App extends Component {
     this._onPress_PowerOff=this._onPress_PowerOff.bind(this);
     this._onChangeText=this._onChangeText.bind(this);
     this._onPress_Titulo=this._onPress_Titulo.bind(this);
-    this._onPressAddNoticia= this._onPressAddNoticia.bind(this);
+    this._onPressAddBoton= this._onPressAddBoton.bind(this);
+    this._onPressDeleteNoticia= this._onPressDeleteNoticia.bind(this);
+    this._onPressSaveNoticia= this._onPressSaveNoticia.bind(this);
     this._onCloseModal= this._onCloseModal.bind(this);
   }  
 
@@ -67,8 +70,26 @@ export default class App extends Component {
   _onPress_PowerOff(){
     alert('Exit...');
   }
-  _onPressAddNoticia(){
+  _onPressAddBoton(){
     this.setState({modalAltaNoticiaOpen: true});
+  }
+  _onPressSaveNoticia(pNoticia){   
+    Api.postNoticia(this, pNoticia).then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false,modalAltaNoticiaOpen: false}));
+  }
+  _onPressDeleteNoticia(pIdNoticia){    
+
+    this.dialogbox.confirm({
+			title: 'Borrar',
+			content:'Borrar Noticia?',
+			ok: {
+				text: 'Si',
+				callback: () => {
+					this.dialogbox.alert('Borrada: ' + pIdNoticia);
+				},
+			},
+			cancel: {text: 'No'}
+		});
+
   }
   _onCloseModal(){
     this.setState({modalAltaNoticiaOpen: false});
@@ -89,8 +110,8 @@ export default class App extends Component {
 
         <Content>   
           {this.state.modalAltaNoticiaOpen?
-            <AltaNoticiaModal open={this.state.modalAltaNoticiaOpen} onClosed={this._onCloseModal}/>:
-            <ListaNoticias noticias={this.state.Noticias} onPress_Titulo={this._onPress_Titulo}/>
+            <AltaNoticiaModal open={this.state.modalAltaNoticiaOpen} onClosed={this._onCloseModal} onPressSaveNoticia={this._onPressSaveNoticia}/>:
+            <ListaNoticias noticias={this.state.Noticias} onPress_Titulo={this._onPress_Titulo} onPressDeleteNoticia={this._onPressDeleteNoticia}/>
           }
         </Content>              
 
@@ -101,7 +122,7 @@ export default class App extends Component {
             containerStyle={{}}
             style={styles.fab}
             position="bottomRight"
-            onPress={this._onPressAddNoticia}>
+            onPress={this._onPressAddBoton}>
             <Icon style={{ fontSize:35 }} name="add" />        
           </Fab>
         }        
@@ -110,6 +131,8 @@ export default class App extends Component {
           <Text style={styles.textFooter}>Nº de Noticias: {this.state.NumNoticias}</Text>
           <Sensor style={{width:75}} ledSize='12' fontSize='15' caption='Net' fontColor={'white'} captionAlign ='center' on value={this.state.Net} />          
         </Footer>
+
+        <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
 
       </Container>
     );
