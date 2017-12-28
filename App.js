@@ -73,8 +73,19 @@ export default class App extends Component {
   _onPressAddBoton(){
     this.setState({modalAltaNoticiaOpen: true});
   }
-  _onPressSaveNoticia(pNoticia){   
-    Api.postNoticia(this, pNoticia).then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false,modalAltaNoticiaOpen: false}));
+  _onPressSaveNoticia(pNoticia){ 
+
+    if(pNoticia.titulo==''){
+      this.dialogbox.alert('Falta Titulo.');
+    }else if (pNoticia.noticia==''){
+      this.dialogbox.alert('Falta Noticia.');
+    }else{
+      Api.postNoticia(this, pNoticia).then(data=>{
+        this.setState({Noticias:data,NumNoticias:data.length,Net:false,modalAltaNoticiaOpen: false});
+        this.dialogbox.alert('Noticia Grabada.');
+      });
+    }
+    
   }
   _onPressDeleteNoticia(pIdNoticia){    
 
@@ -84,7 +95,10 @@ export default class App extends Component {
 			ok: {
 				text: 'Si',
 				callback: () => {
-					this.dialogbox.alert('Borrada: ' + pIdNoticia);
+          Api.delNoticia(this, pIdNoticia).then(data=>{
+            this.setState({Noticias:data,NumNoticias:data.length,Net:false,modalAltaNoticiaOpen: false});
+            this.dialogbox.alert('Noticia Borrada.');
+          });					
 				},
 			},
 			cancel: {text: 'No'}

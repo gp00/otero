@@ -51784,9 +51784,16 @@ var App = _wrapComponent('App')(function (_Component) {
     value: function _onPressSaveNoticia(pNoticia) {
       var _this3 = this;
 
-      _Api2.default.postNoticia(this, pNoticia).then(function (data) {
-        return _this3.setState({ Noticias: data, NumNoticias: data.length, Net: false, modalAltaNoticiaOpen: false });
-      });
+      if (pNoticia.titulo == '') {
+        this.dialogbox.alert('Falta Titulo.');
+      } else if (pNoticia.noticia == '') {
+        this.dialogbox.alert('Falta Noticia.');
+      } else {
+        _Api2.default.postNoticia(this, pNoticia).then(function (data) {
+          _this3.setState({ Noticias: data, NumNoticias: data.length, Net: false, modalAltaNoticiaOpen: false });
+          _this3.dialogbox.alert('Noticia Grabada.');
+        });
+      }
     }
   }, {
     key: '_onPressDeleteNoticia',
@@ -51799,7 +51806,10 @@ var App = _wrapComponent('App')(function (_Component) {
         ok: {
           text: 'Si',
           callback: function callback() {
-            _this4.dialogbox.alert('Borrada: ' + pIdNoticia);
+            _Api2.default.delNoticia(_this4, pIdNoticia).then(function (data) {
+              _this4.setState({ Noticias: data, NumNoticias: data.length, Net: false, modalAltaNoticiaOpen: false });
+              _this4.dialogbox.alert('Noticia Borrada.');
+            });
           }
         },
         cancel: { text: 'No' }
@@ -51819,7 +51829,7 @@ var App = _wrapComponent('App')(function (_Component) {
         _nativeBase.Container,
         { onLayout: this._onLayout, __source: {
             fileName: _jsxFileName,
-            lineNumber: 101
+            lineNumber: 115
           }
         },
         _react3.default.createElement(_Cabecera2.default, { search: this.state.Search,
@@ -51830,7 +51840,7 @@ var App = _wrapComponent('App')(function (_Component) {
           onPress_Find: this._onPress_Find,
           onPress_PowerOff: this._onPress_PowerOff, __source: {
             fileName: _jsxFileName,
-            lineNumber: 103
+            lineNumber: 117
           }
         }),
         _react3.default.createElement(
@@ -51838,16 +51848,16 @@ var App = _wrapComponent('App')(function (_Component) {
           {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 111
+              lineNumber: 125
             }
           },
           this.state.modalAltaNoticiaOpen ? _react3.default.createElement(_AltaNoticiaModal2.default, { open: this.state.modalAltaNoticiaOpen, onClosed: this._onCloseModal, onPressSaveNoticia: this._onPressSaveNoticia, __source: {
               fileName: _jsxFileName,
-              lineNumber: 113
+              lineNumber: 127
             }
           }) : _react3.default.createElement(_ListaNoticias2.default, { noticias: this.state.Noticias, onPress_Titulo: this._onPress_Titulo, onPressDeleteNoticia: this._onPressDeleteNoticia, __source: {
               fileName: _jsxFileName,
-              lineNumber: 114
+              lineNumber: 128
             }
           })
         ),
@@ -51861,12 +51871,12 @@ var App = _wrapComponent('App')(function (_Component) {
             position: 'bottomRight',
             onPress: this._onPressAddBoton, __source: {
               fileName: _jsxFileName,
-              lineNumber: 119
+              lineNumber: 133
             }
           },
           _react3.default.createElement(_nativeBase.Icon, { style: { fontSize: 35 }, name: 'add', __source: {
               fileName: _jsxFileName,
-              lineNumber: 126
+              lineNumber: 140
             }
           })
         ),
@@ -51874,14 +51884,14 @@ var App = _wrapComponent('App')(function (_Component) {
           _nativeBase.Footer,
           { style: styles.footerContainer, __source: {
               fileName: _jsxFileName,
-              lineNumber: 130
+              lineNumber: 144
             }
           },
           _react3.default.createElement(
             _nativeBase.Text,
             { style: styles.textFooter, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 131
+                lineNumber: 145
               }
             },
             'N\xBA de Noticias: ',
@@ -51889,7 +51899,7 @@ var App = _wrapComponent('App')(function (_Component) {
           ),
           _react3.default.createElement(_Sensor2.default, { style: { width: 75 }, ledSize: '12', fontSize: '15', caption: 'Net', fontColor: 'white', captionAlign: 'center', on: true, value: this.state.Net, __source: {
               fileName: _jsxFileName,
-              lineNumber: 132
+              lineNumber: 146
             }
           })
         ),
@@ -51897,7 +51907,7 @@ var App = _wrapComponent('App')(function (_Component) {
             _this5.dialogbox = dialogbox;
           }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 135
+            lineNumber: 149
           }
         })
       );
@@ -89563,14 +89573,54 @@ var Api = function () {
             }, null, this, [[0, 8]]);
         }
     }, {
-        key: 'postNoticia',
-        value: function postNoticia(self, Noticia) {
-            var data, noticia, noticias;
-            return regeneratorRuntime.async(function postNoticia$(_context2) {
+        key: 'delNoticia',
+        value: function delNoticia(self, idNoticia) {
+            var noticia, noticias;
+            return regeneratorRuntime.async(function delNoticia$(_context2) {
                 while (1) {
                     switch (_context2.prev = _context2.next) {
                         case 0:
                             _context2.prev = 0;
+
+
+                            self.setState({ Net: true, NumNoticias: 0, Noticias: [] });
+
+                            data = { params: { idNoticia: idNoticia } };
+
+                            _context2.next = 5;
+                            return regeneratorRuntime.awrap(_axios2.default.get(this.deltNoticiasUri, data));
+
+                        case 5:
+                            noticia = _context2.sent;
+                            _context2.next = 8;
+                            return regeneratorRuntime.awrap(_axios2.default.get(this.getNoticiasUri));
+
+                        case 8:
+                            noticias = _context2.sent;
+                            return _context2.abrupt('return', noticias.data);
+
+                        case 12:
+                            _context2.prev = 12;
+                            _context2.t0 = _context2['catch'](0);
+
+                            alert('error: ' + _context2.t0);
+
+                        case 15:
+                        case 'end':
+                            return _context2.stop();
+                    }
+                }
+            }, null, this, [[0, 12]]);
+        }
+    }, {
+        key: 'postNoticia',
+        value: function postNoticia(self, Noticia) {
+            var data, noticia, noticias;
+            return regeneratorRuntime.async(function postNoticia$(_context3) {
+                while (1) {
+                    switch (_context3.prev = _context3.next) {
+                        case 0:
+                            _context3.prev = 0;
 
 
                             self.setState({ Net: true, NumNoticias: 0, Noticias: [] });
@@ -89582,27 +89632,27 @@ var Api = function () {
                             data.append('Titulo', Noticia.titulo);
                             data.append('Contenido', Noticia.noticia);
 
-                            _context2.next = 8;
+                            _context3.next = 8;
                             return regeneratorRuntime.awrap(_axios2.default.post(this.postNoticiasUri, data));
 
                         case 8:
-                            noticia = _context2.sent;
-                            _context2.next = 11;
+                            noticia = _context3.sent;
+                            _context3.next = 11;
                             return regeneratorRuntime.awrap(_axios2.default.get(this.getNoticiasUri));
 
                         case 11:
-                            noticias = _context2.sent;
-                            return _context2.abrupt('return', noticias.data);
+                            noticias = _context3.sent;
+                            return _context3.abrupt('return', noticias.data);
 
                         case 15:
-                            _context2.prev = 15;
-                            _context2.t0 = _context2['catch'](0);
+                            _context3.prev = 15;
+                            _context3.t0 = _context3['catch'](0);
 
-                            alert('error: ' + _context2.t0);
+                            alert('error: ' + _context3.t0);
 
                         case 18:
                         case 'end':
-                            return _context2.stop();
+                            return _context3.stop();
                     }
                 }
             }, null, this, [[0, 15]]);
@@ -89614,6 +89664,7 @@ var Api = function () {
 
 Api.getNoticiasUri = 'http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/LoadNoticiasAndroid.ashx';
 Api.postNoticiasUri = 'http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/AltaNoticia.ashx';
+Api.deltNoticiasUri = 'http://www.xn--oterodelasdueas-brb.es/App_Ashx/Noticia/BorrarNoticia.ashx';
 exports.default = Api;
 }, 701, null, "Otero/lib/Api.js");
 __d(/* axios/index.js */function(global, require, module, exports) {module.exports = require(703          ); // 703 = ./lib/axios
