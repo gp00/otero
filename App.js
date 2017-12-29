@@ -16,7 +16,8 @@ import Api from './lib/Api';
 import ListaNoticias from './components/ListaNoticias';
 import Cabecera from './components/Cabecera';
 import Sensor from './components/Sensor';
-import AltaNoticiaModal from './components/AltaNoticiaModal'
+import AltaNoticiaModal from './components/AltaNoticiaModal';
+import VerNoticiaModal from './components/VerNoticiaModal';
 
 export default class App extends Component {
 
@@ -29,7 +30,11 @@ export default class App extends Component {
       Noticias: [],
       Search: false,
       TextSearch: '',
-      modalAltaNoticiaOpen: false
+      modalAltaNoticiaOpen: false,
+      modalVerNoticiaOpen: false,
+      fecha:'',
+      titulo:'',
+      noticia:'',
     };
 
     this._onPress_Search=this._onPress_Search.bind(this);
@@ -66,7 +71,13 @@ export default class App extends Component {
     }    
   }
   _onPress_Titulo(pIdNoticia){
-    alert(pIdNoticia);
+    Api.getNoticia(this, pIdNoticia).then(data=>{
+      this.setState({ Net: false,
+                      modalVerNoticiaOpen: true,
+                      fecha: data.Fecha,
+                      titulo: data.Titulo,
+                      noticia: data.Contenido});
+    });
   }
   _onPress_PowerOff(){
     this.dialogbox.confirm({
@@ -121,10 +132,10 @@ export default class App extends Component {
 
   }
   _onCloseModal(){
-    this.setState({modalAltaNoticiaOpen: false});
+    this.setState({modalAltaNoticiaOpen: false, modalVerNoticiaOpen:false});
   }
  
-  render() {  
+  render() {   
     
     return (
       <Container  onLayout={this._onLayout}> 
@@ -137,14 +148,14 @@ export default class App extends Component {
                   onPress_Find={this._onPress_Find}
                   onPress_PowerOff={this._onPress_PowerOff}/>      
 
+      
         <Content>   
-          {this.state.modalAltaNoticiaOpen?
-            <AltaNoticiaModal open={this.state.modalAltaNoticiaOpen} onClosed={this._onCloseModal} onPressSaveNoticia={this._onPressSaveNoticia}/>:
-            <ListaNoticias noticias={this.state.Noticias} onPress_Titulo={this._onPress_Titulo} onPressDeleteNoticia={this._onPressDeleteNoticia}/>
-          }
+          {(!this.state.modalAltaNoticiaOpen && !this.state.modalVerNoticiaOpen) && <ListaNoticias noticias={this.state.Noticias} onPress_Titulo={this._onPress_Titulo} onPressDeleteNoticia={this._onPressDeleteNoticia}/>}
+          {this.state.modalAltaNoticiaOpen && <AltaNoticiaModal open={this.state.modalAltaNoticiaOpen} onClosed={this._onCloseModal} onPressSaveNoticia={this._onPressSaveNoticia}/>}
+          {this.state.modalVerNoticiaOpen && <VerNoticiaModal open={this.state.modalVerNoticiaOpen} fecha={this.state.fecha} titulo={this.state.titulo} noticia={this.state.noticia} onClosed={this._onCloseModal}/>}          
         </Content>              
 
-        {!this.state.modalAltaNoticiaOpen &&
+        {!this.state.modalAltaNoticiaOpen && !this.state.modalVerNoticiaOpen &&
           <Fab
             active={true}
             direction="up"
