@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 
 import {Button, Left, Right, Icon, Text, Input, Item, Form, H2, Label} from 'native-base';
-import Modal from 'react-native-modalbox';
 import DatePicker from 'react-native-datepicker'
+import Modal from 'react-native-modalbox';
 
 import DateP from './DateP'
 
@@ -19,8 +19,11 @@ export default class AltaNoticiaModal extends Component {
   constructor(props) {
     super(props);
 
+    var date=new Date();   
+    var now= date.getFullYear() + '-' + (date.getMonth()+1) + '-' + date.getDate(); 
+
     this.state = {
-      fecha: new Date(),
+      fecha: now,
       titulo:'',
       noticia:''
     };
@@ -94,7 +97,6 @@ export default class AltaNoticiaModal extends Component {
   componentDidMount() {
    
   }
-
 
 }
 

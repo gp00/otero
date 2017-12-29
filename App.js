@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,  
-  Dimensions
+  Dimensions,
+  BackHandler,
 } from 'react-native';
 
 import { Container,  Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab } from 'native-base';
@@ -68,7 +69,16 @@ export default class App extends Component {
     alert(pIdNoticia);
   }
   _onPress_PowerOff(){
-    alert('Exit...');
+    this.dialogbox.confirm({
+			title: 'Noticias',
+			content:'Salir de la Aplicación?',
+			ok: {
+				text: 'Si',
+				callback: () => {BackHandler.exitApp();},
+			},
+			cancel: {text: 'No'}
+		});
+    
   }
   _onPressAddBoton(){
     this.setState({modalAltaNoticiaOpen: true});
@@ -81,8 +91,13 @@ export default class App extends Component {
       this.dialogbox.alert('Falta Noticia.');
     }else{
       Api.postNoticia(this, pNoticia).then(data=>{
-        this.setState({Noticias:data,NumNoticias:data.length,Net:false,modalAltaNoticiaOpen: false});
-        this.dialogbox.alert('Noticia Grabada.');
+        if(data.indexOf("Error:")!=0){         
+          this.dialogbox.alert('Noticia Grabada.');
+          this.setState({Noticias:data,NumNoticias:data.length});          
+        }else{
+          this.dialogbox.alert(data); //Error            
+        }             
+        this.setState({Net:false,modalAltaNoticiaOpen: false});     
       });
     }
     
@@ -139,7 +154,7 @@ export default class App extends Component {
             onPress={this._onPressAddBoton}>
             <Icon style={{ fontSize:35 }} name="add" />        
           </Fab>
-        }        
+        } 
 
         <Footer style={styles.footerContainer}>
           <Text style={styles.textFooter}>Nº de Noticias: {this.state.NumNoticias}</Text>
