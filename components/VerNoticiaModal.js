@@ -29,33 +29,34 @@ export default class VerNoticiaModal extends Component {
                     <View style={styles.titulo}>
                       <H2 style={{color:'white'}}>Noticia</H2>
                     </View>
-                    <Button transparent onPress={this.props.onClosed}><Icon style={styles.iconcloseModal} name='close'></Icon></Button>
+                    <Button transparent onPress={this.props.onClosed}><Icon style={styles.iconcloseModal} name='close'></Icon></Button>                     
                   </View>
 
-                  <View style={styles.inputsContainer}>
+                  <View style={styles.inputsContainer}>                   
               
-                  <Form> 
-                      <View style={styles.itemFormContainer}>    
-                        <Label>Fecha:</Label>                 
-                        <Item >                        
+                    <Form>   
+                      <View style={styles.itemFormContainer}>
+                        <Label style={styles.lbl}>Fecha:</Label>
+                        <Item>
                           <Text>{this.props.fecha}</Text>
                         </Item>
-                      </View>  
-
+                      </View>
                       <View style={styles.itemFormContainer}>
-                        <Label>Titulo:</Label>
-                        <Item>                        
+                        <Label style={styles.lbl}>Titulo:</Label>
+                        <Item>
                           <Text>{this.props.titulo}</Text>
                         </Item>
-                      </View> 
-
+                      </View>
                       <View style={styles.itemFormContainer}>
-                        <Label>Noticia: </Label>  
-                        <Item>                                              
-                          <Text>{this.props.noticia}</Text>
-                        </Item>
+                        <Label style={styles.lbl}>Noticia: </Label>
+                        <View style={[styles.webViewContainter]}>
+                          <WebView startInLoadingState={true}
+                                   scrollEnabled={true}
+                                   style={{backgroundColor:'transparent'}}
+                                   source={{html: this.props.noticia}}
+                                   onLoadEnd={()=>{}}/>
+                        </View>  
                       </View>  
-
                     </Form>
                    
                   </View>
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
   },
   modal: {    
     padding:20,
-    //justifyContent:'center',
     backgroundColor: 'rgba(103,182,243,0.92)',    
   },  
   iconcloseModal:{
@@ -116,5 +116,12 @@ const styles = StyleSheet.create({
   },
   itemFormContainer:{
     marginTop:10
+  },
+  lbl:{
+    color:'white'
+  },
+  webViewContainter:{
+    height:270,
+    width: screen.width * 0.9,
   }
 });
