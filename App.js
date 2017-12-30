@@ -134,6 +134,11 @@ export default class App extends Component {
   _onCloseModal(){
     this.setState({modalAltaNoticiaOpen: false, modalVerNoticiaOpen:false});
   }
+  _onLayout(event){
+    const {width,height}=event.nativeEvent.layout;
+    const orientation =(width>height)?'APAISADO':'NORMAL';
+    console.log('Orientacion: ' + orientation + ', width: ' + width + ', height: ' + height);
+  }
  
   render() {   
     
