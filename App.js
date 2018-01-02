@@ -2,14 +2,14 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  View,  
-  Dimensions,
+  View,
   BackHandler,
 } from 'react-native';
 
 import { Container,  Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab } from 'native-base';
 import Modal from 'react-native-modalbox';
 import DialogBox from 'react-native-dialogbox';
+import SideMenu from 'react-native-side-menu';
 
 import Api from './lib/Api';
 
@@ -18,6 +18,7 @@ import Cabecera from './components/Cabecera';
 import Sensor from './components/Sensor';
 import AltaNoticiaModal from './components/AltaNoticiaModal';
 import VerNoticiaModal from './components/VerNoticiaModal';
+import MenuLateral from './components/MenuLateral';
 
 export default class App extends Component {
 
@@ -32,6 +33,7 @@ export default class App extends Component {
       TextSearch: '',
       modalAltaNoticiaOpen: false,
       modalVerNoticiaOpen: false,
+      SideMenuOpen: false,
       fecha:'',
       titulo:'',
       noticia:'',
@@ -42,6 +44,7 @@ export default class App extends Component {
     this._onPress_Refresh=this._onPress_Refresh.bind(this);
     this._onPress_Find=this._onPress_Find.bind(this);
     this._onPress_PowerOff=this._onPress_PowerOff.bind(this);
+    this._onPress_SideMenu=this._onPress_SideMenu.bind(this);
     this._onChangeText=this._onChangeText.bind(this);
     this._onPress_Titulo=this._onPress_Titulo.bind(this);
     this._onPressAddBoton= this._onPressAddBoton.bind(this);
@@ -80,6 +83,7 @@ export default class App extends Component {
     });
   }
   _onPress_PowerOff(){
+    this.setState({SideMenuOpen:false});
     this.dialogbox.confirm({
 			title: 'Noticias',
 			content:'Salir de la Aplicación?',
@@ -90,6 +94,12 @@ export default class App extends Component {
 			cancel: {text: 'No'}
 		});
     
+  }
+  _onPress_SideMenu(pVisible){
+    this.setState({SideMenuOpen:pVisible});    
+  }
+  _onMenuItemSelected(pMenu){
+    alert(pMenu);
   }
   _onPressAddBoton(){
     this.setState({modalAltaNoticiaOpen: true});
@@ -136,50 +146,60 @@ export default class App extends Component {
   }
   _onLayout(event){
     const {width,height}=event.nativeEvent.layout;
-    const orientation =(width>height)?'APAISADO':'NORMAL';
-    console.log('Orientacion: ' + orientation + ', width: ' + width + ', height: ' + height);
+    const orientation =(width>height)?'APAISADO':'NORMAL';   
+    //console.log('Orientacion: ' + orientation + ', width: ' + width + ', height: ' + height);
   }
  
-  render() {   
+  render() {      
+
+    const menu = <MenuLateral onPress_PowerOff={this._onPress_PowerOff} onMenuItemSelected={this._onMenuItemSelected} navigator={navigator}/>;
     
     return (
-      <Container  onLayout={this._onLayout}> 
+      <SideMenu
+        menu={menu}
+        isOpen={this.state.SideMenuOpen}
+        onChange={(isOpen) => this._onPress_SideMenu(isOpen)}>
 
-        <Cabecera search={this.state.Search} 
-                  onChangeText ={this._onChangeText}
-                  onPress_Search={this._onPress_Search}
-                  onPress_BackSearch={this._onPress_BackSearch}
-                  onPress_Refresh={this._onPress_Refresh} 
-                  onPress_Find={this._onPress_Find}
-                  onPress_PowerOff={this._onPress_PowerOff}/>      
+        <Container  onLayout={this._onLayout}> 
 
-      
-        <Content>   
-          {(!this.state.modalAltaNoticiaOpen && !this.state.modalVerNoticiaOpen) && <ListaNoticias noticias={this.state.Noticias} onPress_Titulo={this._onPress_Titulo} onPressDeleteNoticia={this._onPressDeleteNoticia}/>}
-          {this.state.modalAltaNoticiaOpen && <AltaNoticiaModal open={this.state.modalAltaNoticiaOpen} onClosed={this._onCloseModal} onPressSaveNoticia={this._onPressSaveNoticia}/>}
-          {this.state.modalVerNoticiaOpen && <VerNoticiaModal open={this.state.modalVerNoticiaOpen} fecha={this.state.fecha} titulo={this.state.titulo} noticia={this.state.noticia} onClosed={this._onCloseModal}/>}          
-        </Content>              
+          <Cabecera search={this.state.Search} 
+                    onChangeText ={this._onChangeText}
+                    onPress_Search={this._onPress_Search}
+                    onPress_BackSearch={this._onPress_BackSearch}
+                    onPress_Refresh={this._onPress_Refresh} 
+                    onPress_Find={this._onPress_Find}
+                    onPress_SideMenu= {this._onPress_SideMenu}
+                    onPress_PowerOff={this._onPress_PowerOff}/>      
 
-        {!this.state.modalAltaNoticiaOpen && !this.state.modalVerNoticiaOpen &&
-          <Fab
-            active={true}
-            direction="up"
-            containerStyle={{}}
-            style={styles.fab}
-            position="bottomRight"
-            onPress={this._onPressAddBoton}>
-            <Icon style={{ fontSize:35 }} name="add" />        
-          </Fab>
-        } 
+        
+          <Content>   
+            {(!this.state.modalAltaNoticiaOpen && !this.state.modalVerNoticiaOpen) && <ListaNoticias noticias={this.state.Noticias} onPress_Titulo={this._onPress_Titulo} onPressDeleteNoticia={this._onPressDeleteNoticia}/>}
+            {this.state.modalAltaNoticiaOpen && <AltaNoticiaModal open={this.state.modalAltaNoticiaOpen} onClosed={this._onCloseModal} onPressSaveNoticia={this._onPressSaveNoticia}/>}
+            {this.state.modalVerNoticiaOpen && <VerNoticiaModal open={this.state.modalVerNoticiaOpen} fecha={this.state.fecha} titulo={this.state.titulo} noticia={this.state.noticia} onClosed={this._onCloseModal}/>}          
+          </Content>              
 
-        <Footer style={styles.footerContainer}>
-          <Text style={styles.textFooter}>Nº de Noticias: {this.state.NumNoticias}</Text>
-          <Sensor style={{width:75}} ledSize='12' fontSize='15' caption='Net' fontColor={'white'} captionAlign ='center' on value={this.state.Net} />          
-        </Footer>
+          {!this.state.modalAltaNoticiaOpen && !this.state.modalVerNoticiaOpen &&
+            <Fab
+              active={true}
+              direction="up"
+              containerStyle={{}}
+              style={styles.fab}
+              position="bottomRight"
+              onPress={this._onPressAddBoton}>
+              <Icon style={{ fontSize:35 }} name="add" />        
+            </Fab>
+          } 
 
-        <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
+          <Footer style={styles.footerContainer}>
+            <Text style={styles.textFooter}>Nº de Noticias: {this.state.NumNoticias}</Text>
+            <Sensor style={{width:75}} ledSize='12' fontSize='15' caption='Net' fontColor={'white'} captionAlign ='center' on value={this.state.Net} />          
+          </Footer>
 
-      </Container>
+          <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
+
+        </Container>
+
+      </SideMenu>     
     );
   }
 

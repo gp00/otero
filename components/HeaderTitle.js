@@ -20,8 +20,10 @@ export default class HeaderTitle extends Component {
       
       return (
           <Header>
-            <Left>
-                <Image style={styles.logoImage} source={require('../resources/OterodelasDueñas.png')} />
+            <Left>              
+              <Button transparent onPress={()=>this.props.onPress_SideMenu(true)}>
+                <Icon name='ios-menu' style={styles.iconMenu}/>
+              </Button>
             </Left>
             <Body style={styles.logoTitle}>
                 <Title style={styles.textTitle}>NOTICIAS</Title>
@@ -49,6 +51,10 @@ export default class HeaderTitle extends Component {
     },
     logoTitle: {
       alignItems: 'flex-start'
+    },
+    iconMenu:{
+      fontSize: 28,
+      color:'white',
     },
     iconPowerOff: {
       fontSize: 26,
