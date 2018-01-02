@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {   
   Text,
   View,
+  Image,
   ScrollView,
   StyleSheet,
   Dimensions,
@@ -23,6 +24,9 @@ export default class MenuLateral extends Component {
     return <ScrollView scrollsToTop={false} >
               <View style={styles.sideMenuContainer}>
                 <List>
+                  <ListItem style={styles.logoContainer}>
+                    <Image style={styles.logoImage} source={require('../resources/OterodelasDueñas.png')} />
+                  </ListItem>
                   <ListItem style={styles.opcionMenu} icon>
                     <Body>
                       <Button transparent onPress={() => this.props.onMenuItemSelected('Noticias')}>
@@ -71,6 +75,15 @@ export default class MenuLateral extends Component {
 }
 
 const styles = StyleSheet.create({
+    logoContainer: {
+      backgroundColor:'transparent',
+      alignItems:'center',
+      justifyContent:'center',
+    },
+    logoImage: {
+      width: 120,
+      height: 120,      
+    },
     sideMenuContainer:{ 
       backgroundColor: 'transparent',
       marginTop:60,     

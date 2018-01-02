@@ -44,11 +44,7 @@ export default class HeaderTitle extends Component {
     }    
   }
   
-  const styles = StyleSheet.create({
-    logoImage: {
-      width: 40,
-      height: 40
-    },
+  const styles = StyleSheet.create({   
     logoTitle: {
       alignItems: 'flex-start'
     },
