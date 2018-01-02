@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import {List, ListItem, Left, Right, Body, Button, Icon} from 'native-base';
+import {NOTICIAS,CAMARA,SETTINGS} from '../constantes';
 
 var screen = Dimensions.get('window');
 
@@ -29,7 +30,7 @@ export default class MenuLateral extends Component {
                   </ListItem>
                   <ListItem style={styles.opcionMenu} icon>
                     <Body>
-                      <Button transparent onPress={() => this.props.onMenuItemSelected('Noticias')}>
+                      <Button transparent onPress={() => this.props.onMenuItemSelected(NOTICIAS)}>
                         <Text style={styles.literalMenu}>Noticias</Text>                       
                       </Button>
                     </Body>
@@ -39,7 +40,7 @@ export default class MenuLateral extends Component {
                   </ListItem>
                   <ListItem style={styles.opcionMenu} icon>
                     <Body>
-                      <Button transparent onPress={() => this.props.onMenuItemSelected('Camara')}>
+                      <Button transparent onPress={() => this.props.onMenuItemSelected(CAMARA)}>
                         <Text style={styles.literalMenu}>Camara</Text>
                       </Button>                      
                     </Body>
@@ -49,7 +50,7 @@ export default class MenuLateral extends Component {
                   </ListItem>
                   <ListItem style={styles.opcionMenu} icon>
                     <Body>
-                      <Button transparent onPress={() => this.props.onMenuItemSelected('Settings')}>
+                      <Button transparent onPress={() => this.props.onMenuItemSelected(SETTINGS)}>
                         <Text style={styles.literalMenu}>Settings</Text>
                       </Button>
                     </Body>

@@ -15,6 +15,14 @@ export default class HeaderTitle extends Component {
       this.state = {       
       };  
     } 
+
+    search = this.props.searchAction && <Button transparent onPress={this.props.onPress_Search}>
+      <Icon name='search' style={styles.iconSearch} />
+    </Button>
+
+    refresh = this.props.refreshAction && <Button transparent onPress={this.props.onPress_Refresh}>
+      <Icon name='refresh' style={styles.iconRefresh} />
+    </Button>
       
     render() {
       
@@ -26,21 +34,18 @@ export default class HeaderTitle extends Component {
               </Button>
             </Left>
             <Body style={styles.logoTitle}>
-                <Title style={styles.textTitle}>NOTICIAS</Title>
+                <Title style={styles.textTitle}>{this.props.title}</Title>
             </Body>
-            <Right>
-                <Button transparent onPress={this.props.onPress_Search}>
-                    <Icon name='search' style={styles.iconSearch} />
-                </Button>
-                <Button transparent onPress={this.props.onPress_Refresh}>
-                    <Icon name='refresh' style={styles.iconRefresh} />
-                </Button>
+            <Right>               
+                {this.search}
+                {this.refresh}
                 <Button transparent onPress={this.props.onPress_PowerOff} >
                     <Icon name='power' style={styles.iconPowerOff} />
                 </Button>
             </Right>
         </Header>
       );
+
     }    
   }
   

@@ -16,7 +16,6 @@ import Cabecera from './Cabecera';
 import Sensor from './Sensor';
 import AltaNoticiaModal from './AltaNoticiaModal';
 import VerNoticiaModal from './VerNoticiaModal';
-import MenuLateral from './MenuLateral';
 
 export default class ScreenNoticias extends Component {
 
@@ -137,7 +136,10 @@ export default class ScreenNoticias extends Component {
 
         <Container  onLayout={this._onLayout}> 
 
-          <Cabecera search={this.state.Search} 
+          <Cabecera title='NOTICIAS'
+                    searchAction = {true}
+                    refreshAction = {true}
+                    search={this.state.Search} 
                     onChangeText ={this._onChangeText}
                     onPress_Search={this._onPress_Search}
                     onPress_BackSearch={this._onPress_BackSearch}

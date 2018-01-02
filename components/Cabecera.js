@@ -5,8 +5,6 @@ import {
   View
 } from 'react-native';
 
-import { Header, Title, Content,  Button, Left, Right, Body, Icon, Text, Input, Item } from 'native-base';
-
 import HeaderSearch from "./HeaderSearch"
 import HeaderTitle from "./HeaderTitle"
 

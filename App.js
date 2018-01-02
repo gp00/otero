@@ -9,7 +9,10 @@ import {
 import SideMenu from 'react-native-side-menu';
 import DialogBox from 'react-native-dialogbox';
 
+import {NOTICIAS,CAMARA,SETTINGS} from './constantes';
+
 import ScreenNoticias from './components/ScreenNoticias';
+import ScreenSettings from './components/ScreenSettings';
 import MenuLateral from './components/MenuLateral';
 
 export default class App extends Component {
@@ -19,6 +22,7 @@ export default class App extends Component {
 
     this.state = {
       SideMenuOpen: false,
+      NavigateTo: NOTICIAS,
     };
 
     this._onPress_SideMenu=this._onPress_SideMenu.bind(this);   
@@ -29,9 +33,8 @@ export default class App extends Component {
   _onPress_SideMenu(pVisible){
     this.setState({SideMenuOpen:pVisible});    
   }
-  _onMenuItemSelected(pMenu){
-    this.setState({SideMenuOpen:false});    
-    alert(pMenu);
+  _onMenuItemSelected(pItemSelected){
+    this.setState({SideMenuOpen:false, NavigateTo: pItemSelected});    
   }
   _onPress_PowerOff(){
     this.setState({SideMenuOpen:false});   
@@ -56,7 +59,10 @@ export default class App extends Component {
         isOpen={this.state.SideMenuOpen}
         onChange={(isOpen) => this._onPress_SideMenu(isOpen)}>  
 
-        <ScreenNoticias onPress_SideMenu={this._onPress_SideMenu} onPress_PowerOff={this._onPress_PowerOff}/>   
+        {this.state.NavigateTo == NOTICIAS && <ScreenNoticias onPress_SideMenu={this._onPress_SideMenu} onPress_PowerOff={this._onPress_PowerOff}/>}
+        {this.state.NavigateTo == SETTINGS && <ScreenSettings onPress_SideMenu={this._onPress_SideMenu} onPress_PowerOff={this._onPress_PowerOff}/>}
+
+
 
         <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
 
