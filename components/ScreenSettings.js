@@ -7,6 +7,7 @@ import {
 
 import { Container, Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab, List, ListItem, Switch  } from 'native-base';
 import DeviceInfo from 'react-native-device-info';
+import Slider from "react-native-slider";
 
 import HeaderTitle from "./HeaderTitle"
 
@@ -20,13 +21,13 @@ const InfoItem =({label,info})=><View style={styles.InfoItemContainer}>
                                 </View>
 
 const CamItem =({label,children})=><View style={styles.InfoItemContainer}>
-                                  <View style={styles.InfoItemLabelContainer}>
-                                    <Text style={styles.InfoItemLabel}>{label}</Text>
+                                    <View style={styles.InfoItemLabelContainer}>
+                                      <Text style={styles.InfoItemLabel}>{label}</Text>
+                                    </View>
+                                    <View style={styles.InfoItemTextContainer}>
+                                      {children}
+                                    </View>                                
                                   </View>
-                                  <View style={styles.InfoItemTextContainer}>
-                                    {children}
-                                  </View>                                
-                                </View>
 
 export default class ScreenSettings extends Component {
 
@@ -44,11 +45,13 @@ export default class ScreenSettings extends Component {
       cam_active:false,
       cam_frecuencia:5,
       cam_linkImage:'' ,
+      cam_frecuencia:15 ,
     };
    
     this._onPress_SideMenu=this._onPress_SideMenu.bind(this);   
     this._onPressSaveBoton=this._onPressSaveBoton.bind(this);
     this._onChange_CamActive=this._onChange_CamActive.bind(this);
+    this._onChange_CamFecuencia=this._onChange_CamFecuencia.bind(this);
   } 
    
   _onPress_SideMenu(pVisible){
@@ -64,11 +67,15 @@ export default class ScreenSettings extends Component {
   }
   _onChange_CamActive(pValue){
     this.setState({cam_active:pValue});
+  } 
+  _onChange_CamFecuencia(pValue){
+    this.setState({cam_frecuencia:pValue});
   }  
     
   render() {  
 
-    SW = <Switch onValueChange = {this._onChange_CamActive} value={this.state.cam_active}/>
+    SW = <Switch value={this.state.cam_active} onValueChange = {this._onChange_CamActive}/>
+    SL = <View style={styles.SliderContainer}><Slider minimumValue={1} maximumValue={30} step={1} style={styles.Slider} value={this.state.cam_frecuencia} onValueChange={this._onChange_CamFecuencia}/><Text style={styles.SliderCount}>{this.state.cam_frecuencia} {'min.'}</Text></View>
 
     return (
 
@@ -109,6 +116,9 @@ export default class ScreenSettings extends Component {
                 <View style={styles.ListItemContainer}>
                     <CamItem label='Activa:' children={SW}/>
                 </View>
+                <View style={styles.ListItemContainer}>
+                    <CamItem label='Frecuencia:' children={SL}/>
+                </View>               
               </List>
           </Content>
 
@@ -120,8 +130,7 @@ export default class ScreenSettings extends Component {
               position="bottomRight"
               onPress={this._onPressSaveBoton}>
               <Icon style={{ fontSize:35 }} name="archive" />        
-            </Fab>       
-
+            </Fab>    
         
         </Container>
 
@@ -154,18 +163,15 @@ const styles = StyleSheet.create({
   ListItemContainer:{
     padding:5
   },
-  CabeceraCamaraContainer:{
-   
-  },
   InfoItemContainer:{
     flexDirection:'row',
   },
   InfoItemLabelContainer:{
-    flex:2,
+    width:'25%',
   },
   InfoItemTextContainer:{
-    alignItems: 'flex-start',
-    flex:6,
+    alignItems:'flex-start',
+    width:'75%',
   },
   InfoItemLabel:{
     fontSize:15
@@ -173,5 +179,23 @@ const styles = StyleSheet.create({
   InfoItemText:{
     fontSize:14,
     color:'gray',
+  },
+  SliderContainer:{
+    width:'95%',
+    marginLeft:3,
+    position:'relative',
+    flexDirection:'row',
+    top:-8
+  },
+  Slider:{
+    width:'80%'
+  },
+  SliderCount:{
+    width:'20%',
+    textAlign:'center',
+    position:'relative',
+    top:9,
+    height:30,
+    fontSize:14
   }
 });
