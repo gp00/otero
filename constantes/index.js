@@ -9,3 +9,6 @@ export const delNoticiasUri ='http://www.xn--oterodelasdueas-brb.es/App_Ashx/Not
 export const NOTICIAS = 'NOTICIAS'
 export const CAMARA = 'CAMARA'
 export const SETTINGS = 'SETTINGS'
+
+// CALIDAD FOTO
+export const CALIDAD = [{value:'Alta'},{value:'Media'},{value:'Baja'}]

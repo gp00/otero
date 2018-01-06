@@ -8,7 +8,9 @@ import {
 import { Container, Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab, List, ListItem, Switch  } from 'native-base';
 import DeviceInfo from 'react-native-device-info';
 import Slider from "react-native-slider";
+import { Dropdown } from 'react-native-material-dropdown';
 
+import {CALIDAD} from '../constantes'
 import HeaderTitle from "./HeaderTitle"
 
 const InfoItem =({label,info})=><View style={styles.InfoItemContainer}>
@@ -43,15 +45,16 @@ export default class ScreenSettings extends Component {
       info_apiLevel:'',
       info_numberTLF:'',
       cam_active:false,
-      cam_frecuencia:5,
       cam_linkImage:'' ,
       cam_frecuencia:15 ,
+      cam_calidad:'Media',
     };
    
     this._onPress_SideMenu=this._onPress_SideMenu.bind(this);   
     this._onPressSaveBoton=this._onPressSaveBoton.bind(this);
     this._onChange_CamActive=this._onChange_CamActive.bind(this);
-    this._onChange_CamFecuencia=this._onChange_CamFecuencia.bind(this);
+    this._onChange_CamFrecuencia=this._onChange_CamFrecuencia.bind(this);
+    this._onChange_CamCalidad=this._onChange_CamCalidad.bind(this);
   } 
    
   _onPress_SideMenu(pVisible){
@@ -68,14 +71,18 @@ export default class ScreenSettings extends Component {
   _onChange_CamActive(pValue){
     this.setState({cam_active:pValue});
   } 
-  _onChange_CamFecuencia(pValue){
+  _onChange_CamFrecuencia(pValue){
     this.setState({cam_frecuencia:pValue});
-  }  
-    
+  } 
+  _onChange_CamCalidad(pValue){
+    this.setState({cam_calidad:pValue});
+  } 
+      
   render() {  
 
     SW = <Switch value={this.state.cam_active} onValueChange = {this._onChange_CamActive}/>
-    SL = <View style={styles.SliderContainer}><Slider minimumValue={1} maximumValue={30} step={1} style={styles.Slider} value={this.state.cam_frecuencia} onValueChange={this._onChange_CamFecuencia}/><Text style={styles.SliderCount}>{this.state.cam_frecuencia} {'min.'}</Text></View>
+    SL = <View style={styles.SliderContainer}><Slider minimumValue={1} maximumValue={30} step={1} style={styles.Slider} value={this.state.cam_frecuencia} onValueChange={this._onChange_CamFrecuencia}/><Text style={styles.SliderCount}>{this.state.cam_frecuencia} {'min.'}</Text></View>
+    DD = <Dropdown containerStyle={styles.DropDownContainer} label='Calidad' data={CALIDAD} value={this.state.cam_calidad} fontSize={14} itemCount={6} onChangeText={this._onChange_CamCalidad} />
 
     return (
 
@@ -118,7 +125,10 @@ export default class ScreenSettings extends Component {
                 </View>
                 <View style={styles.ListItemContainer}>
                     <CamItem label='Frecuencia:' children={SL}/>
-                </View>               
+                </View> 
+                <View style={styles.ListItemContainer}>
+                    <CamItem label='Imagen:' children={DD}/>
+                </View>                            
               </List>
           </Content>
 
@@ -186,6 +196,12 @@ const styles = StyleSheet.create({
     position:'relative',
     flexDirection:'row',
     top:-8
+  },
+  DropDownContainer:{
+    width:'95%',
+    marginLeft:3,
+    position:'relative',
+    top:-27,
   },
   Slider:{
     width:'80%'
