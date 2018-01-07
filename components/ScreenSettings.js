@@ -8,7 +8,9 @@ import {
 import { Container, Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab, List, ListItem, Switch  } from 'native-base';
 import DeviceInfo from 'react-native-device-info';
 import Slider from "react-native-slider";
-import { Dropdown } from 'react-native-material-dropdown';
+import {Dropdown} from 'react-native-material-dropdown';
+import store from 'react-native-simple-store';
+import DialogBox from 'react-native-dialogbox';
 
 import {CALIDAD} from '../constantes'
 import HeaderTitle from "./HeaderTitle"
@@ -55,13 +57,15 @@ export default class ScreenSettings extends Component {
     this._onChange_CamActive=this._onChange_CamActive.bind(this);
     this._onChange_CamFrecuencia=this._onChange_CamFrecuencia.bind(this);
     this._onChange_CamCalidad=this._onChange_CamCalidad.bind(this);
+    //this._getSettings=this._getSettings.bind(this);
+    //this._saveSettings=this._saveSettings.bind(this);
   } 
    
   _onPress_SideMenu(pVisible){
     this.props.onPress_SideMenu(pVisible);   
   }  
   _onPressSaveBoton(){
-    alert('Save...')
+    this._saveSettings();    
   }
   _onLayout(event){
     const {width,height}=event.nativeEvent.layout;
@@ -77,6 +81,36 @@ export default class ScreenSettings extends Component {
   _onChange_CamCalidad(pValue){
     this.setState({cam_calidad:pValue});
   } 
+  _saveSettings(){
+    try {
+      store.save('setting', { cam_active:this.state.cam_active,
+                              cam_linkImage:this.state.cam_linkImage,
+                              cam_frecuencia:this.state.cam_frecuencia,
+                              cam_calidad:this.state.cam_calidad}); 
+      this.dialogbox.alert('Settings Grabados.');     
+    } catch (error) {
+      console.log('ERROR: ' + error) ;
+    }
+  }
+  _getSettings(){
+    try {
+      store.get('setting').then((res) =>{
+
+        if(res!= null){
+          this.setState({ cam_active:res.cam_active,
+                          cam_linkImage:res.cam_linkImage,
+                          cam_frecuencia:res.cam_frecuencia,
+                          cam_calidad:res.cam_calidad
+                        })
+        }
+
+      }).catch(error => {
+        console.log('ERROR: ' + error.message);
+      });      
+    } catch (error) {
+      console.log('ERROR: ' + error.message);
+    }
+  }
       
   render() {  
 
@@ -141,6 +175,8 @@ export default class ScreenSettings extends Component {
               onPress={this._onPressSaveBoton}>
               <Icon style={{ fontSize:35 }} name="archive" />        
             </Fab>    
+
+            <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
         
         </Container>
 
@@ -157,6 +193,7 @@ export default class ScreenSettings extends Component {
     var info_numberTLF = DeviceInfo.getPhoneNumber();
     
     this.setState({info_uniqueID, info_manufacturer, info_model, info_system, info_deviceName, info_apiLevel, info_numberTLF});
+    this._getSettings();
   }
 
 }

@@ -62,8 +62,6 @@ export default class App extends Component {
         {this.state.NavigateTo == NOTICIAS && <ScreenNoticias onPress_SideMenu={this._onPress_SideMenu} onPress_PowerOff={this._onPress_PowerOff}/>}
         {this.state.NavigateTo == SETTINGS && <ScreenSettings onPress_SideMenu={this._onPress_SideMenu} onPress_PowerOff={this._onPress_PowerOff}/>}
 
-
-
         <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
 
       </SideMenu>     
