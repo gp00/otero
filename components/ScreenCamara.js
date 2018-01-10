@@ -5,7 +5,7 @@ import {
   View,
   Image,
 } from 'react-native';
-import { Container,  Content,  Button, } from 'native-base';
+import { Container,  Content,  Button, Icon} from 'native-base';
 
 import Camera from 'react-native-camera';
 import DeviceBattery from 'react-native-device-battery';
@@ -22,7 +22,7 @@ export default class ScreenCamara extends Component {
     super(props)
 
     this.state={
-      uriImage:'https://facebook.github.io/react-native/docs/assets/favicon.png',     
+      uriImage:'',     
       now: new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0],     
       battery:0,
       cam_active:false,
@@ -30,6 +30,7 @@ export default class ScreenCamara extends Component {
       cam_frecuencia:15 ,
       cam_calidad:'Media',
       cam_captura:15,
+      cam_contadorsegundos: true
     }
 
     this._onPress_SideMenu=this._onPress_SideMenu.bind(this);  
@@ -69,7 +70,6 @@ export default class ScreenCamara extends Component {
   }     
   _takePicture() {
     const options = {captureQuality:this.state.cam_calidad};
-
     this.camera.capture({metadata: options})
       .then(data =>this.setState({uriImage:data.path, cam_captura:this.state.cam_captura}))
       .catch(error => {
@@ -91,7 +91,7 @@ export default class ScreenCamara extends Component {
       this.setState({battery});
     });
   }
-  _onBatteryStateChanged = (state) => {
+  _onBatteryStateChanged= (state)=> {
     var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0];
     var battery = parseInt(state.level*100);
     this.setState({battery, now});
@@ -103,76 +103,78 @@ export default class ScreenCamara extends Component {
 
         <Container  onLayout={this._onLayout}> 
 
-            <HeaderTitle title='CAMARA' onPress_SideMenu= {this._onPress_SideMenu} onPress_PowerOff={this.props.onPress_PowerOff}/>  
+          <HeaderTitle title='CAMARA' onPress_SideMenu= {this._onPress_SideMenu} onPress_PowerOff={this.props.onPress_PowerOff}/>  
 
-            <Content>                
-      
+          <View style={styles.container}>
+
+            <View style={styles.cameraContainer}>
                 <Camera
-                    ref={(cam) => {
-                        this.camera = cam;
-                    }}
+                    ref={cam =>this.camera = cam}
                     style={styles.preview}
                     permissionDialogTitle="Acceso Camara"
                     permissionDialogMessage="Me das Permiso?"
                     aspect={Camera.constants.Aspect.fill}>
-                        <Text style={styles.capture} onPress={this._takePicture}>CAPTURE</Text>
+                        <View style={styles.iconCameraContainer}>                          
+                          <Icon style={styles.iconCamera} name="camera" onPress={this._takePicture}/>                             
+                        </View>
+                        <ImageInfo bateria={this.state.battery} fecha={this.state.now} captura={this.state.cam_captura} contadorsegundos={this.state.cam_contadorsegundos} />              
                 </Camera>
+            </View>
+           
 
-                <View style={styles.ImageTools}>
-                    <ImageInfo bateria={this.state.battery} fecha={this.state.now} captura={this.state.cam_captura} />              
-                </View>  
+          </View>
 
-                <View style={styles.cameraRoll}>
-                    <Image style={styles.imageCamera} source={{uri:this.state.uriImage}}/>
-                </View>  
-
-            </Content>   
-
-            <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
+          <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
 
         </Container>
     );
   }
 
   componentDidMount(){
-    setInterval(this._updateImageInfo, 1000);
+    //setInterval(this._updateImageInfo, 1000);
     this._getSettings();
     this._getBatteryLevel();    
-    DeviceBattery.addListener(this._onBatteryStateChanged); // to attach a listener
+    //DeviceBattery.addListener(this._onBatteryStateChanged);
   } 
 
   componentWillUnmount(){ 
-    //DeviceBattery.removeListener(this._onBatteryStateChanged);   // to remove a listener    
+    //DeviceBattery.removeListener(this._onBatteryStateChanged); 
   }
  
 }
 
-const styles = StyleSheet.create({  
+const styles = StyleSheet.create({ 
+  container:{
+    flex:1,
+    backgroundColor:'black'
+  }, 
+  cameraContainer:{
+    flex:5,
+  }, 
+  footerContainer:{
+    flex:1,
+    backgroundColor:'green',
+    minHeight:25,
+  },
   preview: {
     margin:1,
-    height:300,
-    justifyContent: 'flex-end',
+    flex:1,
+    justifyContent: 'flex-end',    
     alignItems: 'center'
   },
-  capture: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    color: '#000',
-    padding: 10,
-    margin: 10
+  iconCameraContainer:{
+    marginBottom:20,
+    borderColor:'white',
+    borderRadius:40,
+    borderWidth:1,
+    height:80,
+    width:80,
+    justifyContent:'center',
+    alignItems:'center'
   },
-  cameraRoll:{
-    height:200,
-    backgroundColor:'white',
-    margin:1,
-    borderRadius:10,
-    borderWidth: 1,
-    borderColor: '#d6d7da',
-  },
-  imageCamera:{
-    flex:1
-  },
-  ImageTools:{
-    margin:1,
+  iconCamera:{
+    fontSize:50,
+    color:'white'
   }
+  
 });

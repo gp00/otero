@@ -6,11 +6,22 @@ import {
   Text,
   View,
 } from 'react-native';
+import {Icon} from 'native-base';
 
 export default class ImageInfo extends Component {
   constructor(props){
     super(props)
 
+    this.state={  iconActivity:'eye',
+                  captura:''
+                }
+
+  }  
+
+  componentWillReceiveProps(nextProps){    
+    var iconActivity=  nextProps.contadorsegundos?'eye':'wifi';
+    var captura=nextProps.captura==0?'':nextProps.captura + ' seg.';
+    this.setState({iconActivity, captura})
   }
 
   render() {
@@ -23,7 +34,7 @@ export default class ImageInfo extends Component {
           <Text style={styles.texto}>Bateria:{this.props.bateria || 0}%</Text>
         </View>
         <View style={styles.progressContainer}>
-          <Text style={[styles.texto,{textAlign:'center'}]}>Captura:{ this.props.captura || 0} seg.</Text>
+          <Icon style={styles.eyeIcon} name={this.state.iconActivity} /><Text style={[styles.texto,{textAlign:'center'}]}>{this.state.captura}</Text>
         </View>
         <View style={styles.fechaContainer}>
           <Text style={styles.texto}>{this.props.fecha || now}</Text>
@@ -44,17 +55,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   bateriaContainer:{
-    flex:1,
+    flex:1.2,
     justifyContent:'center',
     alignItems: 'flex-start',   
   },
   fechaContainer:{
-    flex:1.7, 
+    flex:2, 
     justifyContent:'center', 
     alignItems: 'flex-end',
   },
   progressContainer:{
-    flex:1.3,
-    justifyContent:'center',    
-  }
+    flex:1,
+    justifyContent:'space-around', 
+    alignItems:'center',
+    flexDirection:'row'   
+  },
+  eyeIcon:{
+    fontSize:18,
+    color:'white',
+  }  
 });

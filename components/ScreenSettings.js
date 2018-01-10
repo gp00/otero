@@ -126,7 +126,7 @@ export default class ScreenSettings extends Component {
 
           <Content>                
             <List>
-                <ListItem itemDivider>
+                <ListItem itemDivider style={styles.listItemDivider}>
                   <Text>Información Teléfono</Text>
                 </ListItem>                    
                 <View style={styles.ListItemContainer}>
@@ -151,7 +151,7 @@ export default class ScreenSettings extends Component {
                     <InfoItem label='Numero:' info={this.state.info_numberTLF}/>
                 </View>
 
-                <ListItem itemDivider>
+                <ListItem itemDivider style={styles.listItemDivider}>
                   <Text style={this.state.cam_active?{color:'green', fontWeight: 'bold'}:{}}>Cámara Web</Text>
                 </ListItem>
                 <View style={styles.ListItemContainer}>
@@ -163,7 +163,8 @@ export default class ScreenSettings extends Component {
                 <View style={styles.ListItemContainer}>
                     <CamItem label='Imagen:' children={DD}/>
                 </View>                            
-              </List>
+             </List>
+
           </Content>
 
            <Fab
@@ -173,7 +174,7 @@ export default class ScreenSettings extends Component {
               style={styles.fab}
               position="bottomRight"
               onPress={this._onPressSaveBoton}>
-              <Icon style={{ fontSize:35 }} name="archive" />        
+              <Icon style={{fontSize:35}} name="archive" />        
             </Fab>    
 
             <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
@@ -207,6 +208,9 @@ const styles = StyleSheet.create({
     bottom:10,
     right:5
   }, 
+  listItemDivider:{
+    marginBottom:10,
+  },
   ListItemContainer:{
     padding:5
   },
