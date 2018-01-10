@@ -11,29 +11,22 @@ export default class ImageInfo extends Component {
   constructor(props){
     super(props)
 
-    var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0];
-
-    this.state={
-      height: this.props.height || 25,
-      bateria: this.props.bateria || 0,
-      fecha: this.props.fecha || now,
-      captura: this.props.captura || 0
-    }
-
   }
 
   render() {
 
+    var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0];  
+
     return (
-      <View style={[styles.container,{height:this.state.height}]}>
+      <View style={[styles.container,{height:this.props.height || 25}]}>
         <View style={styles.bateriaContainer}>
-          <Text style={styles.texto}>Bateria:{this.state.bateria}%</Text>
+          <Text style={styles.texto}>Bateria:{this.props.bateria || 0}%</Text>
         </View>
         <View style={styles.progressContainer}>
-          <Text style={[styles.texto,{textAlign:'center'}]}>Captura:{this.state.captura} seg.</Text>
+          <Text style={[styles.texto,{textAlign:'center'}]}>Captura:{ this.props.captura || 0} seg.</Text>
         </View>
         <View style={styles.fechaContainer}>
-          <Text style={styles.texto}>{this.state.fecha}</Text>
+          <Text style={styles.texto}>{this.props.fecha || now}</Text>
         </View>
       </View>
     );

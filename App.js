@@ -13,6 +13,7 @@ import {NOTICIAS,CAMARA,SETTINGS} from './constantes';
 
 import ScreenNoticias from './components/ScreenNoticias';
 import ScreenSettings from './components/ScreenSettings';
+import ScreenCamara from './components/ScreenCamara';
 import MenuLateral from './components/MenuLateral';
 
 export default class App extends Component {
@@ -60,6 +61,7 @@ export default class App extends Component {
         onChange={(isOpen) => this._onPress_SideMenu(isOpen)}>  
 
         {this.state.NavigateTo == NOTICIAS && <ScreenNoticias onPress_SideMenu={this._onPress_SideMenu} onPress_PowerOff={this._onPress_PowerOff}/>}
+        {this.state.NavigateTo == CAMARA && <ScreenCamara onPress_SideMenu={this._onPress_SideMenu} onPress_PowerOff={this._onPress_PowerOff}/>}
         {this.state.NavigateTo == SETTINGS && <ScreenSettings onPress_SideMenu={this._onPress_SideMenu} onPress_PowerOff={this._onPress_PowerOff}/>}
 
         <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 

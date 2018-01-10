@@ -89,7 +89,7 @@ export default class ScreenSettings extends Component {
                               cam_calidad:this.state.cam_calidad}); 
       this.dialogbox.alert('Settings Grabados.');     
     } catch (error) {
-      console.log('ERROR: ' + error) ;
+      this.dialogbox.alert('ERROR: ' + error);  
     }
   }
   _getSettings(){
@@ -105,10 +105,10 @@ export default class ScreenSettings extends Component {
         }
 
       }).catch(error => {
-        console.log('ERROR: ' + error.message);
+        this.dialogbox.alert('ERROR: ' + error);  
       });      
     } catch (error) {
-      console.log('ERROR: ' + error.message);
+      this.dialogbox.alert('ERROR: ' + error);  
     }
   }
       
