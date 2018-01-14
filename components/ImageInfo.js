@@ -15,18 +15,17 @@ export default class ImageInfo extends Component {
     this.state={  iconActivity:'eye',
                   captura:''
                 }
-
   }  
 
   componentWillReceiveProps(nextProps){    
     var iconActivity=  nextProps.contadorsegundos?'eye':'wifi';
-    var captura=nextProps.captura==0?'':nextProps.captura + ' seg.';
+    var captura=nextProps.captura==0?'':nextProps.captura + ' min.';
     this.setState({iconActivity, captura})
   }
 
   render() {
 
-    var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0];  
+    var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0].substring(0,5);  
 
     return (
       <View style={[styles.container,{height:this.props.height || 25}]}>

@@ -23,7 +23,7 @@ export default class ScreenCamara extends Component {
 
     this.state={
       uriImage:'',     
-      now: new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0],     
+      now: new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0].substring(0,5),     
       battery:0,
       cam_active:false,
       cam_linkImage:'' ,
@@ -33,8 +33,7 @@ export default class ScreenCamara extends Component {
       cam_contadorsegundos: true
     }
 
-    this._onPress_SideMenu=this._onPress_SideMenu.bind(this);  
-    this._onBatteryStateChanged=this._onBatteryStateChanged.bind(this); 
+    this._onPress_SideMenu=this._onPress_SideMenu.bind(this);
     this._updateImageInfo=this._updateImageInfo.bind(this);
     this._takePicture=this._takePicture.bind(this);
     this._getBatteryLevel=this._getBatteryLevel.bind(this);
@@ -48,54 +47,42 @@ export default class ScreenCamara extends Component {
     const orientation =(width>height)?'APAISADO':'NORMAL';   
     //console.log('Orientacion: ' + orientation + ', width: ' + width + ', height: ' + height);
   }
-  _getSettings(){
+  async _getSettings(){
     try {
-      store.get('setting').then((res) =>{
-
-        if(res!= null){
+      res = await store.get('setting');
+      if(res!= null){
           this.setState({ cam_active:res.cam_active,
                           cam_linkImage:res.cam_linkImage,
                           cam_frecuencia:res.cam_frecuencia,
-                          cam_captura:res.cam_frecuencia*60,
+                          cam_captura:res.cam_frecuencia,
                           cam_calidad:res.cam_calidad
                         })
-        }
-
-      }).catch(error => {
-        this.dialogbox.alert('ERROR: ' + error);    
-      });      
+      }
+   
     } catch (error) {
       this.dialogbox.alert('ERROR: ' + error);    
     }
   }     
-  _takePicture() {
+  async _takePicture() {
     const options = {captureQuality:this.state.cam_calidad};
-    this.camera.capture({metadata: options})
-      .then(data =>this.setState({uriImage:data.path, cam_captura:this.state.cam_captura}))
-      .catch(error => {
-        this.dialogbox.alert('ERROR: ' + error);     
-      });
+    data = await this.camera.capture({metadata: options});
+    this.setState({uriImage:data.path, cam_captura:this.state.cam_captura});    
   }
-  _updateImageInfo(){
-    var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0];
+  async _getBatteryLevel(){
+    level =await DeviceBattery.getBatteryLevel()
+    var battery = parseInt(level*100);
+    this.setState({battery});    
+  }
+  async _updateImageInfo(){
+    var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0].substring(0,5);
     var cam_captura=this.state.cam_captura-1
     this.setState({cam_captura,now});
     if(cam_captura<=0){
+      this._getBatteryLevel(); 
       this._takePicture();
-      this.setState({cam_captura:this.state.cam_frecuencia*60})
+      this.setState({cam_captura:this.state.cam_frecuencia});
     }
   }
-  _getBatteryLevel(){
-    DeviceBattery.getBatteryLevel().then(level => {
-      var battery = parseInt(level*100);
-      this.setState({battery});
-    });
-  }
-  _onBatteryStateChanged= (state)=> {
-    var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0];
-    var battery = parseInt(state.level*100);
-    this.setState({battery, now});
-  };
 
   render() {
 
@@ -119,8 +106,7 @@ export default class ScreenCamara extends Component {
                         </View>
                         <ImageInfo bateria={this.state.battery} fecha={this.state.now} captura={this.state.cam_captura} contadorsegundos={this.state.cam_contadorsegundos} />              
                 </Camera>
-            </View>
-           
+            </View>           
 
           </View>
 
@@ -131,14 +117,11 @@ export default class ScreenCamara extends Component {
   }
 
   componentDidMount(){
-    //setInterval(this._updateImageInfo, 1000);
     this._getSettings();
-    this._getBatteryLevel();    
-    //DeviceBattery.addListener(this._onBatteryStateChanged);
+    this._getBatteryLevel(); 
   } 
 
   componentWillUnmount(){ 
-    //DeviceBattery.removeListener(this._onBatteryStateChanged); 
   }
  
 }

@@ -115,7 +115,7 @@ export default class ScreenSettings extends Component {
   render() {  
 
     SW = <Switch value={this.state.cam_active} onValueChange = {this._onChange_CamActive}/>
-    SL = <View style={styles.SliderContainer}><Slider minimumValue={1} maximumValue={30} step={1} style={styles.Slider} value={this.state.cam_frecuencia} onValueChange={this._onChange_CamFrecuencia}/><Text style={styles.SliderCount}>{this.state.cam_frecuencia} {'min.'}</Text></View>
+    SL = <View style={styles.SliderContainer}><Slider minimumValue={1} maximumValue={15} step={1} style={styles.Slider} value={this.state.cam_frecuencia} onValueChange={this._onChange_CamFrecuencia}/><Text style={styles.SliderCount}>{this.state.cam_frecuencia} {'min.'}</Text></View>
     DD = <Dropdown containerStyle={styles.DropDownContainer} label='Calidad' data={CALIDAD} value={this.state.cam_calidad} fontSize={14} itemCount={6} onChangeText={this._onChange_CamCalidad} />
 
     return (
