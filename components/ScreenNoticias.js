@@ -57,8 +57,9 @@ export default class ScreenNoticias extends Component {
   _onPress_Search(){
     this.setState({TextSearch:'',Search:true}); 
   }
-  _onPress_Refresh(){
-    Api.getNoticias(this).then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false,modalAltaNoticiaOpen: false}));
+  async _onPress_Refresh(){
+    var data = await Api.getNoticias(this);
+    this.setState({Noticias:data, NumNoticias:data.length, Net:false, modalAltaNoticiaOpen: false})
   }
   _onPress_Find(){        
     this.setState({Search:false});
@@ -132,6 +133,7 @@ export default class ScreenNoticias extends Component {
   }
  
   render() {  
+
     return (
 
         <Container  onLayout={this._onLayout}> 
@@ -178,8 +180,8 @@ export default class ScreenNoticias extends Component {
     );
   }
 
-  componentDidMount() {     
-    Api.getNoticias(this).then(data=>this.setState({Noticias:data,NumNoticias:data.length,Net:false}));
+  componentDidMount() {         
+    this._onPress_Refresh();
   }
 
 }
