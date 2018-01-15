@@ -92,28 +92,24 @@ export default class ScreenSettings extends Component {
       this.dialogbox.alert('ERROR: ' + error);  
     }
   }
-  _getSettings(){
+  async _getSettings(){
     try {
-      store.get('setting').then((res) =>{
+      res = await store.get('setting')
 
-        if(res!= null){
-          this.setState({ cam_active:res.cam_active,
-                          cam_linkImage:res.cam_linkImage,
-                          cam_frecuencia:res.cam_frecuencia,
-                          cam_calidad:res.cam_calidad
-                        })
-        }
-
-      }).catch(error => {
-        this.dialogbox.alert('ERROR: ' + error);  
-      });      
+      if(res!= null){
+        this.setState({ cam_active:res.cam_active,
+                        cam_linkImage:res.cam_linkImage,
+                        cam_frecuencia:res.cam_frecuencia,
+                        cam_calidad:res.cam_calidad
+        })
+      }
     } catch (error) {
       this.dialogbox.alert('ERROR: ' + error);  
     }
   }
       
   render() {  
-
+     
     SW = <Switch value={this.state.cam_active} onValueChange = {this._onChange_CamActive}/>
     SL = <View style={styles.SliderContainer}><Slider minimumValue={1} maximumValue={15} step={1} style={styles.Slider} value={this.state.cam_frecuencia} onValueChange={this._onChange_CamFrecuencia}/><Text style={styles.SliderCount}>{this.state.cam_frecuencia} {'min.'}</Text></View>
     DD = <Dropdown containerStyle={styles.DropDownContainer} label='Calidad' data={CALIDAD} value={this.state.cam_calidad} fontSize={14} itemCount={6} onChangeText={this._onChange_CamCalidad} />
@@ -184,7 +180,8 @@ export default class ScreenSettings extends Component {
     );
   }
 
-  componentDidMount() {     
+  componentWillMount() {
+
     var info_uniqueID= DeviceInfo.getUniqueID();    
     var info_manufacturer = DeviceInfo.getManufacturer();
     var info_model= DeviceInfo.getBrand() + ', ' + DeviceInfo.getModel() + ', ' + DeviceInfo.getDeviceId();    
@@ -193,9 +190,9 @@ export default class ScreenSettings extends Component {
     var info_apiLevel = DeviceInfo.getAPILevel();  
     var info_numberTLF = DeviceInfo.getPhoneNumber();
     
-    this.setState({info_uniqueID, info_manufacturer, info_model, info_system, info_deviceName, info_apiLevel, info_numberTLF});
-    this._getSettings();
-  }
+    this.setState({info_uniqueID, info_manufacturer, info_model, info_system, info_deviceName, info_apiLevel, info_numberTLF});  
+    this._getSettings();  
+  }  
 
 }
 

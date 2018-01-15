@@ -53,7 +53,7 @@ export default class App extends Component {
   render() {      
 
     const menu = this.state.SideMenuOpen && <MenuLateral onPress_PowerOff={this._onPress_PowerOff} onMenuItemSelected={this._onMenuItemSelected} navigator={navigator}/>;
-    
+   
     return (
       <SideMenu
         menu={menu}
@@ -70,9 +70,6 @@ export default class App extends Component {
     );
   }
 
-  componentDidMount() {  
-
-  }
 }
 
 const styles = StyleSheet.create({

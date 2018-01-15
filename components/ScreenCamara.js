@@ -31,7 +31,10 @@ export default class ScreenCamara extends Component {
       cam_calidad:'Media',
       cam_captura:15,
       cam_contadorsegundos: true
-    }
+    }   
+
+    this._getSettings();
+    this._getBatteryLevel();  
 
     this._onPress_SideMenu=this._onPress_SideMenu.bind(this);
     this._updateImageInfo=this._updateImageInfo.bind(this);
@@ -115,15 +118,7 @@ export default class ScreenCamara extends Component {
         </Container>
     );
   }
-
-  componentDidMount(){
-    this._getSettings();
-    this._getBatteryLevel(); 
-  } 
-
-  componentWillUnmount(){ 
-  }
- 
+  
 }
 
 const styles = StyleSheet.create({ 

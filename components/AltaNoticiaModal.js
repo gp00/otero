@@ -94,10 +94,6 @@ export default class AltaNoticiaModal extends Component {
     );
   }
 
-  componentDidMount() {
-   
-  }
-
 }
 
 const styles = StyleSheet.create({ 

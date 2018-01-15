@@ -72,9 +72,6 @@ export default class VerNoticiaModal extends Component {
     );
   }
 
-  componentDidMount() {
-  }
-
 }
 
 const styles = StyleSheet.create({ 
