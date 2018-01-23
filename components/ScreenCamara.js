@@ -15,7 +15,8 @@ import DialogBox from 'react-native-dialogbox';
 import ImageInfo from './ImageInfo'
 import HeaderTitle from "./HeaderTitle"
 
-import {CALIDAD} from '../constantes'
+import * as Constantes from '../constantes'
+import Fileupload from '../lib/FileUpload'
 
 export default class ScreenCamara extends Component {
   constructor(props){
@@ -30,7 +31,7 @@ export default class ScreenCamara extends Component {
       cam_frecuencia:15 ,
       cam_calidad:'Media',
       cam_captura:15,
-      cam_contadorsegundos: true
+      cam_iconActivity: Constantes.CONTADORSEGUNDOS
     }   
 
     this._getSettings();
@@ -67,9 +68,21 @@ export default class ScreenCamara extends Component {
     }
   }     
   async _takePicture() {
-    const options = {captureQuality:this.state.cam_calidad};
-    data = await this.camera.capture({metadata: options});
-    this.setState({uriImage:data.path, cam_captura:this.state.cam_captura});    
+    try {
+      var options = {captureQuality:this.state.cam_calidad};
+      data = await this.camera.capture({metadata:options});
+
+      this.setState({
+                      uriImage:data.path,
+                      cam_captura:this.state.cam_captura,
+                      cam_iconActivity: Constantes.FILEUPLOAD
+                    }); 
+             
+      var data = await Fileupload.imageUpload(this,data.path);       
+
+    } catch (error) {
+      this.dialogbox.alert('ERROR: ' + error);    
+    }    
   }
   async _getBatteryLevel(){
     level =await DeviceBattery.getBatteryLevel()
@@ -77,9 +90,11 @@ export default class ScreenCamara extends Component {
     this.setState({battery});    
   }
   async _updateImageInfo(){
+
     var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0].substring(0,5);
     var cam_captura=this.state.cam_captura-1
     this.setState({cam_captura,now});
+
     if(cam_captura<=0){
       this._getBatteryLevel(); 
       this._takePicture();
@@ -107,7 +122,7 @@ export default class ScreenCamara extends Component {
                         <View style={styles.iconCameraContainer}>                          
                           <Icon style={styles.iconCamera} name="camera" onPress={this._takePicture}/>                             
                         </View>
-                        <ImageInfo bateria={this.state.battery} fecha={this.state.now} captura={this.state.cam_captura} contadorsegundos={this.state.cam_contadorsegundos} />              
+                        <ImageInfo bateria={this.state.battery} fecha={this.state.now} captura={this.state.cam_captura} iconActivity={this.state.cam_iconActivity} />              
                 </Camera>
             </View>           
 

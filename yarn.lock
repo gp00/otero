@@ -3494,6 +3494,10 @@ react-native-easy-grid@0.1.15:
   dependencies:
     lodash "^4.11.1"
 
+react-native-file-transfer-android@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-file-transfer-android/-/react-native-file-transfer-android-0.0.2.tgz#30033211f036a28f4aeb8f136e5751d4ba4e7cc9"
+
 "react-native-keyboard-aware-scroll-view@https://github.com/GeekyAnts/react-native-keyboard-aware-scroll-view":
   version "0.2.9"
   resolved "https://github.com/GeekyAnts/react-native-keyboard-aware-scroll-view#f4805f254d6cc8e3329f5fb224944401f66655db"

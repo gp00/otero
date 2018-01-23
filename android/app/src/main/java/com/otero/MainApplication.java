@@ -3,6 +3,7 @@ package com.otero;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.burlap.filetransfer.FileTransferPackage;
 import com.robinpowered.react.battery.DeviceBatteryPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FileTransferPackage(),
             new DeviceBatteryPackage(),
             new RCTCameraPackage(),
             new RNDeviceInfo()

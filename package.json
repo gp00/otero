@@ -17,6 +17,7 @@
     "react-native-device-battery": "^1.0.0",
     "react-native-device-info": "^0.13.0",
     "react-native-dialogbox": "^0.6.8",
+    "react-native-file-transfer-android": "^0.0.2",
     "react-native-material-dropdown": "^0.6.1",
     "react-native-modalbox": "^1.4.2",
     "react-native-side-menu": "^1.1.3",

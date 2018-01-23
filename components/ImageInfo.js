@@ -8,18 +8,27 @@ import {
 } from 'react-native';
 import {Icon} from 'native-base';
 
+import * as Constantes from '../constantes';
+
 export default class ImageInfo extends Component {
   constructor(props){
     super(props)
 
-    this.state={  iconActivity:'eye',
+    this.state={  iconActivity: Constantes.CONTADORSEGUNDOS,
                   captura:''
                 }
   }  
 
   componentWillReceiveProps(nextProps){    
-    var iconActivity=  nextProps.contadorsegundos?'eye':'wifi';
-    var captura=nextProps.captura==0?'':nextProps.captura + ' min.';
+
+    var iconActivity = nextProps.iconActivity;
+
+    var captura='';
+    if (nextProps.captura > 0 && iconActivity == Constantes.CONTADORSEGUNDOS ){
+      captura = nextProps.captura + ' min.';
+    } else if (iconActivity == Constantes.FILEUPLOAD){
+      captura='Uploading';
+    }
     this.setState({iconActivity, captura})
   }
 
@@ -72,5 +81,6 @@ const styles = StyleSheet.create({
   eyeIcon:{
     fontSize:18,
     color:'white',
+    marginRight:10
   }  
 });
