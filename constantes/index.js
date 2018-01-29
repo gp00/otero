@@ -7,6 +7,7 @@ export const delNoticiasUri ='http://www.xn--oterodelasdueas-brb.es/App_Ashx/Not
 
 // UPLOAD FILE
 export const fileUploadPOST ='https://androidfileupload.azurewebsites.net/images'
+export const GetFoto ='https://androidfileupload.azurewebsites.net'
     
 //  SCREENS
 export const NOTICIAS = 'NOTICIAS'

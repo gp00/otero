@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  View,  
+  View, 
+  Linking, 
 } from 'react-native';
 
 import { Container, Content, Footer, Button, Left, Right, Body, Icon, Text, Input, Item, Fab, List, ListItem, Switch  } from 'native-base';
@@ -12,7 +13,9 @@ import {Dropdown} from 'react-native-material-dropdown';
 import store from 'react-native-simple-store';
 import DialogBox from 'react-native-dialogbox';
 
-import {CALIDAD} from '../constantes'
+import * as Constantes from '../constantes'
+import * as fn from '../lib/FuncionesGenerales'
+
 import HeaderTitle from "./HeaderTitle"
 
 const InfoItem =({label,info})=><View style={styles.InfoItemContainer}>
@@ -33,6 +36,7 @@ const CamItem =({label,children})=><View style={styles.InfoItemContainer}>
                                     </View>                                
                                   </View>
 
+
 export default class ScreenSettings extends Component {
 
   constructor(props) {
@@ -45,7 +49,6 @@ export default class ScreenSettings extends Component {
       info_system:'',
       info_deviceName:'',
       info_apiLevel:'',
-      info_numberTLF:'',
       cam_active:false,
       cam_linkImage:'' ,
       cam_frecuencia:15 ,
@@ -83,22 +86,27 @@ export default class ScreenSettings extends Component {
   } 
   _saveSettings(){
     try {
+
+      var cam_linkImage = Constantes.GetFoto + '/' + this.state.info_uniqueID + '.jpg' 
+
       store.save('setting', { cam_active:this.state.cam_active,
-                              cam_linkImage:this.state.cam_linkImage,
+                              cam_linkImage:cam_linkImage,
                               cam_frecuencia:this.state.cam_frecuencia,
                               cam_calidad:this.state.cam_calidad}); 
+
       this.dialogbox.alert('Settings Grabados.');     
     } catch (error) {
       this.dialogbox.alert('ERROR: ' + error);  
     }
-  }
+  }  
   async _getSettings(){
     try {
-      res = await store.get('setting')
+
+      res = await store.get('setting');
 
       if(res!= null){
         this.setState({ cam_active:res.cam_active,
-                        cam_linkImage:res.cam_linkImage,
+                        cam_linkImage: res.cam_linkImage,
                         cam_frecuencia:res.cam_frecuencia,
                         cam_calidad:res.cam_calidad
         })
@@ -112,7 +120,11 @@ export default class ScreenSettings extends Component {
      
     SW = <Switch value={this.state.cam_active} onValueChange = {this._onChange_CamActive}/>
     SL = <View style={styles.SliderContainer}><Slider minimumValue={1} maximumValue={15} step={1} style={styles.Slider} value={this.state.cam_frecuencia} onValueChange={this._onChange_CamFrecuencia}/><Text style={styles.SliderCount}>{this.state.cam_frecuencia} {'min.'}</Text></View>
-    DD = <Dropdown containerStyle={styles.DropDownContainer} label='Calidad' data={CALIDAD} value={this.state.cam_calidad} fontSize={14} itemCount={6} onChangeText={this._onChange_CamCalidad} />
+    DD = <Dropdown containerStyle={styles.DropDownContainer} label='Calidad' data={Constantes.CALIDAD} value={this.state.cam_calidad} fontSize={14} itemCount={6} onChangeText={this._onChange_CamCalidad} />    
+    LINK =  <Button transparent small iconRight style={styles.LinkButton} onPress={() => Linking.openURL(this.state.cam_linkImage)}>    
+              <Text style={styles.LinkFoto}>{fn.fnGetFileName(this.state.cam_linkImage)}</Text>
+              <Icon name='arrow-forward' />
+            </Button> 
 
     return (
 
@@ -142,23 +154,23 @@ export default class ScreenSettings extends Component {
                 </View>
                 <View style={styles.ListItemContainer}>
                     <InfoItem label='Api Level:' info={this.state.info_apiLevel}/>
-                </View>
-                <View style={styles.ListItemContainer}>
-                    <InfoItem label='Numero:' info={this.state.info_numberTLF}/>
-                </View>
+                </View>              
 
                 <ListItem itemDivider style={styles.listItemDivider}>
                   <Text style={this.state.cam_active?{color:'green', fontWeight: 'bold'}:{}}>Cámara Web</Text>
-                </ListItem>
+                </ListItem>               
                 <View style={styles.ListItemContainer}>
                     <CamItem label='Activa:' children={SW}/>
                 </View>
                 <View style={styles.ListItemContainer}>
-                    <CamItem label='Frecuencia:' children={SL}/>
+                    <CamItem label='Foto:' children={LINK}/>
                 </View> 
                 <View style={styles.ListItemContainer}>
+                    <CamItem label='Frecuencia:' children={SL}/>
+                </View>                 
+                <View style={styles.ListItemContainer}>
                     <CamItem label='Imagen:' children={DD}/>
-                </View>                            
+                </View>                                           
              </List>
 
           </Content>
@@ -180,18 +192,21 @@ export default class ScreenSettings extends Component {
     );
   }
 
-  componentWillMount() {
+  componentDidMount(){
 
     var info_uniqueID= DeviceInfo.getUniqueID();    
     var info_manufacturer = DeviceInfo.getManufacturer();
     var info_model= DeviceInfo.getBrand() + ', ' + DeviceInfo.getModel() + ', ' + DeviceInfo.getDeviceId();    
     var info_system =  DeviceInfo.getSystemName() + ', ' + DeviceInfo.getSystemVersion();   
     var info_deviceName = DeviceInfo.getDeviceName();
-    var info_apiLevel = DeviceInfo.getAPILevel();  
-    var info_numberTLF = DeviceInfo.getPhoneNumber();
-    
-    this.setState({info_uniqueID, info_manufacturer, info_model, info_system, info_deviceName, info_apiLevel, info_numberTLF});  
+    var info_apiLevel = DeviceInfo.getAPILevel(); 
+
+    this.setState({info_uniqueID, info_manufacturer, info_model, info_system, info_deviceName, info_apiLevel});  
     this._getSettings();  
+
+  }
+
+  componentWillMount() {   
   }  
 
 }
@@ -209,7 +224,7 @@ const styles = StyleSheet.create({
     marginBottom:10,
   },
   ListItemContainer:{
-    padding:5
+    padding:5    
   },
   InfoItemContainer:{
     flexDirection:'row',
@@ -234,6 +249,7 @@ const styles = StyleSheet.create({
     position:'relative',
     flexDirection:'row',
     top:-8
+
   },
   DropDownContainer:{
     width:'95%',
@@ -251,5 +267,15 @@ const styles = StyleSheet.create({
     top:9,
     height:30,
     fontSize:14
-  }
+  },
+  LinkButton:style={
+    height:20,    
+  },  
+  LinkFoto:{
+    color:'blue',
+    fontSize:12,
+    position:'relative',    
+    left:-15,
+    paddingRight:0    
+  } 
 });
