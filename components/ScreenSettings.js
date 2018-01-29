@@ -17,6 +17,7 @@ import * as Constantes from '../constantes'
 import * as fn from '../lib/FuncionesGenerales'
 
 import HeaderTitle from "./HeaderTitle"
+import DateH from './DateH'
 
 const InfoItem =({label,info})=><View style={styles.InfoItemContainer}>
                                   <View style={styles.InfoItemLabelContainer}>
@@ -27,15 +28,15 @@ const InfoItem =({label,info})=><View style={styles.InfoItemContainer}>
                                   </View>
                                 </View>
 
-const CamItem =({label,children})=><View style={styles.InfoItemContainer}>
-                                    <View style={styles.InfoItemLabelContainer}>
-                                      <Text style={styles.InfoItemLabel}>{label}</Text>
-                                    </View>
-                                    <View style={styles.InfoItemTextContainer}>
-                                      {children}
-                                    </View>                                
-                                  </View>
-
+const CamItem =({label,children,children2})=><View style={styles.InfoItemContainer}>
+                                                <View style={styles.InfoItemLabelContainer}>
+                                                  <Text style={styles.InfoItemLabel}>{label}</Text>
+                                                </View>
+                                                <View style={styles.InfoItemTextContainer}>
+                                                  {children}
+                                                  {children2}
+                                                </View>                                
+                                              </View>
 
 export default class ScreenSettings extends Component {
 
@@ -53,6 +54,8 @@ export default class ScreenSettings extends Component {
       cam_linkImage:'' ,
       cam_frecuencia:15 ,
       cam_calidad:'Media',
+      cam_horarioInicial:'',
+      cam_horarioFinal:'',
     };
    
     this._onPress_SideMenu=this._onPress_SideMenu.bind(this);   
@@ -60,8 +63,8 @@ export default class ScreenSettings extends Component {
     this._onChange_CamActive=this._onChange_CamActive.bind(this);
     this._onChange_CamFrecuencia=this._onChange_CamFrecuencia.bind(this);
     this._onChange_CamCalidad=this._onChange_CamCalidad.bind(this);
-    //this._getSettings=this._getSettings.bind(this);
-    //this._saveSettings=this._saveSettings.bind(this);
+    this._onChange_CamHoraInicio=this._onChange_CamHoraInicio.bind(this);
+    this._onChange_CamHoraFin=this._onChange_CamHoraFin.bind(this);   
   } 
    
   _onPress_SideMenu(pVisible){
@@ -84,6 +87,12 @@ export default class ScreenSettings extends Component {
   _onChange_CamCalidad(pValue){
     this.setState({cam_calidad:pValue});
   } 
+  _onChange_CamHoraInicio(pValue){
+    this.setState({cam_horarioInicial:pValue});
+  } 
+  _onChange_CamHoraFin(pValue){
+    this.setState({cam_horarioFinal:pValue});
+  } 
   _saveSettings(){
     try {
 
@@ -92,7 +101,10 @@ export default class ScreenSettings extends Component {
       store.save('setting', { cam_active:this.state.cam_active,
                               cam_linkImage:cam_linkImage,
                               cam_frecuencia:this.state.cam_frecuencia,
-                              cam_calidad:this.state.cam_calidad}); 
+                              cam_calidad:this.state.cam_calidad,
+                              cam_horarioInicial: this.state.cam_horarioInicial,
+                              cam_horarioFinal: this.state.cam_horarioFinal
+                            }); 
 
       this.dialogbox.alert('Settings Grabados.');     
     } catch (error) {
@@ -108,7 +120,9 @@ export default class ScreenSettings extends Component {
         this.setState({ cam_active:res.cam_active,
                         cam_linkImage: res.cam_linkImage,
                         cam_frecuencia:res.cam_frecuencia,
-                        cam_calidad:res.cam_calidad
+                        cam_calidad:res.cam_calidad,
+                        cam_horarioInicial: res.cam_horarioInicial,
+                        cam_horarioFinal: res.cam_horarioFinal
         })
       }
     } catch (error) {
@@ -124,7 +138,9 @@ export default class ScreenSettings extends Component {
     LINK =  <Button transparent small iconRight style={styles.LinkButton} onPress={() => Linking.openURL(this.state.cam_linkImage)}>    
               <Text style={styles.LinkFoto}>{fn.fnGetFileName(this.state.cam_linkImage)}</Text>
               <Icon name='arrow-forward' />
-            </Button> 
+            </Button>
+    HIni =  <DateH placeholder={'inicial'} fecha={this.state.cam_horarioInicial} onChangeHora={this._onChange_CamHoraInicio}/>
+    HFin = <DateH  placeholder={'final'} fecha={this.state.cam_horarioFinal} onChangeHora={this._onChange_CamHoraFin}/>
 
     return (
 
@@ -167,8 +183,13 @@ export default class ScreenSettings extends Component {
                 </View> 
                 <View style={styles.ListItemContainer}>
                     <CamItem label='Frecuencia:' children={SL}/>
-                </View>                 
-                <View style={styles.ListItemContainer}>
+                </View> 
+
+                <View style={styles.ListItemContainer}> 
+                  <CamItem label='Horario:' children={HIni} children2={HFin}/>                                  
+                </View>              
+                 
+                <View style={[styles.ListItemContainer, {marginTop:10}]}>
                     <CamItem label='Imagen:' children={DD}/>
                 </View>                                           
              </List>
@@ -203,11 +224,8 @@ export default class ScreenSettings extends Component {
 
     this.setState({info_uniqueID, info_manufacturer, info_model, info_system, info_deviceName, info_apiLevel});  
     this._getSettings();  
-
   }
 
-  componentWillMount() {   
-  }  
 
 }
 
@@ -224,17 +242,19 @@ const styles = StyleSheet.create({
     marginBottom:10,
   },
   ListItemContainer:{
-    padding:5    
+    padding:5,
   },
   InfoItemContainer:{
-    flexDirection:'row',
+    flexDirection:'row',   
   },
   InfoItemLabelContainer:{
     width:'25%',
   },
   InfoItemTextContainer:{
-    alignItems:'flex-start',
-    width:'75%',
+   flexDirection:'row',
+   
+   alignItems:'flex-start',
+   width:'75%',  
   },
   InfoItemLabel:{
     fontSize:15

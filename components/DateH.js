@@ -9,23 +9,22 @@ import {Button, Left, Right, Icon, Text, Input, Item, Form, H2, Label} from 'nat
 
 import DatePicker from 'react-native-datepicker'
 
-export default class DateP extends Component {
+export default class DateH extends Component {
 
   constructor(props) {
     super(props);
   }  
 
   render() {  
-    
+
     return (     
 
       <DatePicker
-        style={{ width: 150 }}
+        style={{ width: 120, marginRight:15}}
         date={this.props.fecha}
-        mode="date"
-        placeholder="fecha publicación"
-        format="YYYY-MM-DD"
-        minDate="2017-12-01"
+        mode="time"
+        placeholder={this.props.placeholder}
+        format="HH:mm"     
         confirmBtnText="Aceptar"
         cancelBtnText="Cancelar"
         customStyles={{
@@ -39,7 +38,7 @@ export default class DateP extends Component {
             marginLeft: 36
           }
         }}
-        onDateChange={(date) => {this.props.onChangeFecha(date)}}
+        onDateChange={(hora) => {this.props.onChangeHora(hora)}}
       />
     );
   }
