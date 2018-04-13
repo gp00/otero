@@ -92694,15 +92694,11 @@ var _reactNative = require(12            ); // 12 = react-native
 
 var _nativeBase = require(497          ); // 497 = native-base
 
-var _reactNativeDatepicker = require(740                      ); // 740 = react-native-datepicker
-
-var _reactNativeDatepicker2 = _interopRequireDefault(_reactNativeDatepicker);
-
 var _reactNativeModalbox = require(704                    ); // 704 = react-native-modalbox
 
 var _reactNativeModalbox2 = _interopRequireDefault(_reactNativeModalbox);
 
-var _DateP = require(744      ); // 744 = ./DateP
+var _DateP = require(740      ); // 740 = ./DateP
 
 var _DateP2 = _interopRequireDefault(_DateP);
 
@@ -92771,7 +92767,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
         _reactNative.View,
         { style: styles.modalContainer, __source: {
             fileName: _jsxFileName,
-            lineNumber: 41
+            lineNumber: 40
           }
         },
         _react3.default.createElement(
@@ -92781,28 +92777,28 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
             onClosed: this.props.onClosed,
             style: [styles.modal], __source: {
               fileName: _jsxFileName,
-              lineNumber: 42
+              lineNumber: 41
             }
           },
           _react3.default.createElement(
             _reactNative.View,
             { style: styles.headerContainer, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 47
+                lineNumber: 46
               }
             },
             _react3.default.createElement(
               _reactNative.View,
               { style: styles.titulo, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 48
+                  lineNumber: 47
                 }
               },
               _react3.default.createElement(
                 _nativeBase.H2,
                 { style: { color: 'white' }, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 49
+                    lineNumber: 48
                   }
                 },
                 'Alta Noticia'
@@ -92812,12 +92808,12 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
               _nativeBase.Button,
               { transparent: true, onPress: this.props.onClosed, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 51
+                  lineNumber: 50
                 }
               },
               _react3.default.createElement(_nativeBase.Icon, { style: styles.iconcloseModal, name: 'close', __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 51
+                  lineNumber: 50
                 }
               })
             )
@@ -92826,7 +92822,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
             _reactNative.View,
             { style: styles.inputsContainer, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 54
+                lineNumber: 53
               }
             },
             _react3.default.createElement(
@@ -92834,19 +92830,19 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
               {
                 __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 56
+                  lineNumber: 55
                 }
               },
               _react3.default.createElement(
                 _nativeBase.Item,
                 { style: { borderBottomWidth: 0 }, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 57
+                    lineNumber: 56
                   }
                 },
                 _react3.default.createElement(_DateP2.default, { fecha: this.state.fecha, onChangeFecha: this._onChangeFecha, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 58
+                    lineNumber: 57
                   }
                 })
               ),
@@ -92854,7 +92850,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
                 _nativeBase.Item,
                 { floatingLabel: true, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 61
+                    lineNumber: 60
                   }
                 },
                 _react3.default.createElement(
@@ -92862,7 +92858,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
                   {
                     __source: {
                       fileName: _jsxFileName,
-                      lineNumber: 62
+                      lineNumber: 61
                     }
                   },
                   'Titulo'
@@ -92879,7 +92875,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
                     _this2.titulo = input;
                   }, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 63
+                    lineNumber: 62
                   }
                 })
               ),
@@ -92887,7 +92883,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
                 _nativeBase.Item,
                 { floatingLabel: true, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 70
+                    lineNumber: 69
                   }
                 },
                 _react3.default.createElement(
@@ -92895,7 +92891,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
                   {
                     __source: {
                       fileName: _jsxFileName,
-                      lineNumber: 71
+                      lineNumber: 70
                     }
                   },
                   'Noticia'
@@ -92911,7 +92907,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
                     _this2.noticia = input;
                   }, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 72
+                    lineNumber: 71
                   }
                 })
               )
@@ -92921,7 +92917,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
             _reactNative.View,
             { style: styles.btnsContainer, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 83
+                lineNumber: 82
               }
             },
             _react3.default.createElement(
@@ -92930,7 +92926,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
                   return _this2.props.onPressSaveNoticia(_this2.state);
                 }, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 84
+                  lineNumber: 83
                 }
               },
               _react3.default.createElement(
@@ -92938,7 +92934,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
                 {
                   __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 85
+                    lineNumber: 84
                   }
                 },
                 'Grabar Noticia'
@@ -92948,7 +92944,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
               _nativeBase.Button,
               { block: true, primary: true, style: styles.btnNoticia, onPress: this.props.onClosed, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 87
+                  lineNumber: 86
                 }
               },
               _react3.default.createElement(
@@ -92956,7 +92952,7 @@ var AltaNoticiaModal = _wrapComponent('AltaNoticiaModal')(function (_Component) 
                 {
                   __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 88
+                    lineNumber: 87
                   }
                 },
                 'Salir'
@@ -93014,6 +93010,110 @@ var styles = _reactNative.StyleSheet.create({
   }
 });
 }, 739, null, "Otero/components/AltaNoticiaModal.js");
+__d(/* Otero/components/DateP.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react2 = require(35     ); // 35 = react
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require(174                                                 ); // 174 = ./../node_modules/react-transform-hmr/lib/index.js
+
+var _index2 = _interopRequireDefault(_index);
+
+var _jsxFileName = 'c:\\a\\RN\\oteroWeb\\components\\DateP.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _reactNative = require(12            ); // 12 = react-native
+
+var _nativeBase = require(497          ); // 497 = native-base
+
+var _reactNativeDatepicker = require(741                      ); // 741 = react-native-datepicker
+
+var _reactNativeDatepicker2 = _interopRequireDefault(_reactNativeDatepicker);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  DateP: {
+    displayName: 'DateP'
+  }
+};
+
+var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+  filename: 'c:/a/RN/oteroWeb/components/DateP.js',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+  };
+}
+
+var DateP = _wrapComponent('DateP')(function (_Component) {
+  _inherits(DateP, _Component);
+
+  function DateP(props) {
+    _classCallCheck(this, DateP);
+
+    return _possibleConstructorReturn(this, (DateP.__proto__ || Object.getPrototypeOf(DateP)).call(this, props));
+  }
+
+  _createClass(DateP, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react3.default.createElement(_reactNativeDatepicker2.default, {
+        style: { width: 150 },
+        date: this.props.fecha,
+        mode: 'date',
+        placeholder: 'fecha publicaci\xF3n',
+        format: 'YYYY-MM-DD',
+        minDate: '2017-12-01',
+        confirmBtnText: 'Aceptar',
+        cancelBtnText: 'Cancelar',
+        customStyles: {
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+        },
+        onDateChange: function onDateChange(date) {
+          _this2.props.onChangeFecha(date);
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 22
+        }
+      });
+    }
+  }]);
+
+  return DateP;
+}(_react2.Component));
+
+exports.default = DateP;
+
+
+var styles = _reactNative.StyleSheet.create({});
+}, 740, null, "Otero/components/DateP.js");
 __d(/* react-native-datepicker/index.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -93036,11 +93136,11 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactNative = require(12            ); // 12 = react-native
 
-var _style = require(741      ); // 741 = ./style
+var _style = require(742      ); // 742 = ./style
 
 var _style2 = _interopRequireDefault(_style);
 
-var _moment = require(742     ); // 742 = moment
+var _moment = require(743     ); // 743 = moment
 
 var _moment2 = _interopRequireDefault(_moment);
 
@@ -93656,7 +93756,7 @@ DatePicker.defaultProps = {
   duration: 300,
   confirmBtnText: '确定',
   cancelBtnText: '取消',
-  iconSource: require(743              ), // 743 = ./date_icon.png
+  iconSource: require(744              ), // 744 = ./date_icon.png
   customStyles: {},
 
   showIcon: true,
@@ -93695,7 +93795,7 @@ DatePicker.propTypes = {
 };
 
 exports.default = DatePicker;
-}, 740, null, "react-native-datepicker/index.js");
+}, 741, null, "react-native-datepicker/index.js");
 __d(/* react-native-datepicker/style.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -93776,7 +93876,7 @@ var style = _reactNative.StyleSheet.create({
 });
 
 exports.default = style;
-}, 741, null, "react-native-datepicker/style.js");
+}, 742, null, "react-native-datepicker/style.js");
 __d(/* moment/moment.js */function(global, require, module, exports) {
 
 ;(function (global, factory) {
@@ -97784,113 +97884,9 @@ __d(/* moment/moment.js */function(global, require, module, exports) {
 
     return hooks;
 });
-}, 742, null, "moment/moment.js");
+}, 743, null, "moment/moment.js");
 __d(/* react-native-datepicker/date_icon.png */function(global, require, module, exports) {module.exports=require(160                                         ).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/node_modules/react-native-datepicker","width":64,"height":64,"scales":[1],"hash":"1edd5017f455b09c608e175b1285c06d","name":"date_icon","type":"png"}); // 160 = react-native/Libraries/Image/AssetRegistry
-}, 743, null, "react-native-datepicker/date_icon.png");
-__d(/* Otero/components/DateP.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react2 = require(35     ); // 35 = react
-
-var _react3 = _interopRequireDefault(_react2);
-
-var _index = require(174                                                 ); // 174 = ./../node_modules/react-transform-hmr/lib/index.js
-
-var _index2 = _interopRequireDefault(_index);
-
-var _jsxFileName = 'c:\\a\\RN\\oteroWeb\\components\\DateP.js';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _reactNative = require(12            ); // 12 = react-native
-
-var _nativeBase = require(497          ); // 497 = native-base
-
-var _reactNativeDatepicker = require(740                      ); // 740 = react-native-datepicker
-
-var _reactNativeDatepicker2 = _interopRequireDefault(_reactNativeDatepicker);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _components = {
-  DateP: {
-    displayName: 'DateP'
-  }
-};
-
-var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
-  filename: 'c:/a/RN/oteroWeb/components/DateP.js',
-  components: _components,
-  locals: [module],
-  imports: [_react3.default]
-});
-
-function _wrapComponent(id) {
-  return function (Component) {
-    return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
-  };
-}
-
-var DateP = _wrapComponent('DateP')(function (_Component) {
-  _inherits(DateP, _Component);
-
-  function DateP(props) {
-    _classCallCheck(this, DateP);
-
-    return _possibleConstructorReturn(this, (DateP.__proto__ || Object.getPrototypeOf(DateP)).call(this, props));
-  }
-
-  _createClass(DateP, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return _react3.default.createElement(_reactNativeDatepicker2.default, {
-        style: { width: 150 },
-        date: this.props.fecha,
-        mode: 'date',
-        placeholder: 'fecha publicaci\xF3n',
-        format: 'YYYY-MM-DD',
-        minDate: '2017-12-01',
-        confirmBtnText: 'Aceptar',
-        cancelBtnText: 'Cancelar',
-        customStyles: {
-          dateIcon: {
-            position: 'absolute',
-            left: 0,
-            top: 4,
-            marginLeft: 0
-          },
-          dateInput: {
-            marginLeft: 36
-          }
-        },
-        onDateChange: function onDateChange(date) {
-          _this2.props.onChangeFecha(date);
-        },
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 22
-        }
-      });
-    }
-  }]);
-
-  return DateP;
-}(_react2.Component));
-
-exports.default = DateP;
-
-
-var styles = _reactNative.StyleSheet.create({});
-}, 744, null, "Otero/components/DateP.js");
+}, 744, null, "react-native-datepicker/date_icon.png");
 __d(/* Otero/components/VerNoticiaModal.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -98352,7 +98348,8 @@ var InfoItem = function InfoItem(_ref) {
 
 var CamItem = function CamItem(_ref2) {
   var label = _ref2.label,
-      children = _ref2.children;
+      children = _ref2.children,
+      children2 = _ref2.children2;
   return _react3.default.createElement(
     _reactNative.View,
     { style: styles.InfoItemContainer, __source: {
@@ -98384,7 +98381,8 @@ var CamItem = function CamItem(_ref2) {
           lineNumber: 35
         }
       },
-      children
+      children,
+      children2
     )
   );
 };
@@ -98417,6 +98415,8 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
     _this._onChange_CamActive = _this._onChange_CamActive.bind(_this);
     _this._onChange_CamFrecuencia = _this._onChange_CamFrecuencia.bind(_this);
     _this._onChange_CamCalidad = _this._onChange_CamCalidad.bind(_this);
+    _this._onChange_CamHoraInicio = _this._onChange_CamHoraInicio.bind(_this);
+    _this._onChange_CamHoraFin = _this._onChange_CamHoraFin.bind(_this);
     return _this;
   }
 
@@ -98453,6 +98453,16 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
     key: '_onChange_CamCalidad',
     value: function _onChange_CamCalidad(pValue) {
       this.setState({ cam_calidad: pValue });
+    }
+  }, {
+    key: '_onChange_CamHoraInicio',
+    value: function _onChange_CamHoraInicio(pValue) {
+      this.setState({ cam_horarioInicial: pValue });
+    }
+  }, {
+    key: '_onChange_CamHoraFin',
+    value: function _onChange_CamHoraFin(pValue) {
+      this.setState({ cam_horarioFinal: pValue });
     }
   }, {
     key: '_saveSettings',
@@ -98521,26 +98531,26 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
 
       SW = _react3.default.createElement(_nativeBase.Switch, { value: this.state.cam_active, onValueChange: this._onChange_CamActive, __source: {
           fileName: _jsxFileName,
-          lineNumber: 129
+          lineNumber: 135
         }
       });
       SL = _react3.default.createElement(
         _reactNative.View,
         { style: styles.SliderContainer, __source: {
             fileName: _jsxFileName,
-            lineNumber: 130
+            lineNumber: 136
           }
         },
         _react3.default.createElement(_reactNativeSlider2.default, { minimumValue: 1, maximumValue: 15, step: 1, style: styles.Slider, value: this.state.cam_frecuencia, onValueChange: this._onChange_CamFrecuencia, __source: {
             fileName: _jsxFileName,
-            lineNumber: 130
+            lineNumber: 136
           }
         }),
         _react3.default.createElement(
           _nativeBase.Text,
           { style: styles.SliderCount, __source: {
               fileName: _jsxFileName,
-              lineNumber: 130
+              lineNumber: 136
             }
           },
           this.state.cam_frecuencia,
@@ -98550,7 +98560,7 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
       );
       DD = _react3.default.createElement(_reactNativeMaterialDropdown.Dropdown, { containerStyle: styles.DropDownContainer, label: 'Calidad', data: Constantes.CALIDAD, value: this.state.cam_calidad, fontSize: 14, itemCount: 6, onChangeText: this._onChange_CamCalidad, __source: {
           fileName: _jsxFileName,
-          lineNumber: 131
+          lineNumber: 137
         }
       });
       LINK = _react3.default.createElement(
@@ -98559,35 +98569,45 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
             return _reactNative.Linking.openURL(_this2.state.cam_linkImage);
           }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 132
+            lineNumber: 138
           }
         },
         _react3.default.createElement(
           _nativeBase.Text,
           { style: styles.LinkFoto, __source: {
               fileName: _jsxFileName,
-              lineNumber: 133
+              lineNumber: 139
             }
           },
           fn.fnGetFileName(this.state.cam_linkImage)
         ),
         _react3.default.createElement(_nativeBase.Icon, { name: 'arrow-forward', __source: {
             fileName: _jsxFileName,
-            lineNumber: 134
+            lineNumber: 140
           }
         })
       );
+      HIni = _react3.default.createElement(_DateH2.default, { placeholder: 'inicial', fecha: this.state.cam_horarioInicial, onChangeHora: this._onChange_CamHoraInicio, __source: {
+          fileName: _jsxFileName,
+          lineNumber: 142
+        }
+      });
+      HFin = _react3.default.createElement(_DateH2.default, { placeholder: 'final', fecha: this.state.cam_horarioFinal, onChangeHora: this._onChange_CamHoraFin, __source: {
+          fileName: _jsxFileName,
+          lineNumber: 143
+        }
+      });
 
       return _react3.default.createElement(
         _nativeBase.Container,
         { onLayout: this._onLayout, __source: {
             fileName: _jsxFileName,
-            lineNumber: 139
+            lineNumber: 147
           }
         },
         _react3.default.createElement(_HeaderTitle2.default, { title: 'SETTINGS', onPress_SideMenu: this._onPress_SideMenu, onPress_PowerOff: this.props.onPress_PowerOff, __source: {
             fileName: _jsxFileName,
-            lineNumber: 141
+            lineNumber: 149
           }
         }),
         _react3.default.createElement(
@@ -98595,7 +98615,7 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
           {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 143
+              lineNumber: 151
             }
           },
           _react3.default.createElement(
@@ -98603,14 +98623,14 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
             {
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 144
+                lineNumber: 152
               }
             },
             _react3.default.createElement(
               _nativeBase.ListItem,
               { itemDivider: true, style: styles.listItemDivider, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 145
+                  lineNumber: 153
                 }
               },
               _react3.default.createElement(
@@ -98618,7 +98638,7 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
                 {
                   __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 146
+                    lineNumber: 154
                   }
                 },
                 'Informaci\xF3n Tel\xE9fono'
@@ -98628,12 +98648,12 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _reactNative.View,
               { style: styles.ListItemContainer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 148
+                  lineNumber: 156
                 }
               },
               _react3.default.createElement(InfoItem, { label: 'ID:', info: this.state.info_uniqueID, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 149
+                  lineNumber: 157
                 }
               })
             ),
@@ -98641,12 +98661,12 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _reactNative.View,
               { style: styles.ListItemContainer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 151
+                  lineNumber: 159
                 }
               },
               _react3.default.createElement(InfoItem, { label: 'Fabricante:', info: this.state.info_manufacturer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 152
+                  lineNumber: 160
                 }
               })
             ),
@@ -98654,12 +98674,12 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _reactNative.View,
               { style: styles.ListItemContainer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 154
+                  lineNumber: 162
                 }
               },
               _react3.default.createElement(InfoItem, { label: 'Modelo:', info: this.state.info_model, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 155
+                  lineNumber: 163
                 }
               })
             ),
@@ -98667,12 +98687,12 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _reactNative.View,
               { style: styles.ListItemContainer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 157
+                  lineNumber: 165
                 }
               },
               _react3.default.createElement(InfoItem, { label: 'Sistema:', info: this.state.info_system, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 158
+                  lineNumber: 166
                 }
               })
             ),
@@ -98680,12 +98700,12 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _reactNative.View,
               { style: styles.ListItemContainer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 160
+                  lineNumber: 168
                 }
               },
               _react3.default.createElement(InfoItem, { label: 'Nombre:', info: this.state.info_deviceName, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 161
+                  lineNumber: 169
                 }
               })
             ),
@@ -98693,12 +98713,12 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _reactNative.View,
               { style: styles.ListItemContainer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 163
+                  lineNumber: 171
                 }
               },
               _react3.default.createElement(InfoItem, { label: 'Api Level:', info: this.state.info_apiLevel, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 164
+                  lineNumber: 172
                 }
               })
             ),
@@ -98706,14 +98726,14 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _nativeBase.ListItem,
               { itemDivider: true, style: styles.listItemDivider, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 167
+                  lineNumber: 175
                 }
               },
               _react3.default.createElement(
                 _nativeBase.Text,
                 { style: this.state.cam_active ? { color: 'green', fontWeight: 'bold' } : {}, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 168
+                    lineNumber: 176
                   }
                 },
                 'C\xE1mara Web'
@@ -98723,12 +98743,12 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _reactNative.View,
               { style: styles.ListItemContainer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 170
+                  lineNumber: 178
                 }
               },
               _react3.default.createElement(CamItem, { label: 'Activa:', children: SW, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 171
+                  lineNumber: 179
                 }
               })
             ),
@@ -98736,12 +98756,12 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _reactNative.View,
               { style: styles.ListItemContainer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 173
+                  lineNumber: 181
                 }
               },
               _react3.default.createElement(CamItem, { label: 'Foto:', children: LINK, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 174
+                  lineNumber: 182
                 }
               })
             ),
@@ -98749,51 +98769,38 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
               _reactNative.View,
               { style: styles.ListItemContainer, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 176
+                  lineNumber: 184
                 }
               },
               _react3.default.createElement(CamItem, { label: 'Frecuencia:', children: SL, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 177
-                }
-              })
-            ),
-            _react3.default.createElement(
-              _reactNative.View,
-              { style: styles.ListItemContainer, __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 179
-                }
-              },
-              _react3.default.createElement(CamItem, { label: 'H.Ini:', __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 180
-                }
-              })
-            ),
-            _react3.default.createElement(
-              _reactNative.View,
-              { style: styles.ListItemContainer, __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 182
-                }
-              },
-              _react3.default.createElement(CamItem, { label: 'H.Fin:', __source: {
-                  fileName: _jsxFileName,
-                  lineNumber: 183
-                }
-              })
-            ),
-            _react3.default.createElement(
-              _reactNative.View,
-              { style: styles.ListItemContainer, __source: {
-                  fileName: _jsxFileName,
                   lineNumber: 185
+                }
+              })
+            ),
+            _react3.default.createElement(
+              _reactNative.View,
+              { style: styles.ListItemContainer, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 188
+                }
+              },
+              _react3.default.createElement(CamItem, { label: 'Horario:', children: HIni, children2: HFin, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 189
+                }
+              })
+            ),
+            _react3.default.createElement(
+              _reactNative.View,
+              { style: [styles.ListItemContainer, { marginTop: 10 }], __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 192
                 }
               },
               _react3.default.createElement(CamItem, { label: 'Imagen:', children: DD, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 186
+                  lineNumber: 193
                 }
               })
             )
@@ -98809,12 +98816,12 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
             position: 'bottomRight',
             onPress: this._onPressSaveBoton, __source: {
               fileName: _jsxFileName,
-              lineNumber: 192
+              lineNumber: 199
             }
           },
           _react3.default.createElement(_nativeBase.Icon, { style: { fontSize: 35 }, name: 'archive', __source: {
               fileName: _jsxFileName,
-              lineNumber: 199
+              lineNumber: 206
             }
           })
         ),
@@ -98822,7 +98829,7 @@ var ScreenSettings = _wrapComponent('ScreenSettings')(function (_Component) {
             _this2.dialogbox = dialogbox;
           }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 202
+            lineNumber: 209
           }
         })
       );
@@ -98871,6 +98878,8 @@ var styles = _reactNative.StyleSheet.create({
     width: '25%'
   },
   InfoItemTextContainer: {
+    flexDirection: 'row',
+
     alignItems: 'flex-start',
     width: '75%'
   },
@@ -104164,7 +104173,7 @@ var _reactNative = require(12            ); // 12 = react-native
 
 var _nativeBase = require(497          ); // 497 = native-base
 
-var _reactNativeDatepicker = require(740                      ); // 740 = react-native-datepicker
+var _reactNativeDatepicker = require(741                      ); // 741 = react-native-datepicker
 
 var _reactNativeDatepicker2 = _interopRequireDefault(_reactNativeDatepicker);
 
@@ -104210,13 +104219,11 @@ var DateH = _wrapComponent('DateH')(function (_Component) {
       var _this2 = this;
 
       return _react3.default.createElement(_reactNativeDatepicker2.default, {
-        style: { width: 150 },
+        style: { width: 120, marginRight: 15 },
         date: this.props.fecha,
         mode: 'time',
-        placeholder: 'hora',
+        placeholder: this.props.placeholder,
         format: 'HH:mm',
-        minDate: '05:00',
-        maxDate: '23:00',
         confirmBtnText: 'Aceptar',
         cancelBtnText: 'Cancelar',
         customStyles: {
@@ -104342,11 +104349,14 @@ var ScreenCamara = _wrapComponent('ScreenCamara')(function (_Component) {
       uriImage: '',
       now: new Date().toISOString().slice(0, 10) + '   ' + new Date().toTimeString().split(" ")[0].substring(0, 5),
       battery: 0,
-      cam_active: false,
       cam_linkImage: '',
+      cam_record: false,
+      cam_active: false,
       cam_frecuencia: 15,
       cam_calidad: 'Media',
       cam_captura: 15,
+      cam_horarioInicial: '',
+      cam_horarioFinal: '',
       cam_iconActivity: Constantes.CONTADORSEGUNDOS
     };
 
@@ -104357,6 +104367,8 @@ var ScreenCamara = _wrapComponent('ScreenCamara')(function (_Component) {
     _this._updateImageInfo = _this._updateImageInfo.bind(_this);
     _this._takePicture = _this._takePicture.bind(_this);
     _this._getBatteryLevel = _this._getBatteryLevel.bind(_this);
+    _this._beginRecord = _this._beginRecord.bind(_this);
+    _this._endRecord = _this._endRecord.bind(_this);
     return _this;
   }
 
@@ -104389,11 +104401,14 @@ var ScreenCamara = _wrapComponent('ScreenCamara')(function (_Component) {
               res = _context.sent;
 
               if (res != null) {
-                this.setState({ cam_active: res.cam_active,
+                this.setState({
                   cam_linkImage: res.cam_linkImage,
+                  cam_active: res.cam_active,
                   cam_frecuencia: res.cam_frecuencia,
-                  cam_captura: res.cam_frecuencia,
-                  cam_calidad: res.cam_calidad
+                  cam_calidad: res.cam_calidad,
+                  cam_horarioInicial: res.cam_horarioInicial,
+                  cam_horarioFinal: res.cam_horarioFinal,
+                  cam_captura: res.cam_frecuencia
                 });
               }
 
@@ -104414,6 +104429,24 @@ var ScreenCamara = _wrapComponent('ScreenCamara')(function (_Component) {
       }, null, this, [[0, 7]]);
     }
   }, {
+    key: '_beginRecord',
+    value: function _beginRecord() {
+
+      this.setState({
+        cam_record: true,
+        cam_iconActivity: Constantes.CONTADORSEGUNDOS
+      });
+    }
+  }, {
+    key: '_endRecord',
+    value: function _endRecord() {
+
+      this.setState({
+        cam_record: false,
+        cam_iconActivity: Constantes.CONTADORSEGUNDOS
+      });
+    }
+  }, {
     key: '_takePicture',
     value: function _takePicture() {
       var options, data;
@@ -104422,40 +104455,43 @@ var ScreenCamara = _wrapComponent('ScreenCamara')(function (_Component) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.prev = 0;
+
+
+              this.setState({ cam_record: true, cam_iconActivity: Constantes.FILEUPLOAD });
+
               options = { captureQuality: this.state.cam_calidad };
-              _context2.next = 4;
+              _context2.next = 5;
               return regeneratorRuntime.awrap(this.camera.capture({ metadata: options }));
 
-            case 4:
+            case 5:
               data = _context2.sent;
 
 
-              this.setState({
-                uriImage: data.path,
-                cam_captura: this.state.cam_captura,
-                cam_iconActivity: Constantes.FILEUPLOAD
-              });
+              this.setState({ uriImage: data.path });
+              _context2.next = 9;
+              return regeneratorRuntime.awrap(_FileUpload2.default.imageUpload(this.state.cam_linkImage, data.path));
 
-              _context2.next = 8;
-              return regeneratorRuntime.awrap(_FileUpload2.default.imageUpload(this, data.path));
-
-            case 8:
+            case 9:
               data = _context2.sent;
-              _context2.next = 14;
+
+
+              this.setState({ cam_record: false, cam_iconActivity: Constantes.CONTADORSEGUNDOS });
+
+              _context2.next = 16;
               break;
 
-            case 11:
-              _context2.prev = 11;
+            case 13:
+              _context2.prev = 13;
               _context2.t0 = _context2['catch'](0);
 
               this.dialogbox.alert('ERROR: ' + _context2.t0);
 
-            case 14:
+            case 16:
             case 'end':
               return _context2.stop();
           }
         }
-      }, null, this, [[0, 11]]);
+      }, null, this, [[0, 13]]);
     }
   }, {
     key: '_getBatteryLevel',
@@ -104512,30 +104548,52 @@ var ScreenCamara = _wrapComponent('ScreenCamara')(function (_Component) {
     value: function render() {
       var _this2 = this;
 
+      var IconCamera;
+
+      if (this.state.cam_active && !this.state.cam_record) {
+        IconCamera = _react3.default.createElement(_nativeBase.Icon, { style: [styles.iconCamera, styles.iconCameraRecord], name: 'videocam', onPress: this._beginRecord, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 134
+          }
+        });
+      } else if (!this.state.cam_active && !this.state.cam_record) {
+        IconCamera = _react3.default.createElement(_nativeBase.Icon, { style: styles.iconCamera, name: 'camera', onPress: this._takePicture, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 136
+          }
+        });
+      } else if (this.state.cam_record) {
+        IconCamera = _react3.default.createElement(_nativeBase.Icon, { style: [styles.iconCamera, styles.iconCameraEndRecord], name: 'pause', onPress: this._endRecord, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 138
+          }
+        });
+      }
+
       return _react3.default.createElement(
         _nativeBase.Container,
         { onLayout: this._onLayout, __source: {
             fileName: _jsxFileName,
-            lineNumber: 109
+            lineNumber: 143
           }
         },
         _react3.default.createElement(_HeaderTitle2.default, { title: 'CAMARA', onPress_SideMenu: this._onPress_SideMenu, onPress_PowerOff: this.props.onPress_PowerOff, __source: {
             fileName: _jsxFileName,
-            lineNumber: 111
+            lineNumber: 145
           }
         }),
         _react3.default.createElement(
           _reactNative.View,
           { style: styles.container, __source: {
               fileName: _jsxFileName,
-              lineNumber: 113
+              lineNumber: 147
             }
           },
           _react3.default.createElement(
             _reactNative.View,
             { style: styles.cameraContainer, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 115
+                lineNumber: 149
               }
             },
             _react3.default.createElement(
@@ -104549,25 +104607,21 @@ var ScreenCamara = _wrapComponent('ScreenCamara')(function (_Component) {
                 permissionDialogMessage: 'Me das Permiso?',
                 aspect: _reactNativeCamera2.default.constants.Aspect.fill, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 116
+                  lineNumber: 150
                 }
               },
               _react3.default.createElement(
                 _reactNative.View,
                 { style: styles.iconCameraContainer, __source: {
                     fileName: _jsxFileName,
-                    lineNumber: 122
+                    lineNumber: 156
                   }
                 },
-                _react3.default.createElement(_nativeBase.Icon, { style: styles.iconCamera, name: 'camera', onPress: this._takePicture, __source: {
-                    fileName: _jsxFileName,
-                    lineNumber: 123
-                  }
-                })
+                IconCamera
               ),
               _react3.default.createElement(_ImageInfo2.default, { bateria: this.state.battery, fecha: this.state.now, captura: this.state.cam_captura, iconActivity: this.state.cam_iconActivity, __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 125
+                  lineNumber: 159
                 }
               })
             )
@@ -104577,7 +104631,7 @@ var ScreenCamara = _wrapComponent('ScreenCamara')(function (_Component) {
             _this2.dialogbox = dialogbox;
           }, __source: {
             fileName: _jsxFileName,
-            lineNumber: 131
+            lineNumber: 165
           }
         })
       );
@@ -104622,6 +104676,12 @@ var styles = _reactNative.StyleSheet.create({
   iconCamera: {
     fontSize: 50,
     color: 'white'
+  },
+  iconCameraRecord: {
+    color: 'rgba(58,221,17,0.8)'
+  },
+  iconCameraEndRecord: {
+    color: 'rgba(118,134,114,0.8)'
   }
 
 });
@@ -105042,7 +105102,8 @@ var ImageInfo = _wrapComponent('ImageInfo')(function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (ImageInfo.__proto__ || Object.getPrototypeOf(ImageInfo)).call(this, props));
 
-    _this.state = { iconActivity: Constantes.CONTADORSEGUNDOS,
+    _this.state = {
+      iconActivity: Constantes.CONTADORSEGUNDOS,
       captura: ''
     };
     return _this;
@@ -105060,7 +105121,7 @@ var ImageInfo = _wrapComponent('ImageInfo')(function (_Component) {
       } else if (iconActivity == Constantes.FILEUPLOAD) {
         captura = 'Uploading';
       }
-      this.setState({ iconActivity: iconActivity, captura: captura });
+      this.setState({ captura: captura });
     }
   }, {
     key: 'render',
@@ -105072,21 +105133,21 @@ var ImageInfo = _wrapComponent('ImageInfo')(function (_Component) {
         _reactNative.View,
         { style: [styles.container, { height: this.props.height || 25 }], __source: {
             fileName: _jsxFileName,
-            lineNumber: 40
+            lineNumber: 41
           }
         },
         _react3.default.createElement(
           _reactNative.View,
           { style: styles.bateriaContainer, __source: {
               fileName: _jsxFileName,
-              lineNumber: 41
+              lineNumber: 42
             }
           },
           _react3.default.createElement(
             _reactNative.Text,
             { style: styles.texto, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 42
+                lineNumber: 43
               }
             },
             'Bateria:',
@@ -105098,19 +105159,19 @@ var ImageInfo = _wrapComponent('ImageInfo')(function (_Component) {
           _reactNative.View,
           { style: styles.progressContainer, __source: {
               fileName: _jsxFileName,
-              lineNumber: 44
+              lineNumber: 45
             }
           },
-          _react3.default.createElement(_nativeBase.Icon, { style: styles.eyeIcon, name: this.state.iconActivity, __source: {
+          _react3.default.createElement(_nativeBase.Icon, { style: styles.eyeIcon, name: this.props.iconActivity, __source: {
               fileName: _jsxFileName,
-              lineNumber: 45
+              lineNumber: 46
             }
           }),
           _react3.default.createElement(
             _reactNative.Text,
             { style: [styles.texto, { textAlign: 'center' }], __source: {
                 fileName: _jsxFileName,
-                lineNumber: 45
+                lineNumber: 46
               }
             },
             this.state.captura
@@ -105120,14 +105181,14 @@ var ImageInfo = _wrapComponent('ImageInfo')(function (_Component) {
           _reactNative.View,
           { style: styles.fechaContainer, __source: {
               fileName: _jsxFileName,
-              lineNumber: 47
+              lineNumber: 48
             }
           },
           _react3.default.createElement(
             _reactNative.Text,
             { style: styles.texto, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 48
+                lineNumber: 49
               }
             },
             this.props.fecha || now
@@ -105207,7 +105268,7 @@ var fileUpload = function () {
 
     _createClass(fileUpload, null, [{
         key: "imageUpload",
-        value: function imageUpload(self, imagen) {
+        value: function imageUpload(cam_linkImage, imagen) {
             var uri, uploadUrl, fileName, mimeType;
             return regeneratorRuntime.async(function imageUpload$(_context) {
                 while (1) {
@@ -105216,7 +105277,7 @@ var fileUpload = function () {
                             _context.prev = 0;
                             uri = imagen;
                             uploadUrl = Constantes.fileUploadPOST;
-                            fileName = fn.fnGetFileName(self.state.cam_linkImage);
+                            fileName = fn.fnGetFileName(cam_linkImage);
                             mimeType = 'image/jpg';
 
 
@@ -105227,9 +105288,7 @@ var fileUpload = function () {
                             }, function (err, res) {
                                 if (err) {
                                     alert(err);
-                                } else {
-                                    self.setState({ cam_iconActivity: Constantes.CONTADORSEGUNDOS });
-                                }
+                                } else {}
                             });
 
                             return _context.abrupt("return", true);

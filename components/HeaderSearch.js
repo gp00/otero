@@ -28,8 +28,7 @@ export default class HeaderSearch extends Component {
             <Input onChangeText={(text)=>this.props.onChangeText(text)} placeholder="Buscar Noticias" ref='BuscarNoticias'/>
             <Button transparent onPress={this.props.onPress_Find}>
               <Icon name="search" />
-            </Button>
-           
+            </Button>           
           </Item>
         </Header>
       );

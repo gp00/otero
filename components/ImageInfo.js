@@ -14,7 +14,8 @@ export default class ImageInfo extends Component {
   constructor(props){
     super(props)
 
-    this.state={  iconActivity: Constantes.CONTADORSEGUNDOS,
+    this.state={  
+                  iconActivity: Constantes.CONTADORSEGUNDOS,
                   captura:''
                 }
   }  
@@ -25,11 +26,11 @@ export default class ImageInfo extends Component {
 
     var captura='';
     if (nextProps.captura > 0 && iconActivity == Constantes.CONTADORSEGUNDOS ){
-      captura = nextProps.captura + ' min.';
+      captura = nextProps.captura + ' min.';      
     } else if (iconActivity == Constantes.FILEUPLOAD){
-      captura='Uploading';
+      captura='Uploading';     
     }
-    this.setState({iconActivity, captura})
+    this.setState({captura});
   }
 
   render() {
@@ -42,7 +43,7 @@ export default class ImageInfo extends Component {
           <Text style={styles.texto}>Bateria:{this.props.bateria || 0}%</Text>
         </View>
         <View style={styles.progressContainer}>
-          <Icon style={styles.eyeIcon} name={this.state.iconActivity} /><Text style={[styles.texto,{textAlign:'center'}]}>{this.state.captura}</Text>
+          <Icon style={styles.eyeIcon} name={this.props.iconActivity} /><Text style={[styles.texto,{textAlign:'center'}]}>{this.state.captura}</Text>
         </View>
         <View style={styles.fechaContainer}>
           <Text style={styles.texto}>{this.props.fecha || now}</Text>

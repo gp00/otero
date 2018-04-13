@@ -140,7 +140,7 @@ export default class ScreenSettings extends Component {
               <Icon name='arrow-forward' />
             </Button>
     HIni =  <DateH placeholder={'inicial'} fecha={this.state.cam_horarioInicial} onChangeHora={this._onChange_CamHoraInicio}/>
-    HFin = <DateH  placeholder={'final'} fecha={this.state.cam_horarioFinal} onChangeHora={this._onChange_CamHoraFin}/>
+    HFin =  <DateH placeholder={'final'} fecha={this.state.cam_horarioFinal} onChangeHora={this._onChange_CamHoraFin}/>
 
     return (
 

@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 
 import {Button, Left, Right, Icon, Text, Input, Item, Form, H2, Label} from 'native-base';
-import DatePicker from 'react-native-datepicker'
 import Modal from 'react-native-modalbox';
 
 import DateP from './DateP'

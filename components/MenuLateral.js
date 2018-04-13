@@ -48,7 +48,7 @@ export default class MenuLateral extends Component {
                     </Body>
                     <Right>
                         <Icon name="arrow-forward" />
-                      </Right>
+                    </Right>
                   </ListItem>
                   <ListItem style={styles.opcionMenu} icon>
                     <Body>
@@ -59,7 +59,7 @@ export default class MenuLateral extends Component {
                     </Body>
                     <Right>
                         <Icon name="arrow-forward" />
-                      </Right>
+                    </Right>
                   </ListItem>
                   <ListItem style={styles.opcionMenu} icon>
                     <Body>
@@ -70,7 +70,7 @@ export default class MenuLateral extends Component {
                     </Body>
                     <Right>
                         <Icon name="arrow-forward" />
-                      </Right>
+                    </Right>
                   </ListItem>
                 </List>
               </View>

@@ -26,11 +26,14 @@ export default class ScreenCamara extends Component {
       uriImage:'',     
       now: new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0].substring(0,5),     
       battery:0,
+      cam_linkImage:'',
+      cam_record:false,
       cam_active:false,
-      cam_linkImage:'' ,
       cam_frecuencia:15 ,
       cam_calidad:'Media',
       cam_captura:15,
+      cam_horarioInicial:'',
+      cam_horarioFinal:'',
       cam_iconActivity: Constantes.CONTADORSEGUNDOS
     }   
 
@@ -41,6 +44,8 @@ export default class ScreenCamara extends Component {
     this._updateImageInfo=this._updateImageInfo.bind(this);
     this._takePicture=this._takePicture.bind(this);
     this._getBatteryLevel=this._getBatteryLevel.bind(this);
+    this._beginRecord=this._beginRecord.bind(this);
+    this._endRecord=this._endRecord.bind(this);
   }
 
   _onPress_SideMenu(pVisible){
@@ -55,30 +60,49 @@ export default class ScreenCamara extends Component {
     try {
       res = await store.get('setting');
       if(res!= null){
-          this.setState({ cam_active:res.cam_active,
+          this.setState({            
                           cam_linkImage:res.cam_linkImage,
-                          cam_frecuencia:res.cam_frecuencia,
-                          cam_captura:res.cam_frecuencia,
-                          cam_calidad:res.cam_calidad
+                          cam_active:res.cam_active,
+                          cam_frecuencia:res.cam_frecuencia,                         
+                          cam_calidad:res.cam_calidad,
+                          cam_horarioInicial: res.cam_horarioInicial,
+                          cam_horarioFinal: res.cam_horarioFinal,
+                          cam_captura:res.cam_frecuencia
                         })
       }
    
     } catch (error) {
       this.dialogbox.alert('ERROR: ' + error);    
     }
-  }     
+  }   
+  _beginRecord(){
+
+    this.setState({
+                    cam_record:true,
+                    cam_iconActivity: Constantes.CONTADORSEGUNDOS                   
+                  });
+
+  } 
+  _endRecord(){
+
+    this.setState({                   
+                    cam_record:false,
+                    cam_iconActivity: Constantes.CONTADORSEGUNDOS
+                  });
+
+  }  
   async _takePicture() {
     try {
+
+      this.setState({cam_record:true,cam_iconActivity: Constantes.FILEUPLOAD});
+
       var options = {captureQuality:this.state.cam_calidad};
       data = await this.camera.capture({metadata:options});
 
-      this.setState({
-                      uriImage:data.path,
-                      cam_captura:this.state.cam_captura,
-                      cam_iconActivity: Constantes.FILEUPLOAD
-                    }); 
-             
-      var data = await Fileupload.imageUpload(this,data.path);       
+      this.setState({ uriImage:data.path});              
+      var data = await Fileupload.imageUpload(this.state.cam_linkImage, data.path);   
+
+      this.setState({cam_record:false,cam_iconActivity: Constantes.CONTADORSEGUNDOS});   
 
     } catch (error) {
       this.dialogbox.alert('ERROR: ' + error);    
@@ -104,6 +128,16 @@ export default class ScreenCamara extends Component {
 
   render() {
 
+    var IconCamera;
+
+    if(this.state.cam_active && !this.state.cam_record){ //WEBCAM
+      IconCamera=<Icon style={[styles.iconCamera,styles.iconCameraRecord]} name="videocam" onPress={this._beginRecord}/>
+    }else if(!this.state.cam_active && !this.state.cam_record){ //PICTURE
+      IconCamera=<Icon style={styles.iconCamera} name="camera" onPress={this._takePicture}/>
+    }else if(this.state.cam_record){ //PAUSE     
+      IconCamera=<Icon style={[styles.iconCamera, styles.iconCameraEndRecord]} name="pause" onPress={this._endRecord}/>
+    }
+
     return (
 
         <Container  onLayout={this._onLayout}> 
@@ -120,7 +154,7 @@ export default class ScreenCamara extends Component {
                     permissionDialogMessage="Me das Permiso?"
                     aspect={Camera.constants.Aspect.fill}>
                         <View style={styles.iconCameraContainer}>                          
-                          <Icon style={styles.iconCamera} name="camera" onPress={this._takePicture}/>                             
+                            {IconCamera}
                         </View>
                         <ImageInfo bateria={this.state.battery} fecha={this.state.now} captura={this.state.cam_captura} iconActivity={this.state.cam_iconActivity} />              
                 </Camera>
@@ -168,6 +202,12 @@ const styles = StyleSheet.create({
   iconCamera:{
     fontSize:50,
     color:'white'
+  },
+  iconCameraRecord:{   
+    color:'rgba(58,221,17,0.8)'
+  },
+  iconCameraEndRecord:{   
+    color:'rgba(118,134,114,0.8)'
   }
   
 });
