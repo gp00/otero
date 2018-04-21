@@ -3,6 +3,8 @@ package com.otero;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.yoloci.fileupload.FileUploadPackage;
+import com.pilloxa.backgroundjob.BackgroundJobPackage;
 import com.burlap.filetransfer.FileTransferPackage;
 import com.robinpowered.react.battery.DeviceBatteryPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
@@ -27,6 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new FileUploadPackage(),
+            new BackgroundJobPackage(),
             new FileTransferPackage(),
             new DeviceBatteryPackage(),
             new RCTCameraPackage(),

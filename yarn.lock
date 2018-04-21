@@ -3455,6 +3455,10 @@ react-devtools-core@^2.5.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-background-job@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-background-job/-/react-native-background-job-2.1.1.tgz#4ece08e7c59fa107e253a8bc9493cf06eec26a2a"
+
 react-native-camera@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-0.12.0.tgz#51afa8acf1696d9d973074b6454c5ba2cce6ac18"
@@ -3497,6 +3501,10 @@ react-native-easy-grid@0.1.15:
 react-native-file-transfer-android@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/react-native-file-transfer-android/-/react-native-file-transfer-android-0.0.2.tgz#30033211f036a28f4aeb8f136e5751d4ba4e7cc9"
+
+react-native-fileupload@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-fileupload/-/react-native-fileupload-1.2.0.tgz#af2bb2289ba2a4fe899d343f0d102a978350e34b"
 
 "react-native-keyboard-aware-scroll-view@https://github.com/GeekyAnts/react-native-keyboard-aware-scroll-view":
   version "0.2.9"

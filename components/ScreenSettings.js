@@ -96,7 +96,7 @@ export default class ScreenSettings extends Component {
   _saveSettings(){
     try {
 
-      var cam_linkImage = Constantes.GetFoto + '/' + this.state.info_uniqueID + '.jpg' 
+      var cam_linkImage = Constantes.fileUploadPOST + '/' + this.state.info_uniqueID + '.jpg' 
 
       store.save('setting', { cam_active:this.state.cam_active,
                               cam_linkImage:cam_linkImage,

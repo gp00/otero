@@ -20,3 +20,4 @@ export const SETTINGS = 'SETTINGS'
 //IMAGE INFO - ICON ACTIVITY
 export const CONTADORSEGUNDOS = 'eye'
 export const FILEUPLOAD = 'wifi'
+export const NOTIME = 'clock'

@@ -137,6 +137,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fileupload')
+    compile project(':react-native-background-job')
     compile project(':react-native-file-transfer-android')
     compile project(':react-native-device-battery')
     compile project(':react-native-camera')

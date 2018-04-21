@@ -27,6 +27,8 @@ export default class ImageInfo extends Component {
     var captura='';
     if (nextProps.captura > 0 && iconActivity == Constantes.CONTADORSEGUNDOS ){
       captura = nextProps.captura + ' min.';      
+    } else if (iconActivity == Constantes.NOTIME){
+      captura='No Time';  
     } else if (iconActivity == Constantes.FILEUPLOAD){
       captura='Uploading';     
     }

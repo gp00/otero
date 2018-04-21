@@ -8,6 +8,7 @@ import {
 
 import SideMenu from 'react-native-side-menu';
 import DialogBox from 'react-native-dialogbox';
+import BackgroundJob from "react-native-background-job";
 
 import {NOTICIAS,CAMARA,SETTINGS} from './constantes';
 
@@ -44,7 +45,10 @@ export default class App extends Component {
 			content:'Salir de la Aplicación?',
 			ok: {
 				text: 'Si',
-				callback: () => {BackHandler.exitApp();},
+				callback: () => {
+          BackgroundJob.cancelAll();
+          BackHandler.exitApp();
+        },
 			},
 			cancel: {text: 'No'}
 		});

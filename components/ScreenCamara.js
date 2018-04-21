@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+  ToastAndroid
 } from 'react-native';
 import { Container,  Content,  Button, Icon} from 'native-base';
 
@@ -11,6 +12,7 @@ import Camera from 'react-native-camera';
 import DeviceBattery from 'react-native-device-battery';
 import store from 'react-native-simple-store';
 import DialogBox from 'react-native-dialogbox';
+import BackgroundJob from "react-native-background-job";
 
 import ImageInfo from './ImageInfo'
 import HeaderTitle from "./HeaderTitle"
@@ -37,15 +39,21 @@ export default class ScreenCamara extends Component {
       cam_iconActivity: Constantes.CONTADORSEGUNDOS
     }   
 
-    this._getSettings();
-    this._getBatteryLevel();  
-
     this._onPress_SideMenu=this._onPress_SideMenu.bind(this);
-    this._updateImageInfo=this._updateImageInfo.bind(this);
     this._takePicture=this._takePicture.bind(this);
     this._getBatteryLevel=this._getBatteryLevel.bind(this);
     this._beginRecord=this._beginRecord.bind(this);
-    this._endRecord=this._endRecord.bind(this);
+    this._endRecord=this._endRecord.bind(this);   
+
+    self=this;
+    
+    BackgroundJob.register({
+      jobKey: 'videocam',
+      job: () => {    
+        this._updateImageInfo(self);
+      }
+    }); 
+
   }
 
   _onPress_SideMenu(pVisible){
@@ -56,6 +64,7 @@ export default class ScreenCamara extends Component {
     const orientation =(width>height)?'APAISADO':'NORMAL';   
     //console.log('Orientacion: ' + orientation + ', width: ' + width + ', height: ' + height);
   }
+
   async _getSettings(){
     try {
       res = await store.get('setting');
@@ -74,13 +83,32 @@ export default class ScreenCamara extends Component {
     } catch (error) {
       this.dialogbox.alert('ERROR: ' + error);    
     }
-  }   
+  }  
+
   _beginRecord(){
 
-    this.setState({
-                    cam_record:true,
-                    cam_iconActivity: Constantes.CONTADORSEGUNDOS                   
-                  });
+    var nowHour = new Date().toTimeString().split(" ")[0].substring(0,5);
+
+
+    if(this.state.cam_horarioInicial<=nowHour && this.state.cam_horarioFinal>=nowHour){
+
+      this.setState({
+                      cam_record:true,
+                      cam_iconActivity: Constantes.CONTADORSEGUNDOS                   
+                    });                  
+
+
+      BackgroundJob.schedule({
+                    jobKey: 'videocam',
+                    period: this.state.cam_frecuencia * 60000,
+                    allowExecutionInForeground: true,
+                    persist: false,
+                    exact: true
+      });
+      
+    }else{
+        this.setState({cam_iconActivity: Constantes.NOTIME});
+    }   
 
   } 
   _endRecord(){
@@ -90,11 +118,15 @@ export default class ScreenCamara extends Component {
                     cam_iconActivity: Constantes.CONTADORSEGUNDOS
                   });
 
+    BackgroundJob.cancelAll();
   }  
-  async _takePicture() {
-    try {
 
-      this.setState({cam_record:true,cam_iconActivity: Constantes.FILEUPLOAD});
+  async _takePicture(webCam) {
+    try {
+      if(!webCam){
+        this.setState({cam_record:true})  
+      }
+      this.setState({cam_iconActivity: Constantes.FILEUPLOAD});
 
       var options = {captureQuality:this.state.cam_calidad};
       data = await this.camera.capture({metadata:options});
@@ -102,28 +134,41 @@ export default class ScreenCamara extends Component {
       this.setState({ uriImage:data.path});              
       var data = await Fileupload.imageUpload(this.state.cam_linkImage, data.path);   
 
-      this.setState({cam_record:false,cam_iconActivity: Constantes.CONTADORSEGUNDOS});   
+      if(!webCam){
+        this.setState({cam_record:false})  
+      }
+      this.setState({cam_iconActivity: Constantes.CONTADORSEGUNDOS});  
+         
+      this.msgBox('Upload File: ' + this.state.cam_linkImage);
 
     } catch (error) {
       this.dialogbox.alert('ERROR: ' + error);    
     }    
-  }
+  } 
+
   async _getBatteryLevel(){
-    level =await DeviceBattery.getBatteryLevel()
+    level = await DeviceBattery.getBatteryLevel()
     var battery = parseInt(level*100);
     this.setState({battery});    
   }
-  async _updateImageInfo(){
 
-    var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0].substring(0,5);
-    var cam_captura=this.state.cam_captura-1
-    this.setState({cam_captura,now});
+  _updateImageInfo(self){
+    try {
+      var now = new Date().toISOString().slice(0, 10) + '   ' +  new Date().toTimeString().split(" ")[0].substring(0,5);     
+      var cam_captura = self.state.cam_captura-1;  
+      
+      if(cam_captura<=0){
+        self._getBatteryLevel(); 
+        self._takePicture(true);
+        cam_captura=self.state.cam_frecuencia;
+      }
 
-    if(cam_captura<=0){
-      this._getBatteryLevel(); 
-      this._takePicture();
-      this.setState({cam_captura:this.state.cam_frecuencia});
-    }
+      //console.log(new Date().toTimeString().split(" ")[0].substring(0,5) + ' Job fired! --> ' + cam_captura +  '/' + self.state.cam_frecuencia + ' min.');
+      self.setState({cam_captura, now});     
+      
+    } catch (error) {
+      self.dialogbox.alert('ERROR: ' + error); 
+    }    
   }
 
   render() {
@@ -133,7 +178,7 @@ export default class ScreenCamara extends Component {
     if(this.state.cam_active && !this.state.cam_record){ //WEBCAM
       IconCamera=<Icon style={[styles.iconCamera,styles.iconCameraRecord]} name="videocam" onPress={this._beginRecord}/>
     }else if(!this.state.cam_active && !this.state.cam_record){ //PICTURE
-      IconCamera=<Icon style={styles.iconCamera} name="camera" onPress={this._takePicture}/>
+      IconCamera=<Icon style={styles.iconCamera} name="camera" onPress={()=>this._takePicture(false)}/>
     }else if(this.state.cam_record){ //PAUSE     
       IconCamera=<Icon style={[styles.iconCamera, styles.iconCameraEndRecord]} name="pause" onPress={this._endRecord}/>
     }
@@ -165,6 +210,19 @@ export default class ScreenCamara extends Component {
           <DialogBox ref={dialogbox => { this.dialogbox = dialogbox }}/> 
 
         </Container>
+    );
+  }
+
+  componentDidMount() {  
+    this._getSettings();
+    this._getBatteryLevel();     
+  }
+
+  msgBox(mensaje){
+    ToastAndroid.showWithGravity(
+      mensaje,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER
     );
   }
   
