@@ -52,6 +52,7 @@ export default class ScreenSettings extends Component {
       info_apiLevel:'',
       cam_active:false,
       cam_linkImage:'' ,
+      cam_foto:'',
       cam_frecuencia:15 ,
       cam_calidad:'Media',
       cam_horarioInicial:'',
@@ -96,10 +97,12 @@ export default class ScreenSettings extends Component {
   _saveSettings(){
     try {
 
-      var cam_linkImage = Constantes.fileUploadPOST + '/' + this.state.info_uniqueID + '.jpg' 
+      var cam_linkImage = Constantes.fileUploadPOST + '/' + this.state.info_uniqueID + '.jpg';
+      var cam_foto = Constantes.GetFoto + '/' + this.state.info_uniqueID + '.jpg';
 
       store.save('setting', { cam_active:this.state.cam_active,
                               cam_linkImage:cam_linkImage,
+                              cam_foto:cam_foto,
                               cam_frecuencia:this.state.cam_frecuencia,
                               cam_calidad:this.state.cam_calidad,
                               cam_horarioInicial: this.state.cam_horarioInicial,
@@ -119,6 +122,7 @@ export default class ScreenSettings extends Component {
       if(res!= null){
         this.setState({ cam_active:res.cam_active,
                         cam_linkImage: res.cam_linkImage,
+                        cam_foto: res.cam_foto,
                         cam_frecuencia:res.cam_frecuencia,
                         cam_calidad:res.cam_calidad,
                         cam_horarioInicial: res.cam_horarioInicial,
@@ -135,7 +139,7 @@ export default class ScreenSettings extends Component {
     SW = <Switch value={this.state.cam_active} onValueChange = {this._onChange_CamActive}/>
     SL = <View style={styles.SliderContainer}><Slider minimumValue={1} maximumValue={15} step={1} style={styles.Slider} value={this.state.cam_frecuencia} onValueChange={this._onChange_CamFrecuencia}/><Text style={styles.SliderCount}>{this.state.cam_frecuencia} {'min.'}</Text></View>
     DD = <Dropdown containerStyle={styles.DropDownContainer} label='Calidad' data={Constantes.CALIDAD} value={this.state.cam_calidad} fontSize={14} itemCount={6} onChangeText={this._onChange_CamCalidad} />    
-    LINK =  <Button transparent small iconRight style={styles.LinkButton} onPress={() => Linking.openURL(this.state.cam_linkImage)}>    
+    LINK =  <Button transparent small iconRight style={styles.LinkButton} onPress={() => Linking.openURL(this.state.cam_foto)}>    
               <Text style={styles.LinkFoto}>{fn.fnGetFileName(this.state.cam_linkImage)}</Text>
               <Icon name='arrow-forward' />
             </Button>
